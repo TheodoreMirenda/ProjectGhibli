@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f023a966db14fed4dbe4441bc3e82415, type: 3}
+  m_Name: SOCKET_DICTIONARY
+  m_EditorClassIdentifier: 
+  grassGrassSocket: {fileID: 11400000, guid: 6b3f3bac3032ef84fb1c289e4a60c5e1, type: 2}
+  castleGrassSocket: {fileID: 11400000, guid: d320ac3a9a2d6ff43a34686e7a680a4a, type: 2}
+  grassCastleSocket: {fileID: 11400000, guid: ca3da1e5aa9ec2742a5fd3b31606601a, type: 2}
+  castleCastleSocket: {fileID: 11400000, guid: 02a8eef76a93b0e43a5f5681c84f3baa, type: 2}

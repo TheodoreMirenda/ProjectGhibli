@@ -1,0 +1,503 @@
+{
+    "name": "GameControls",
+    "maps": [
+        {
+            "name": "GameMain",
+            "id": "87a5bab4-5c8d-4db6-974d-33b34b86e9a0",
+            "actions": [
+                {
+                    "name": "Primary",
+                    "type": "Button",
+                    "id": "b11ca120-e0e0-4767-833b-43f142a65210",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TouchPosition",
+                    "type": "Value",
+                    "id": "a1ea3107-c7d8-4044-bc4c-5988ce2aa2c2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Secondary",
+                    "type": "Button",
+                    "id": "39820013-0437-4a8a-ab16-0f9848f9f45b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Mouse",
+                    "type": "PassThrough",
+                    "id": "dc3ba15e-3d2c-42c7-b135-320d9a2bf513",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Movement",
+                    "type": "PassThrough",
+                    "id": "3af6faf3-53c4-457c-9d4f-24ab842e0360",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraRotation",
+                    "type": "Button",
+                    "id": "94ba7b6d-93c0-43ea-a758-f54e40d5d416",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraZoom",
+                    "type": "PassThrough",
+                    "id": "d25f25ee-9b8b-40a2-928e-f6840f74a8ea",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Camera",
+                    "type": "PassThrough",
+                    "id": "546c95ae-a039-4825-a992-d6bbf94dfc9f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateBuilding",
+                    "type": "Button",
+                    "id": "e3796bda-96e2-484e-9b7d-f74410fb835e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "129e4590-f991-437a-b42a-b5c717d11870",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ZoomIn",
+                    "type": "Button",
+                    "id": "babff0a2-15ed-45c7-8084-105eae7e70d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ZoomOut",
+                    "type": "Button",
+                    "id": "520e3e14-0b12-4f9c-8e19-78ca1664bbb3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrimaryFingerPosition",
+                    "type": "Value",
+                    "id": "525977e8-7c62-4d40-80ee-df346d1e6085",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SecondaryFingerPosition",
+                    "type": "Value",
+                    "id": "139fc88d-0eb3-4cad-afb7-023cfd904090",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SecondaryTouch Contact",
+                    "type": "Button",
+                    "id": "a1dc4c28-bbf8-4c09-b40a-a831f415d45d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Drag",
+                    "type": "Button",
+                    "id": "ef8b72e7-0378-4241-94bf-e1659911f034",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Primary Touch Contact",
+                    "type": "Button",
+                    "id": "f4eac039-24cf-4fae-8db4-8429aa590fee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RaiseCamera",
+                    "type": "Button",
+                    "id": "5fe5c645-1d67-46a7-9884-0f77ade6d301",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LowerCamera",
+                    "type": "Button",
+                    "id": "3dfae36b-bd3c-4ba0-83c1-00268e4fd0cd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PanCamera",
+                    "type": "Button",
+                    "id": "53ed6990-a574-4589-9d03-a56b11f06e13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.1,pressPoint=0.5)",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7c6df846-1aa4-4668-98ae-03122ce17497",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0994b81a-7f0a-4152-8a5f-3d2d186b6a94",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "306371b7-7e40-481a-a37d-13cb0ffc545e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc3ec555-1e52-44f4-89fa-b087b9a7cc59",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "WASD",
+                    "id": "f92cb07d-548c-4dbb-b169-51570c91ede7",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "aa45a8ac-aac9-478b-b96a-1f69b2ae1aa3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "1eaefe86-b404-43e1-9ae7-64e8ad84c525",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "c9e69b81-d0b6-4d33-aa01-f7f42114f795",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1fb4b4c5-df91-4d5c-99d7-dbd2e5d7a72a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "03ebad38-2fcd-48aa-ae6d-895c4964e86e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b443ef42-529e-41bd-aa69-efdf4456fe8e",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ec2f5e3-3651-4de5-9de3-6da25c2ea33f",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a762fba-a180-4ca1-b248-19ce6403bea6",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateBuilding",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f937bbeb-94e9-4a0c-b5a5-239de20d0d4b",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d9dd9c72-5645-442c-a617-dcd244f38d8b",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a78e3e7-038c-41c5-91c2-d62aace54f86",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ZoomOut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c0b90df-7cc5-4979-98e4-b636a7c2d0f6",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f823730-00b0-47c6-b118-94adf12ecac5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6286a4a-402a-4639-abb9-abfbcb0fc25a",
+                    "path": "<Touchscreen>/touch0/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryFingerPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4d24bfa-33bc-4cca-8c43-3807c431cd11",
+                    "path": "<Touchscreen>/touch1/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondaryFingerPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "767923ec-b058-4ce2-9ca2-d90f78787da8",
+                    "path": "<Touchscreen>/touch1/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondaryTouch Contact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98d89de4-59b9-44a1-bf83-4eb921818f0c",
+                    "path": "<Touchscreen>/primaryTouch/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "551fc4ad-56f1-4ffd-9046-215e4b2f4966",
+                    "path": "<Touchscreen>/touch0/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Touch Contact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e591c14-d7e4-4baa-9cec-a5273166a6d3",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3eb2324c-ff5d-44c1-8c57-627f720f32df",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LowerCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33e47199-c30b-4f74-a15a-a41fb598e3a5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25900ea4-e10a-457e-91d0-5adb6a38f662",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

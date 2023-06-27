@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffbde92ab368994c8637589bcfcc4d4, type: 3}
+  m_Name: CastleSide_2
+  m_EditorClassIdentifier: 
+  basePrototype: {fileID: 11400000, guid: 915b88b84bf45bd4bb573544f416f7ab, type: 2}
+  meshRotation: 2
+  prefab: {fileID: 9196749599748021112, guid: e436c957f6fcaff479021063efb9e21c, type: 3}
+  posZ: {fileID: 11400000, guid: 02a8eef76a93b0e43a5f5681c84f3baa, type: 2}
+  posX: {fileID: 11400000, guid: d320ac3a9a2d6ff43a34686e7a680a4a, type: 2}
+  negZ: {fileID: 11400000, guid: 6b3f3bac3032ef84fb1c289e4a60c5e1, type: 2}
+  negX: {fileID: 11400000, guid: ca3da1e5aa9ec2742a5fd3b31606601a, type: 2}
+  prototypeClass: 0
+  validNeighbours:
+    posX:
+    - {fileID: 11400000, guid: e9d7bdfb02dcf274cb58aada192e4961, type: 2}
+    - {fileID: 11400000, guid: f2007722b1ceaa84d8c9ca38f7accb9d, type: 2}
+    - {fileID: 11400000, guid: 5fea38752f6cd1e42a142a9b0cb66e2f, type: 2}
+    - {fileID: 11400000, guid: 6a88fa5e7e5cbc645922291562367f5f, type: 2}
+    - {fileID: 11400000, guid: 9c3acb672a93ef54b9779d7ecadaf47d, type: 2}
+    posZ:
+    - {fileID: 11400000, guid: 941db840437df6d4c8e8d17a2633b640, type: 2}
+    - {fileID: 11400000, guid: ced2476c312578a43906aa8e9f3ea2ea, type: 2}
+    - {fileID: 11400000, guid: 8120eb2619ee7fc43b51c2836a79e0d2, type: 2}
+    - {fileID: 11400000, guid: 31102d35ff219cc45a38a845f5f0e25d, type: 2}
+    - {fileID: 11400000, guid: 6a88fa5e7e5cbc645922291562367f5f, type: 2}
+    - {fileID: 11400000, guid: 509a4c6028601bd40b54483baa61d813, type: 2}
+    - {fileID: 11400000, guid: 9c3acb672a93ef54b9779d7ecadaf47d, type: 2}
+    negX:
+    - {fileID: 11400000, guid: 4a69705a7ff9e6c4fa935b99f3890e57, type: 2}
+    - {fileID: 11400000, guid: 4a9dbdfb1f6306a4b9fe6a8b8db47810, type: 2}
+    - {fileID: 11400000, guid: d538768c611530c4bb87a574875fa78a, type: 2}
+    - {fileID: 11400000, guid: 509a4c6028601bd40b54483baa61d813, type: 2}
+    - {fileID: 11400000, guid: 9c3acb672a93ef54b9779d7ecadaf47d, type: 2}
+    negZ:
+    - {fileID: 11400000, guid: e9d7bdfb02dcf274cb58aada192e4961, type: 2}
+    - {fileID: 11400000, guid: 4a69705a7ff9e6c4fa935b99f3890e57, type: 2}
+    - {fileID: 11400000, guid: 9c3acb672a93ef54b9779d7ecadaf47d, type: 2}
