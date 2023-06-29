@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basePrototype: {fileID: 0}
   meshRotation: 0
-  prefab: {fileID: 9196749599748021112, guid: fecafe0a10d428747a721d3d0a553df0, type: 3}
-  posX: {fileID: 11400000, guid: e4dbda06e4901554cb52c75ee0bc1f41, type: 2}
-  negX: {fileID: 11400000, guid: e4dbda06e4901554cb52c75ee0bc1f41, type: 2}
+  prefab: {fileID: 9196749599748021112, guid: d4555bc4876b5104c948b394568cb70c, type: 3}
   posZ: {fileID: 11400000, guid: e4dbda06e4901554cb52c75ee0bc1f41, type: 2}
+  posX: {fileID: 11400000, guid: e4dbda06e4901554cb52c75ee0bc1f41, type: 2}
   negZ: {fileID: 11400000, guid: e4dbda06e4901554cb52c75ee0bc1f41, type: 2}
+  negX: {fileID: 11400000, guid: e4dbda06e4901554cb52c75ee0bc1f41, type: 2}
   prototypeClass: 0
   validNeighbours:
     posX: []

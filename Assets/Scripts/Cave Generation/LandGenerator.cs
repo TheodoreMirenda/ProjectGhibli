@@ -71,34 +71,18 @@ public class LandGenerator : MonoBehaviour
     [SerializeField] float maxNoiseHeight = float.MinValue;
 	[SerializeField] float minNoiseHeight = float.MaxValue;
 
-    public void Awake()
-    {
-        // globalVerticies = new NetworkList<Vector2>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        // faces = new NetworkList<Vector4>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    }
-    // public override void OnNetworkSpawn()
-    // {
-    //     // base.OnNetworkSpawn();
-    //     // if(IsOwner)
-    //     //     CreateMapData();
-    //     // else
-    //     // {
-    //     //     // Debug.Log($"globalVerticies.Count: {globalVerticies.Count}");
-    //     //     GetMapData();
-    //     //     SpawnLand();
-    //     // }
-    // }
     public Chunk CreateChunk(){
         hexagons = new List<Chunk>();
         Transform chunkHolder = new GameObject().transform;
-
         Chunk newChunk = new Chunk();
+        newChunk.chunkTransform = chunkHolder;
+
         hexagons.Add(newChunk);
 
         maxNoiseHeight = float.MinValue;
         minNoiseHeight = float.MaxValue;
 
-        hexagons = HexGridLayout.CreateBorderingHexagons(hexagons, 0, rings);
+        // hexagons = HexGridLayout.CreateBorderingHexagons(hexagons, 0, rings);
 
         // clear children of hexParent
         for (int i = hexParent.childCount; i > 0; i--)

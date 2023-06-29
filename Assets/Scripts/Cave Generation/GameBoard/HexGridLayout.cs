@@ -6,20 +6,19 @@ namespace TJ
 {
 public static class HexGridLayout
 {
-    public static List<Chunk> CreateBorderingHexagons(List<Chunk> hexagons, int activeHexagon, float spacing)
+    public static List<Chunk> CreateBorderingChunks(List<Chunk> chunks, int activeChunkIndex)
     {
-        Chunk activeHex = hexagons[activeHexagon];
+        // Chunk activeHex = chunks[activeChunkIndex];
 
         for(int i = 0; i < 6; i++)
         {
             //Sqrt(3) is the distance between the center of a hexagon and the center of a neighboring hexagon 1.73205080757
-            Vector2 newHexagonCentroid = GetPoint(spacing*Mathf.Sqrt(3), 1-i);
+            Vector2 newHexagonCentroid = GetPoint(2*Mathf.Sqrt(3), 1-i);
             bool hexagonExists = false;
-            foreach(Chunk hex in hexagons)
+            foreach(Chunk hex in chunks)
             {
-                if(hex.centroid == newHexagonCentroid)
-                {
-                    // Debug.Log($"neighbor found at {i}");
+                if(hex.centroid == newHexagonCentroid){
+                    Debug.Log($"neighbor {i} already exists");
                     hexagonExists = true;
                     break;
                 }
@@ -31,10 +30,10 @@ public static class HexGridLayout
                 Chunk newHexagon = new Chunk();
                 newHexagon.centroid = newHexagonCentroid;
                 newHexagon.mapData = new MapDataFinal();
-                hexagons.Add(newHexagon);
+                chunks.Add(newHexagon);
             }
         }
-        return hexagons;
+        return chunks;
     }
     public static Vector3 GetPoint(float size, int index, float ring = 1)
 	{

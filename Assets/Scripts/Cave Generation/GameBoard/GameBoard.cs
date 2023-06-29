@@ -7,24 +7,43 @@ namespace TJ
 {
 public class GameBoard : MonoBehaviour
 {
-    [SerializeField] private LandGenerator landGenerator;
-    [SerializeField] private Chunk[] chunks;
-    [SerializeField] private List<Chunk> chunks2;
+    [SerializeField] private ChunkGenerator chunkGenerator;
+    // [SerializeField] private Chunk[] chunks;
+    [SerializeField] private List<Chunk> chunks;
     [SerializeField] private GameObject clickableTilePrefab;
     [SerializeField] private List<ClickableTile> clickableTiles;
     [SerializeField] private float sizeMultiplier = 5f;
-
     [SerializeField] private SerializableDictionary<int, int5> vertexToFaceMap = new SerializableDictionary<int, int5>();
-    public void LoadData()
+    [SerializeField] private int chunkToAddNeighborsToIndex = 0;
+    
+    public void CreateInitialChunk()
     {
-        chunks = landGenerator.hexagons.ToArray();
+        ClearAllChunks();
+        Chunk newChunk = new Chunk();
+        chunks.Add(chunkGenerator.CreateChunk(newChunk));
+        CreateClickableTiles() ;
     }
-    public void CreateChunk()
+    [ContextMenu("Generate Neighbors")]
+    public void GenerateNeighbors()
     {
-        Chunk newChunk = landGenerator.CreateChunk();
-        chunks2.Add(newChunk);
+        chunks = HexGridLayout.CreateBorderingChunks(chunks, chunkToAddNeighborsToIndex);
+        for(int i = 0; i < chunks.Count; i++){
+            if(chunks[i].chunkTransform == null){
+                // Debug.Log($"Creating chunk {i}");
+                chunks[i] = chunkGenerator.CreateChunk(chunks[i]);
+            }
+        }
     }
-    [ContextMenu("Create Clickable Tiles")]
+    public void ClearAllChunks(){
+        for(int i = chunks.Count-1; i >= 0; i--) {
+            if(chunks[i].chunkTransform != null)
+                DestroyImmediate(chunks[i].chunkTransform.gameObject);
+
+            chunks.RemoveAt(i);
+        }
+        chunks.Clear();
+    }
+    // [ContextMenu("Create Clickable Tiles")]
     public void CreateClickableTiles()
     {
         clickableTiles.Clear();
@@ -140,7 +159,7 @@ public class GameBoard : MonoBehaviour
         }
         SetUpNodes();
     }
-    [ContextMenu("SetUpNodes")]
+    // [ContextMenu("SetUpNodes")]
     public void SetUpNodes()
     {
         // if(landParent != null)
@@ -159,7 +178,7 @@ public class GameBoard : MonoBehaviour
         // landParent.localPosition = new Vector3(0, 0, 0);
         CreateVertexToFaceMap();
     }
-    [ContextMenu("SetUpVertexToFaceMap")]
+    // [ContextMenu("SetUpVertexToFaceMap")]
     public void CreateVertexToFaceMap()
     {
         vertexToFaceMap.Clear();
@@ -194,7 +213,6 @@ public class GameBoard : MonoBehaviour
         //     Debug.Log(kvp.Key + " " + kvp.Value.v +" " + kvp.Value.w + " " + kvp.Value.x + " " + kvp.Value.y + " " + kvp.Value.z);
         // }
     }
-
     public void MarkVertexAsClicked(int vertexId)
     {
         // Debug.Log($"Marking vertex {vertexId} as clicked");

@@ -138,8 +138,12 @@ public class Node : MonoBehaviour
         }
 
         //rotate the decorations 
-        // foreach(Transform child in tile.decorations.transform)
+        if(tile.decorations!=null)
+        {
+            foreach(Transform child in tile.decorations?.transform)
+                child.transform.localPosition = newRotation * (child.transform.localPosition  - mesh.bounds.center) + mesh.bounds.center;
         //     child.transform.localPosition = newRotation * (child.transform.localPosition - new Vector3(0.25f, 0, 0.25f)) +new Vector3(0.25f, 0, 0.25f);
+        }
         
         //W0, X1, Y2, Z3
         //Get coords of the underlying face
@@ -171,24 +175,24 @@ public class Node : MonoBehaviour
         }
 
         // //rotate decoration
-        // if(tile.decorations!=null)
-        // {
-        //     //get each child gameobject of decorations
-        //     foreach(Transform child in tile.decorations.transform)
-        //     {
-        //         //rotate the local rotation of the child
-        //         //get the x and y value of the vertex
-        //         float x = (child.localPosition.x)*2;
-        //         float y = (child.localPosition.y)*2;
-        //         float z = (child.localPosition.z)*2;
+        if(tile.decorations!=null)
+        {
+            //get each child gameobject of decorations
+            foreach(Transform child in tile.decorations.transform)
+            {
+                //rotate the local rotation of the child
+                //get the x and y value of the vertex
+                float x = (child.localPosition.x)*2;
+                float y = (child.localPosition.y)*2;
+                float z = (child.localPosition.z)*2;
 
-        //         Vector3 q = Vector3.Lerp(a, b, x);
-        //         Vector3 r = Vector3.Lerp(d, c, x);
-        //         Vector3 p = Vector3.Lerp(r, q, z);
+                Vector3 q = Vector3.Lerp(a, b, x);
+                Vector3 r = Vector3.Lerp(d, c, x);
+                Vector3 p = Vector3.Lerp(r, q, z);
 
-        //         child.localPosition = new Vector3(p.x, child.localPosition.y+p.y, p.z);
-        //     }
-        // }
+                child.localPosition = new Vector3(p.x, child.localPosition.y+p.y, p.z);
+            }
+        }
 
         //create new mesh and assign it to the land
         mesh = new Mesh();
