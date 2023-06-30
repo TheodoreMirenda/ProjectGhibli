@@ -19,20 +19,20 @@ MonoBehaviour:
     m_Bits: 256
   outlinesOccluderLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   outlineSettings:
-    outlineColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
-    outlineScale: 0.07
-    depthThreshold: 1
-    robertsCrossMultiplier: 100
-    normalThreshold: 0.158
-    steepAngleThreshold: 0.2
-    steepAngleMultiplier: 25
+    outlineColor: {r: 0.26873446, g: 0.31132078, b: 0.27721226, a: 1}
+    outlineScale: 0.5
+    depthThreshold: 1.6
+    robertsCrossMultiplier: 223
+    normalThreshold: 0.574
+    steepAngleThreshold: 0.151
+    steepAngleMultiplier: 53
   viewSpaceNormalsTextureSettings:
     colorFormat: 0
     depthBufferBits: 16
     filterMode: 0
-    backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+    backgroundColor: {r: 0, g: 0.8754735, b: 1, a: 0}
     perObjectData: 0
     enableDynamicBatching: 1
     enableInstancing: 1
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: URP-HighFidelity-Renderer
+  m_Name: URP-Trees
   m_EditorClassIdentifier: 
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7,
