@@ -62,6 +62,7 @@ public class ChunkGenerator : MonoBehaviour
     {
         Transform chunkHolder = new GameObject().transform;
         chunk.chunkTransform = chunkHolder;
+        chunk.chunkTransform.localPosition = new Vector3(chunk.centroid.x, 0, chunk.centroid.y);
 
         maxNoiseHeight = float.MinValue;
         minNoiseHeight = float.MaxValue;

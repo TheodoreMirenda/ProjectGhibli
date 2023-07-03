@@ -11,17 +11,18 @@ public class GameBoard : MonoBehaviour
     // [SerializeField] private Chunk[] chunks;
     [SerializeField] private List<Chunk> chunks;
     [SerializeField] private GameObject clickableTilePrefab;
-    [SerializeField] private List<ClickableTile> clickableTiles;
     [SerializeField] private float sizeMultiplier = 5f;
     [SerializeField] private SerializableDictionary<int, int5> vertexToFaceMap = new SerializableDictionary<int, int5>();
     [SerializeField] private int chunkToAddNeighborsToIndex = 0;
+
+    [SerializeField] private Transform hexSpot;
     
     public void CreateInitialChunk()
     {
         ClearAllChunks();
         Chunk newChunk = new Chunk();
         chunks.Add(chunkGenerator.CreateChunk(newChunk));
-        CreateClickableTiles() ;
+        CreateClickableTiles(chunks[0]);
     }
     [ContextMenu("Generate Neighbors")]
     public void GenerateNeighbors()
@@ -31,7 +32,16 @@ public class GameBoard : MonoBehaviour
             if(chunks[i].chunkTransform == null){
                 // Debug.Log($"Creating chunk {i}");
                 chunks[i] = chunkGenerator.CreateChunk(chunks[i]);
+                CreateClickableTiles(chunks[i]);
             }
+        }
+    }
+    [ContextMenu("DemoHex")]
+    public void DemoHex()
+    {
+        chunks = HexGridLayout.CreateBorderingChunks(chunks, chunkToAddNeighborsToIndex);
+        for(int i = 0; i < chunks.Count; i++){
+            Instantiate(hexSpot, new Vector3(chunks[i].centroid.x*sizeMultiplier, 0, chunks[i].centroid.y*sizeMultiplier), Quaternion.identity);
         }
     }
     public void ClearAllChunks(){
@@ -42,48 +52,53 @@ public class GameBoard : MonoBehaviour
             chunks.RemoveAt(i);
         }
         chunks.Clear();
+        vertexToFaceMap.Clear();
     }
     // [ContextMenu("Create Clickable Tiles")]
-    public void CreateClickableTiles()
+    public void CreateClickableTiles(Chunk chunk)
     {
-        clickableTiles.Clear();
+        chunk.clickableTiles?.Clear();
+        chunk.clickableTiles = new List<ClickableTile>();
 
-        // destroy all children of the land parent
-        for (int i = this.transform.childCount; i > 0; i--)
-            DestroyImmediate(this.transform.GetChild(0).gameObject);
+        if(chunk.chunkClickableTilesTransform != null)
+            DestroyImmediate(chunk.chunkClickableTilesTransform.gameObject);
 
-        foreach(Chunk chunk in chunks)
+        Transform chunkClickableTilesTransform = new GameObject().transform;
+        chunkClickableTilesTransform.name = "Clickable Tiles";
+        chunkClickableTilesTransform.SetParent(chunk.chunkTransform);
+
+        chunk.chunkClickableTilesTransform = chunkClickableTilesTransform;
+
+        //get each verticies of each hexagon
+        for(int i = 0; i < chunk.mapData.globalVerticies.Count; i++)
         {
-            //get each verticies of each hexagon
-            for(int i = 0; i < chunk.mapData.globalVerticies.Count; i++)
+            List<Vector3> corners = new List<Vector3>();
+            //get faces containing each verticie
+            foreach(Vector4 face in chunk.mapData.faces)
             {
-                List<Vector3> corners = new List<Vector3>();
-                //get faces containing each verticie
-                foreach(Vector4 face in chunk.mapData.faces)
+                if((int)face.w == i || (int)face.x == i || (int)face.y == i || (int)face.z == i)
                 {
-                    if((int)face.w == i || (int)face.x == i || (int)face.y == i || (int)face.z == i)
-                    {
-                        //get the centroid of the face
-                        Vector3 centroid = (chunk.mapData.globalVerticies[(int)face.w] + 
-                                            chunk.mapData.globalVerticies[(int)face.x] + 
-                                            chunk.mapData.globalVerticies[(int)face.y] + 
-                                            chunk.mapData.globalVerticies[(int)face.z]) / 4;
-                        
-                        corners.Add(new Vector3(centroid.x*sizeMultiplier, 0, centroid.y*sizeMultiplier));
-                    }
+                    //get the centroid of the face
+                    Vector3 centroid = (chunk.mapData.globalVerticies[(int)face.w] + 
+                                        chunk.mapData.globalVerticies[(int)face.x] + 
+                                        chunk.mapData.globalVerticies[(int)face.y] + 
+                                        chunk.mapData.globalVerticies[(int)face.z]) / 4;
+                    
+                    corners.Add(new Vector3(centroid.x*sizeMultiplier, 0, centroid.y*sizeMultiplier));
                 }
-                
-                ClickableTile ct = Instantiate(clickableTilePrefab, 
-                    new Vector3(chunk.mapData.globalVerticies[i].x*sizeMultiplier, 0, chunk.mapData.globalVerticies[i].y*sizeMultiplier),
-                    Quaternion.identity, this.transform).GetComponent<ClickableTile>();
-
-                ct.corners = corners;
-                ct.vertexId = i;
-                clickableTiles.Add(ct);
             }
+            
+            ClickableTile ct = Instantiate(clickableTilePrefab, 
+                                        new Vector3(chunk.mapData.globalVerticies[i].x*sizeMultiplier, 0, chunk.mapData.globalVerticies[i].y*sizeMultiplier),
+                                        Quaternion.identity, 
+                                        chunk.chunkClickableTilesTransform).GetComponent<ClickableTile>();
+
+            ct.corners = corners;
+            ct.vertexId = i;
+            chunk.clickableTiles.Add(ct);
         }
 
-        foreach(ClickableTile tile in clickableTiles)
+        foreach(ClickableTile tile in chunk.clickableTiles)
         {
             //create mesh using 4 corners
             Mesh mesh = new Mesh();
@@ -157,31 +172,30 @@ public class GameBoard : MonoBehaviour
             tile.lineRenderer.SetPosition(tile.corners.Count, tile.corners[0]);
             tile.lineRenderer.enabled = false;
         }
-        SetUpNodes();
+        SetUpNodes(chunk);
     }
     // [ContextMenu("SetUpNodes")]
-    public void SetUpNodes()
+    public void SetUpNodes(Chunk chunk)
     {
         // if(landParent != null)
         //     DestroyImmediate(landParent.gameObject);
         
         // landParent = new GameObject().transform;
 
-        Node[] nodes = FindObjectsOfType<Node>();
+        Node[] nodes = chunk.chunkTransform.GetComponentsInChildren<Node>();
         foreach(Node n in nodes)
         {
             Cell cell = n.gameObject.GetComponent<Cell>();
-            n.AssignSides(cell, chunks[0].mapData.globalVerticies, sizeMultiplier);            
+            n.AssignSides(cell, chunk.mapData.globalVerticies, sizeMultiplier);            
         }
 
         // landParent.localScale = new Vector3(1, 1, 1);
         // landParent.localPosition = new Vector3(0, 0, 0);
-        CreateVertexToFaceMap();
+        // CreateVertexToFaceMap();
     }
     // [ContextMenu("SetUpVertexToFaceMap")]
     public void CreateVertexToFaceMap()
     {
-        vertexToFaceMap.Clear();
         foreach(Vector2 vertex in chunks[0].mapData.globalVerticies)
         {
             int vertexId = chunks[0].mapData.globalVerticies.IndexOf(vertex);

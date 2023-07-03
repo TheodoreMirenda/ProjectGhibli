@@ -8,17 +8,17 @@ public static class HexGridLayout
 {
     public static List<Chunk> CreateBorderingChunks(List<Chunk> chunks, int activeChunkIndex)
     {
-        // Chunk activeHex = chunks[activeChunkIndex];
+        Chunk activeHex = chunks[activeChunkIndex];
 
         for(int i = 0; i < 6; i++)
         {
             //Sqrt(3) is the distance between the center of a hexagon and the center of a neighboring hexagon 1.73205080757
-            Vector2 newHexagonCentroid = GetPoint(2*Mathf.Sqrt(3), 1-i);
+            Vector2 newHexagonCentroid = GetPoint(2*Mathf.Sqrt(3), 1-i) + activeHex.centroid;
             bool hexagonExists = false;
             foreach(Chunk hex in chunks)
             {
                 if(hex.centroid == newHexagonCentroid){
-                    Debug.Log($"neighbor {i} already exists");
+                    // Debug.Log($"neighbor {i} already exists");
                     hexagonExists = true;
                     break;
                 }
@@ -35,7 +35,7 @@ public static class HexGridLayout
         }
         return chunks;
     }
-    public static Vector3 GetPoint(float size, int index, float ring = 1)
+    public static Vector2 GetPoint(float size, int index, float ring = 1)
 	{
 		float angleDegrees = 60/ring * index;
 		float angleRadians = Mathf.PI / 180f * angleDegrees;
@@ -45,7 +45,8 @@ public static class HexGridLayout
 [System.Serializable] public struct Chunk
 {
     public Vector2 centroid;
-    public Transform chunkTransform;
+    public Transform chunkTransform, chunkClickableTilesTransform;
     public MapDataFinal mapData;
+    public List<ClickableTile> clickableTiles;
 }
 }

@@ -19,14 +19,14 @@ MonoBehaviour:
     m_Bits: 256
   outlinesOccluderLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 247
   outlineSettings:
     outlineColor: {r: 0.26873446, g: 0.31132078, b: 0.27721226, a: 1}
-    outlineScale: 0.5
+    outlineScale: 0.75
     depthThreshold: 1.6
-    robertsCrossMultiplier: 223
-    normalThreshold: 0.574
-    steepAngleThreshold: 0.151
+    robertsCrossMultiplier: 104
+    normalThreshold: 0.849
+    steepAngleThreshold: 0.768
     steepAngleMultiplier: 53
   viewSpaceNormalsTextureSettings:
     colorFormat: 0
