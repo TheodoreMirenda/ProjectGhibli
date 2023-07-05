@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace TJ
 {
@@ -58,16 +59,44 @@ public class ChunkGenerator : MonoBehaviour
     [SerializeField] float maxNoiseHeight = float.MinValue;
 	[SerializeField] float minNoiseHeight = float.MaxValue;
 
-    public Chunk CreateChunk(Chunk chunk)
+    Queue<MapThreadInfo<Chunk>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<Chunk>>();
+    public void RequestChunk(Action<Chunk> callback, Vector2 centroid)
     {
+        //must all be done on main thread
+        Chunk chunk = new Chunk();
+        chunk.centroid = centroid;
         Transform chunkHolder = new GameObject().transform;
         chunk.chunkTransform = chunkHolder;
-        chunk.chunkTransform.localPosition = new Vector3(chunk.centroid.x, 0, chunk.centroid.y);
 
+        ThreadStart threadStart = delegate {
+            MapDataThread(callback, chunk);
+        };
+        new Thread(threadStart).Start();
+    }
+    public void MapDataThread(Action<Chunk> callback, Chunk chunk) {
+        chunk.mapData = NetworkMapGenerator.GenerateMap(seed, rings, animationCurve);
+        //only one thread may execute this code at a time, the others will wait
+        lock(mapDataThreadInfoQueue) {
+            mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<Chunk>(callback, chunk));
+        }
+    }
+    void Update(){
+        if(mapDataThreadInfoQueue.Count > 0) {
+            for(int i = 0; i < mapDataThreadInfoQueue.Count; i++) {
+                MapThreadInfo<Chunk> threadInfo = mapDataThreadInfoQueue.Dequeue();
+                threadInfo.callback(threadInfo.parameter);
+            }
+        }
+    }
+
+    public Chunk CreateChunk(Chunk chunk)
+    {
+        chunk.chunkTransform.localPosition = new Vector3(chunk.centroid.x, 0, chunk.centroid.y);
         maxNoiseHeight = float.MinValue;
         minNoiseHeight = float.MaxValue;
 
-        chunk.mapData = NetworkMapGenerator.GenerateMap(seed, rings, animationCurve);
+        //threadding added
+        // chunk.mapData = NetworkMapGenerator.GenerateMap(seed, rings, animationCurve);
 
         // for (int i = this.gameObject.transform.childCount; i > 0; i--)
         //     DestroyImmediate(this.gameObject.transform.GetChild(0).gameObject);
@@ -88,8 +117,8 @@ public class ChunkGenerator : MonoBehaviour
         }
         
         //assign grid values to all verticies
-        for(int i = 0; i<mapData.verticesMap.Count; i++)
-            Instantiate(verticeParent, mapData.verticesMap[i], Quaternion.identity, this.transform);
+        // for(int i = 0; i<mapData.verticesMap.Count; i++)
+        //     Instantiate(verticeParent, mapData.verticesMap[i], Quaternion.identity, this.transform);
 
         foreach(Vector4 face in chunk.mapData.faces)
             mapData.faces.Add(new Vector4(face.x, face.y, face.z, face.w));
@@ -103,7 +132,7 @@ public class ChunkGenerator : MonoBehaviour
         hexagonParents.Add(landParent);
         landParent = null;
 
-        chunkHolder.localScale = new Vector3(finalScale, finalScale, finalScale);
+        chunk.chunkTransform.localScale = new Vector3(finalScale, finalScale, finalScale);
         return chunk;
     }
     private Chunk AddHeightData(Chunk hexagon)
@@ -160,7 +189,7 @@ public class ChunkGenerator : MonoBehaviour
         }
         //function time
         funtionExecutionTime = EditorApplication.timeSinceStartup - funtionExecutionTime;
-        Debug.Log($"Generated in {funtionExecutionTime.ToString("00.00")} seconds with {failCounter} fails");
+        // Debug.Log($"Generated in {funtionExecutionTime.ToString("00.00")} seconds with {failCounter} fails");
     }
     public string GenerateLand(int fails, Transform spawnParent)
     {
@@ -784,6 +813,18 @@ public class ChunkGenerator : MonoBehaviour
     {
         public List<Vector4> faces;
         public List<Vector3> verticesMap;
+    }
+
+    struct MapThreadInfo<T>
+    {
+        public readonly Action<T> callback;
+        public readonly T parameter;
+
+        public MapThreadInfo(Action<T> callback, T parameter)
+        {
+            this.callback = callback;
+            this.parameter = parameter;
+        }
     }
 }
 }

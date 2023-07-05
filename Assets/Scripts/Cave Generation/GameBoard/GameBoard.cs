@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 namespace TJ
 {
@@ -13,33 +14,53 @@ public class GameBoard : MonoBehaviour
     [SerializeField] private GameObject clickableTilePrefab;
     [SerializeField] private float sizeMultiplier = 5f;
     [SerializeField] private SerializableDictionary<int, int5> vertexToFaceMap = new SerializableDictionary<int, int5>();
-    [SerializeField] private int chunkToAddNeighborsToIndex = 0;
-
     [SerializeField] private Transform hexSpot;
-    
+    [SerializeField] private Transform playerGameObject;
+    [SerializeField] private int playerLocationChunkIndex;
+    private void Update()
+    {
+        UpdateVisibleChunks();
+    }
     public void CreateInitialChunk()
     {
         ClearAllChunks();
-        Chunk newChunk = new Chunk();
-        chunks.Add(chunkGenerator.CreateChunk(newChunk));
-        CreateClickableTiles(chunks[0]);
+        Chunk chunk = new Chunk();
+        Transform chunkHolder = new GameObject().transform;
+        chunk.chunkTransform = chunkHolder;
+
+        chunkGenerator.RequestChunk(OnMapDataRecieved, chunk.centroid);
     }
     [ContextMenu("Generate Neighbors")]
     public void GenerateNeighbors()
     {
-        chunks = HexGridLayout.CreateBorderingChunks(chunks, chunkToAddNeighborsToIndex);
+        chunks = HexGridLayout.CreateBorderingChunks(chunks, playerLocationChunkIndex);
         for(int i = 0; i < chunks.Count; i++){
             if(chunks[i].chunkTransform == null){
                 // Debug.Log($"Creating chunk {i}");
-                chunks[i] = chunkGenerator.CreateChunk(chunks[i]);
+                chunkGenerator.RequestChunk(OnMapDataRecieved, chunks[i].centroid);
+            
+                // chunks[i] = chunkGenerator.CreateChunk(chunks[i]);
+                // CreateClickableTiles(chunks[i]);
+            }
+        }
+    }
+    public void OnMapDataRecieved(Chunk chunk){
+        Debug.Log($"Recieved map data for chunk {chunk.centroid}");
+
+        //find the chunk that matches the centroid
+        for(int i = 0; i < chunks.Count; i++){
+            if(chunks[i].centroid == chunk.centroid){
+                chunks[i] = chunk;
+                chunk = chunkGenerator.CreateChunk(chunk);
                 CreateClickableTiles(chunks[i]);
+                return;
             }
         }
     }
     [ContextMenu("DemoHex")]
     public void DemoHex()
     {
-        chunks = HexGridLayout.CreateBorderingChunks(chunks, chunkToAddNeighborsToIndex);
+        chunks = HexGridLayout.CreateBorderingChunks(chunks, playerLocationChunkIndex);
         for(int i = 0; i < chunks.Count; i++){
             Instantiate(hexSpot, new Vector3(chunks[i].centroid.x*sizeMultiplier, 0, chunks[i].centroid.y*sizeMultiplier), Quaternion.identity);
         }
@@ -245,6 +266,27 @@ public class GameBoard : MonoBehaviour
             chunks[0].mapData.cells[faces.y]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
         if(faces.z != -1)
             chunks[0].mapData.cells[faces.z]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
+    }
+    private void UpdateVisibleChunks(){
+        //get the chunk that is closest to the player
+        int closestChunkIndex = 0;
+        float closestDistance = Mathf.Infinity;
+        for(int i = 0; i < chunks.Count; i++){
+            float distance = Vector2.Distance(new Vector2(playerGameObject.position.x/5, playerGameObject.position.z/5), chunks[i].centroid);
+            if(distance < closestDistance){
+                closestDistance = distance;
+                closestChunkIndex = i;
+            }
+        }
+        UpdatePlayerLocationChunk(closestChunkIndex);
+        // Debug.Log($"closest chunk is {chunkToAddNeighborsToIndex} at {closestChunk.centroid}");
+    }
+    private void UpdatePlayerLocationChunk(int newChunkIndex){
+        if(playerLocationChunkIndex == newChunkIndex) return;
+
+        // Debug.Log($"Player moved to chunk {newChunkIndex}");
+        playerLocationChunkIndex = newChunkIndex;
+        GenerateNeighbors();
     }
 }
 [System.Serializable] public struct int5
