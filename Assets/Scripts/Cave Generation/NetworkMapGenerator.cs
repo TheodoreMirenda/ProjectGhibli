@@ -164,7 +164,6 @@ public static class NetworkMapGenerator {
                 face.edges.RemoveAll(edge => face.overlappingEdges.Contains(edge));
             }
         #endregion
-
         
         #region subdivide 
          //find centroid of each quad
@@ -263,123 +262,124 @@ public static class NetworkMapGenerator {
         }
         #endregion
 
+        #region smoothing verticies
         for(int j = 0; j < iterrations; j++)
         {
             //smooth them out
             #region smooth baby faces
             for(int t = 0; t < babyFaces.Count; t++)
-        {
-            Vector4 babyFace = babyFaces[t].face;
-            babyFaces[t].lowestForce = Mathf.Infinity;
-            babyFaces[t].forcesToApply.Clear();
-
-            Vector2 a = globalVerticies[(int)babyFace.x];
-            Vector2 b = globalVerticies[(int)babyFace.y];
-            Vector2 c = globalVerticies[(int)babyFace.z];
-            Vector2 d = globalVerticies[(int)babyFace.w];
-
-            //Get area of the quad
-            float area = Mathf.Abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2f);
-            // Debug.Log($"area is {area}");
-            // float 
-            area = 0.10825f;
-
-            //get half of the diagonal of a square with the same area
-            float halfDiagonal = Mathf.Sqrt(area);
-            
-            //get the centroid of the quad
-            Vector2 centroid = new Vector2(
-                (a.x + b.x + c.x + d.x) / 4f,
-                (a.y + b.y + c.y + d.y) / 4f
-            );
-
-            // if(drawLines)
-            //     Debug.DrawRay(new Vector3(centroid.x, 0, centroid.y), Vector3.up, Color.blue, debugLineTime);
-
-            Vector2[] corners = new Vector2[4] { a, b, c, d };
-
-            bool OuterVerticeCheck(int x)
             {
-                if(outerVerticies.ContainsKey(globalVerticies[x]))
-                    return true;
+                Vector4 babyFace = babyFaces[t].face;
+                babyFaces[t].lowestForce = Mathf.Infinity;
+                babyFaces[t].forcesToApply.Clear();
 
-                return false;
-            }
+                Vector2 a = globalVerticies[(int)babyFace.x];
+                Vector2 b = globalVerticies[(int)babyFace.y];
+                Vector2 c = globalVerticies[(int)babyFace.z];
+                Vector2 d = globalVerticies[(int)babyFace.w];
 
-            bool[] outerV = new bool[4] { OuterVerticeCheck((int)babyFace.x), OuterVerticeCheck((int)babyFace.y), 
-                OuterVerticeCheck((int)babyFace.z), OuterVerticeCheck((int)babyFace.w) };
+                //Get area of the quad
+                float area = Mathf.Abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2f);
+                // Debug.Log($"area is {area}");
+                // float 
+                area = 0.10825f;
 
-            // Debug.Log($"outerV is {outerV[0]}, {outerV[1]}, {outerV[2]}, {outerV[3]}");
-
-            if(!outerV[0] && !outerV[1] && !outerV[2] && !outerV[3])
-            {
-                // Debug.Log("All inner verticies");
-            }
-            else
-            {
-                // Debug.Log($"There are one or more outer verticies");
-                //only calc forces for outer verticies
-                List<Vector2> outerCorners = new List<Vector2>();
-                for(int i = 0; i < corners.Length; i++)
-                {
-                    if(outerV[i])
-                        outerCorners.Add(corners[i]);
-                }
-                corners = outerCorners.ToArray();
-                // Debug.Log($"There are {corners.Length} outer corners");
-            }
-
-            for(int i = 0; i < corners.Length; i++)
-            {
-                //get the direction from the centroid to the corner
-                Vector2 direction = corners[i] - centroid;
-
-                //get the direction 90 degrees to the corner
-                Vector2 direction90 = new Vector2(-direction.y, direction.x);
-
-                //get the new position of the corner
-                Vector2 newA = centroid + direction.normalized * halfDiagonal;
-                Vector2 newB = centroid + direction90.normalized * halfDiagonal;
-                Vector2 newC = centroid - direction.normalized * halfDiagonal;
-                Vector2 newD = centroid - direction90.normalized * halfDiagonal;
+                //get half of the diagonal of a square with the same area
+                float halfDiagonal = Mathf.Sqrt(area);
                 
-                //get the closest new corner from each of the origional corners
-                Vector2 closestA = FindClosest(a, newA, newB, newC, newD);
-                Vector2 closestB = FindClosest(b, newA, newB, newC, newD);
-                Vector2 closestC = FindClosest(c, newA, newB, newC, newD);
-                Vector2 closestD = FindClosest(d, newA, newB, newC, newD);
-
-                //get the directional force needed to move the corner to the new position
-                Vector2 forceA = closestA - a;
-                Vector2 forceB = closestB - b;
-                Vector2 forceC = closestC - c;
-                Vector2 forceD = closestD - d;
-
-                //get the direction the force must be applied in
-                Vector2 directionA = forceA.normalized;
-                Vector2 directionB = forceB.normalized;
-                Vector2 directionC = forceC.normalized;
-                Vector2 directionD = forceD.normalized;
-
-                //get total force needed to move the quad to the new position, the absolute value of each force
-                Vector2 totalForce = new Vector2(
-                    Mathf.Abs(forceA.x) + Mathf.Abs(forceB.x) + Mathf.Abs(forceC.x) + Mathf.Abs(forceD.x),
-                    Mathf.Abs(forceA.y) + Mathf.Abs(forceB.y) + Mathf.Abs(forceC.y) + Mathf.Abs(forceD.y)
+                //get the centroid of the quad
+                Vector2 centroid = new Vector2(
+                    (a.x + b.x + c.x + d.x) / 4f,
+                    (a.y + b.y + c.y + d.y) / 4f
                 );
 
-                if(totalForce.magnitude < babyFaces[t].lowestForce)
-                {
-                    // Debug.Log($"lowest force: {totalForce.magnitude} i: {i}");
-                    babyFaces[t].lowestForce = totalForce.magnitude;
+                // if(drawLines)
+                //     Debug.DrawRay(new Vector3(centroid.x, 0, centroid.y), Vector3.up, Color.blue, debugLineTime);
 
-                    babyFaces[t].forcesToApply.Clear();
-                    babyFaces[t].forcesToApply.Add(forceA);
-                    babyFaces[t].forcesToApply.Add(forceB);
-                    babyFaces[t].forcesToApply.Add(forceC);
-                    babyFaces[t].forcesToApply.Add(forceD);
+                Vector2[] corners = new Vector2[4] { a, b, c, d };
+
+                bool OuterVerticeCheck(int x)
+                {
+                    if(outerVerticies.ContainsKey(globalVerticies[x]))
+                        return true;
+
+                    return false;
+                }
+
+                bool[] outerV = new bool[4] { OuterVerticeCheck((int)babyFace.x), OuterVerticeCheck((int)babyFace.y), 
+                    OuterVerticeCheck((int)babyFace.z), OuterVerticeCheck((int)babyFace.w) };
+
+                // Debug.Log($"outerV is {outerV[0]}, {outerV[1]}, {outerV[2]}, {outerV[3]}");
+
+                if(!outerV[0] && !outerV[1] && !outerV[2] && !outerV[3])
+                {
+                    // Debug.Log("All inner verticies");
+                }
+                else
+                {
+                    // Debug.Log($"There are one or more outer verticies");
+                    //only calc forces for outer verticies
+                    List<Vector2> outerCorners = new List<Vector2>();
+                    for(int i = 0; i < corners.Length; i++)
+                    {
+                        if(outerV[i])
+                            outerCorners.Add(corners[i]);
+                    }
+                    corners = outerCorners.ToArray();
+                    // Debug.Log($"There are {corners.Length} outer corners");
+                }
+
+                for(int i = 0; i < corners.Length; i++)
+                {
+                    //get the direction from the centroid to the corner
+                    Vector2 direction = corners[i] - centroid;
+
+                    //get the direction 90 degrees to the corner
+                    Vector2 direction90 = new Vector2(-direction.y, direction.x);
+
+                    //get the new position of the corner
+                    Vector2 newA = centroid + direction.normalized * halfDiagonal;
+                    Vector2 newB = centroid + direction90.normalized * halfDiagonal;
+                    Vector2 newC = centroid - direction.normalized * halfDiagonal;
+                    Vector2 newD = centroid - direction90.normalized * halfDiagonal;
+                    
+                    //get the closest new corner from each of the origional corners
+                    Vector2 closestA = FindClosest(a, newA, newB, newC, newD);
+                    Vector2 closestB = FindClosest(b, newA, newB, newC, newD);
+                    Vector2 closestC = FindClosest(c, newA, newB, newC, newD);
+                    Vector2 closestD = FindClosest(d, newA, newB, newC, newD);
+
+                    //get the directional force needed to move the corner to the new position
+                    Vector2 forceA = closestA - a;
+                    Vector2 forceB = closestB - b;
+                    Vector2 forceC = closestC - c;
+                    Vector2 forceD = closestD - d;
+
+                    //get the direction the force must be applied in
+                    Vector2 directionA = forceA.normalized;
+                    Vector2 directionB = forceB.normalized;
+                    Vector2 directionC = forceC.normalized;
+                    Vector2 directionD = forceD.normalized;
+
+                    //get total force needed to move the quad to the new position, the absolute value of each force
+                    Vector2 totalForce = new Vector2(
+                        Mathf.Abs(forceA.x) + Mathf.Abs(forceB.x) + Mathf.Abs(forceC.x) + Mathf.Abs(forceD.x),
+                        Mathf.Abs(forceA.y) + Mathf.Abs(forceB.y) + Mathf.Abs(forceC.y) + Mathf.Abs(forceD.y)
+                    );
+
+                    if(totalForce.magnitude < babyFaces[t].lowestForce)
+                    {
+                        // Debug.Log($"lowest force: {totalForce.magnitude} i: {i}");
+                        babyFaces[t].lowestForce = totalForce.magnitude;
+
+                        babyFaces[t].forcesToApply.Clear();
+                        babyFaces[t].forcesToApply.Add(forceA);
+                        babyFaces[t].forcesToApply.Add(forceB);
+                        babyFaces[t].forcesToApply.Add(forceC);
+                        babyFaces[t].forcesToApply.Add(forceD);
+                    }
                 }
             }
-        }
             #endregion
 
             //move the corners of the quads to the new vertice positions
@@ -402,7 +402,7 @@ public static class NetworkMapGenerator {
                     globalVerticies[(int)babf.face.w] += babf.forcesToApply[3]/movementAmount;
             }
         }
-
+        #endregion
         //add new triangles and verticies to the mesh
         meshData = ReCalculateTriangles(meshData, noiseMap, globalVerticies, meshGenerationShape, faces);
 

@@ -28,24 +28,40 @@ public class GameBoard : MonoBehaviour
         Transform chunkHolder = new GameObject().transform;
         chunk.chunkTransform = chunkHolder;
 
-        chunkGenerator.RequestChunk(OnMapDataRecieved, chunk.centroid);
+        if(Application.isPlaying)
+            chunkGenerator.RequestChunk(OnMapDataRecieved, chunk.centroid);
+        else
+        {
+            chunk.mapData = NetworkMapGenerator.GenerateMap(chunkGenerator.seed, chunkGenerator.rings, chunkGenerator.animationCurve);
+            chunks.Add(chunk);
+            OnMapDataRecieved(chunk);
+        }
     }
     [ContextMenu("Generate Neighbors")]
     public void GenerateNeighbors()
     {
-        chunks = HexGridLayout.CreateBorderingChunks(chunks, playerLocationChunkIndex);
+        chunks = HexGridLayout.CreateBorderingChunks(chunks, playerLocationChunkIndex, chunkGenerator.rings);
         for(int i = 0; i < chunks.Count; i++){
             if(chunks[i].chunkTransform == null){
-                // Debug.Log($"Creating chunk {i}");
-                chunkGenerator.RequestChunk(OnMapDataRecieved, chunks[i].centroid);
             
-                // chunks[i] = chunkGenerator.CreateChunk(chunks[i]);
-                // CreateClickableTiles(chunks[i]);
+                if(Application.isPlaying)
+                    chunkGenerator.RequestChunk(OnMapDataRecieved, chunks[i].centroid);
+                else
+                {
+                    chunks[i] = new Chunk(
+                        chunks[i].centroid,
+                        new GameObject().transform,
+                        null,
+                        NetworkMapGenerator.GenerateMap(chunkGenerator.seed, chunkGenerator.rings, chunkGenerator.animationCurve),
+                        new List<ClickableTile>()
+                    );
+                    OnMapDataRecieved(chunks[i]);
+                }
             }
         }
     }
     public void OnMapDataRecieved(Chunk chunk){
-        Debug.Log($"Recieved map data for chunk {chunk.centroid}");
+        // Debug.Log($"Recieved map data for chunk {chunk.centroid}");
 
         //find the chunk that matches the centroid
         for(int i = 0; i < chunks.Count; i++){
@@ -55,14 +71,6 @@ public class GameBoard : MonoBehaviour
                 CreateClickableTiles(chunks[i]);
                 return;
             }
-        }
-    }
-    [ContextMenu("DemoHex")]
-    public void DemoHex()
-    {
-        chunks = HexGridLayout.CreateBorderingChunks(chunks, playerLocationChunkIndex);
-        for(int i = 0; i < chunks.Count; i++){
-            Instantiate(hexSpot, new Vector3(chunks[i].centroid.x*sizeMultiplier, 0, chunks[i].centroid.y*sizeMultiplier), Quaternion.identity);
         }
     }
     public void ClearAllChunks(){
@@ -272,7 +280,7 @@ public class GameBoard : MonoBehaviour
         int closestChunkIndex = 0;
         float closestDistance = Mathf.Infinity;
         for(int i = 0; i < chunks.Count; i++){
-            float distance = Vector2.Distance(new Vector2(playerGameObject.position.x/5, playerGameObject.position.z/5), chunks[i].centroid);
+            float distance = Vector2.Distance(new Vector2(playerGameObject.position.x/sizeMultiplier, playerGameObject.position.z/sizeMultiplier), chunks[i].centroid);
             if(distance < closestDistance){
                 closestDistance = distance;
                 closestChunkIndex = i;

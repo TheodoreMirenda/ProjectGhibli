@@ -6,14 +6,14 @@ namespace TJ
 {
 public static class HexGridLayout
 {
-    public static List<Chunk> CreateBorderingChunks(List<Chunk> chunks, int activeChunkIndex)
+    public static List<Chunk> CreateBorderingChunks(List<Chunk> chunks, int activeChunkIndex, int chunkRings)
     {
         Chunk activeHex = chunks[activeChunkIndex];
 
         for(int i = 0; i < 6; i++)
         {
             //Sqrt(3) is the distance between the center of a hexagon and the center of a neighboring hexagon 1.73205080757
-            Vector2 newHexagonCentroid = GetPoint(2*Mathf.Sqrt(3), 1-i) + activeHex.centroid;
+            Vector2 newHexagonCentroid = GetPoint(chunkRings*Mathf.Sqrt(3), 1-i) + activeHex.centroid;
             bool hexagonExists = false;
             foreach(Chunk hex in chunks)
             {
@@ -48,5 +48,14 @@ public static class HexGridLayout
     public Transform chunkTransform, chunkClickableTilesTransform;
     public MapDataFinal mapData;
     public List<ClickableTile> clickableTiles;
+
+    //add a constructor to initialize the chunk
+    public Chunk(Vector2 centroid, Transform chunkTransform, Transform chunkClickableTilesTransform, MapDataFinal mapData, List<ClickableTile> clickableTiles) {
+        this.centroid = centroid;
+        this.chunkTransform = chunkTransform;
+        this.chunkClickableTilesTransform = chunkClickableTilesTransform;
+        this.mapData = mapData;
+        this.clickableTiles = clickableTiles;
+    }
 }
 }
