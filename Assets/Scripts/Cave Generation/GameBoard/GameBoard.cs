@@ -24,9 +24,13 @@ public class GameBoard : MonoBehaviour
     public void CreateInitialChunk()
     {
         ClearAllChunks();
-        Chunk chunk = new Chunk();
-        Transform chunkHolder = new GameObject().transform;
-        chunk.chunkTransform = chunkHolder;
+        Chunk chunk = new Chunk(
+            new Vector2(0, 0),
+            new GameObject().transform,
+            new GameObject().transform,
+            new MapDataFinal(),
+            new List<ClickableTile>()
+        );
 
         if(Application.isPlaying)
             chunkGenerator.RequestChunk(OnMapDataRecieved, chunk.centroid);
@@ -51,7 +55,7 @@ public class GameBoard : MonoBehaviour
                     chunks[i] = new Chunk(
                         chunks[i].centroid,
                         new GameObject().transform,
-                        null,
+                        new GameObject().transform,
                         NetworkMapGenerator.GenerateMap(chunkGenerator.seed, chunkGenerator.rings, chunkGenerator.animationCurve),
                         new List<ClickableTile>()
                     );
@@ -68,7 +72,9 @@ public class GameBoard : MonoBehaviour
             if(chunks[i].centroid == chunk.centroid){
                 chunks[i] = chunk;
                 chunk = chunkGenerator.CreateChunk(chunk);
-                CreateClickableTiles(chunks[i]);
+                CreateClickableTiles(i);
+                SetUpNodes(i);
+                CheckForVertexOverlap(chunks[i]);
                 return;
             }
         }
@@ -83,51 +89,45 @@ public class GameBoard : MonoBehaviour
         chunks.Clear();
         vertexToFaceMap.Clear();
     }
-    // [ContextMenu("Create Clickable Tiles")]
-    public void CreateClickableTiles(Chunk chunk)
+    public void CreateClickableTiles(int chunkIndex)
     {
-        chunk.clickableTiles?.Clear();
-        chunk.clickableTiles = new List<ClickableTile>();
-
-        if(chunk.chunkClickableTilesTransform != null)
-            DestroyImmediate(chunk.chunkClickableTilesTransform.gameObject);
-
-        Transform chunkClickableTilesTransform = new GameObject().transform;
-        chunkClickableTilesTransform.name = "Clickable Tiles";
-        chunkClickableTilesTransform.SetParent(chunk.chunkTransform);
-
-        chunk.chunkClickableTilesTransform = chunkClickableTilesTransform;
+        chunks[chunkIndex].chunkClickableTilesTransform.name = "Clickable Tiles";
+        chunks[chunkIndex].chunkClickableTilesTransform.SetParent(chunks[chunkIndex].chunkTransform);
 
         //get each verticies of each hexagon
-        for(int i = 0; i < chunk.mapData.globalVerticies.Count; i++)
+        for(int i = 0; i < chunks[chunkIndex].mapData.globalVerticies.Count; i++)
         {
             List<Vector3> corners = new List<Vector3>();
             //get faces containing each verticie
-            foreach(Vector4 face in chunk.mapData.faces)
+            foreach(Vector4 face in chunks[chunkIndex].mapData.faces)
             {
                 if((int)face.w == i || (int)face.x == i || (int)face.y == i || (int)face.z == i)
                 {
                     //get the centroid of the face
-                    Vector3 centroid = (chunk.mapData.globalVerticies[(int)face.w] + 
-                                        chunk.mapData.globalVerticies[(int)face.x] + 
-                                        chunk.mapData.globalVerticies[(int)face.y] + 
-                                        chunk.mapData.globalVerticies[(int)face.z]) / 4;
+                    Vector3 centroid = (chunks[chunkIndex].mapData.globalVerticies[(int)face.w] + 
+                                        chunks[chunkIndex].mapData.globalVerticies[(int)face.x] + 
+                                        chunks[chunkIndex].mapData.globalVerticies[(int)face.y] + 
+                                        chunks[chunkIndex].mapData.globalVerticies[(int)face.z]) / 4;
                     
                     corners.Add(new Vector3(centroid.x*sizeMultiplier, 0, centroid.y*sizeMultiplier));
                 }
             }
-            
-            ClickableTile ct = Instantiate(clickableTilePrefab, 
-                                        new Vector3(chunk.mapData.globalVerticies[i].x*sizeMultiplier, 0, chunk.mapData.globalVerticies[i].y*sizeMultiplier),
-                                        Quaternion.identity, 
-                                        chunk.chunkClickableTilesTransform).GetComponent<ClickableTile>();
 
-            ct.corners = corners;
-            ct.vertexId = i;
-            chunk.clickableTiles.Add(ct);
+            Debug.Log($"corners count {corners.Count}");
+            if(corners.Count >= 3){
+                ClickableTile ct = Instantiate(clickableTilePrefab, 
+                                            new Vector3(chunks[chunkIndex].mapData.globalVerticies[i].x*sizeMultiplier, 0, chunks[chunkIndex].mapData.globalVerticies[i].y*sizeMultiplier),
+                                            Quaternion.identity, 
+                                            chunks[chunkIndex].chunkClickableTilesTransform).GetComponent<ClickableTile>();
+
+                ct.gameObject.name = corners.Count.ToString();
+                ct.corners = corners;
+                ct.vertexId = i;
+                chunks[chunkIndex].clickableTiles.Add(ct);
+            };
         }
 
-        foreach(ClickableTile tile in chunk.clickableTiles)
+        foreach(ClickableTile tile in chunks[chunkIndex].clickableTiles)
         {
             //create mesh using 4 corners
             Mesh mesh = new Mesh();
@@ -201,25 +201,19 @@ public class GameBoard : MonoBehaviour
             tile.lineRenderer.SetPosition(tile.corners.Count, tile.corners[0]);
             tile.lineRenderer.enabled = false;
         }
-        SetUpNodes(chunk);
     }
-    // [ContextMenu("SetUpNodes")]
-    public void SetUpNodes(Chunk chunk)
+    public void SetUpNodes(int chunkIndex)
     {
-        // if(landParent != null)
-        //     DestroyImmediate(landParent.gameObject);
-        
-        // landParent = new GameObject().transform;
+        Chunk c = chunks[chunkIndex];
+        c.mapData.nodes = chunks[chunkIndex].chunkTransform.GetComponentsInChildren<Node>();
+        chunks[chunkIndex] = c;
 
-        Node[] nodes = chunk.chunkTransform.GetComponentsInChildren<Node>();
-        foreach(Node n in nodes)
+        foreach(Node n in  chunks[chunkIndex].mapData.nodes)
         {
             Cell cell = n.gameObject.GetComponent<Cell>();
-            n.AssignSides(cell, chunk.mapData.globalVerticies, sizeMultiplier);            
+            n.AssignSides(cell,  chunks[chunkIndex].mapData.globalVerticies, sizeMultiplier);            
         }
 
-        // landParent.localScale = new Vector3(1, 1, 1);
-        // landParent.localPosition = new Vector3(0, 0, 0);
         // CreateVertexToFaceMap();
     }
     // [ContextMenu("SetUpVertexToFaceMap")]
@@ -256,6 +250,7 @@ public class GameBoard : MonoBehaviour
         //     Debug.Log(kvp.Key + " " + kvp.Value.v +" " + kvp.Value.w + " " + kvp.Value.x + " " + kvp.Value.y + " " + kvp.Value.z);
         // }
     }
+    [ContextMenu("MarkVertexAsClicked")]
     public void MarkVertexAsClicked(int vertexId)
     {
         // Debug.Log($"Marking vertex {vertexId} as clicked");
@@ -295,6 +290,143 @@ public class GameBoard : MonoBehaviour
         // Debug.Log($"Player moved to chunk {newChunkIndex}");
         playerLocationChunkIndex = newChunkIndex;
         GenerateNeighbors();
+    }
+    private Node GetNodeInOtherChunk(Chunk chunk, int side0, int side1, Node n){
+        for(int i = 0; i < chunk.mapData.nodes.Length; i++){
+            if(chunk.mapData.nodes[i].side[0].vertexId == side1 && chunk.mapData.nodes[i].side[1].vertexId == side0){
+                return chunk.mapData.nodes[i];
+            }
+            else if(chunk.mapData.nodes[i].side[1].vertexId == side1 && chunk.mapData.nodes[i].side[2].vertexId == side0){
+                chunk.mapData.nodes[i].neighbor_12 = n;
+                return chunk.mapData.nodes[i];
+            }
+            else if(chunk.mapData.nodes[i].side[2].vertexId == side1 && chunk.mapData.nodes[i].side[3].vertexId == side0){
+                chunk.mapData.nodes[i].neighbor_23 = n;
+                return chunk.mapData.nodes[i];
+            }
+            else if(chunk.mapData.nodes[i].side[3].vertexId == side1 && chunk.mapData.nodes[i].side[0].vertexId == side0){
+                chunk.mapData.nodes[i].neighbor_30 = n;
+                return chunk.mapData.nodes[i];
+            }
+        }
+        return null;
+    }
+    Dictionary<int, int> vertexIdPairs = new Dictionary<int, int> ();
+    private void CheckForVertexOverlap(Chunk chunk){
+        vertexIdPairs?.Clear();
+        //get chunk neighbors
+        for(int i = 0; i < chunks.Count; i++){
+            if(chunks[i].centroid == chunk.centroid) continue;
+            if(Vector2.Distance(chunks[i].centroid, chunk.centroid) < 1.5f*sizeMultiplier){
+                //check for any overlapping verticies
+                List<Vector2> verticiesOverlapping = new List<Vector2>();
+                List<int> vertexIDOverllaps = new List<int>();
+                List<int> vertexIDOverllapsOtherChunk = new List<int>();
+
+                for(int j = 0; j < chunk.mapData.globalVerticies.Count; j++){
+                    for(int k = 0; k < chunks[i].mapData.globalVerticies.Count; k++){
+                        if(Vector2.Distance(chunk.mapData.globalVerticies[j], chunks[i].mapData.globalVerticies[k]) < 0.1f){
+                            GameObject trash = Instantiate(hexSpot, new Vector3(chunk.mapData.globalVerticies[j].x*sizeMultiplier, 
+                                        0, chunk.mapData.globalVerticies[j].y*sizeMultiplier), Quaternion.identity, 
+                                        chunk.chunkTransform).gameObject;
+                                        
+                            trash.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                            trash.name = j.ToString();
+                            vertexIDOverllaps.Add(j);
+                            vertexIDOverllapsOtherChunk.Add(k);
+                            vertexIdPairs.Add(j,k);
+                }}}
+
+                //run it down mid getting each side of each node, if the side contains >1 overlapping vertex, its an edge
+                foreach(Node node in chunk.mapData.nodes){
+                    if(vertexIDOverllaps.Contains(node.side[0].vertexId) && vertexIDOverllaps.Contains(node.side[1].vertexId)){
+                        // Debug.Log($"found overlapping edge  {node.side[0].vertexId} {node.side[1].vertexId}");
+                        Debug.Log($"Gonna need: {vertexIdPairs[node.side[0].vertexId]} and {vertexIdPairs[node.side[1].vertexId]}");
+                        node.neighbor_01 = GetNodeInOtherChunk(chunks[i], vertexIdPairs[node.side[0].vertexId], vertexIdPairs[node.side[1].vertexId], node);
+                    }
+                    else if(vertexIDOverllaps.Contains(node.side[1].vertexId) && vertexIDOverllaps.Contains(node.side[2].vertexId)){
+                        Debug.Log($"Gonna need: {vertexIdPairs[node.side[1].vertexId]} and {vertexIdPairs[node.side[2].vertexId]}");
+                        node.neighbor_12 = GetNodeInOtherChunk(chunks[i], vertexIdPairs[node.side[1].vertexId],
+                                                                 vertexIdPairs[node.side[2].vertexId], node);
+                    }
+                    else if(vertexIDOverllaps.Contains(node.side[2].vertexId) && vertexIDOverllaps.Contains(node.side[3].vertexId)){
+                        Debug.Log($"Gonna need: {vertexIdPairs[node.side[2].vertexId]} and {vertexIdPairs[node.side[3].vertexId]}");
+                        node.neighbor_23 = GetNodeInOtherChunk(chunks[i], vertexIdPairs[node.side[2].vertexId],
+                                                                 vertexIdPairs[node.side[3].vertexId], node);
+                    }
+                    else if(vertexIDOverllaps.Contains(node.side[3].vertexId) && vertexIDOverllaps.Contains(node.side[0].vertexId)){
+                        Debug.Log($"Gonna need: {vertexIdPairs[node.side[3].vertexId]} and {vertexIdPairs[node.side[0].vertexId]}");
+                        node.neighbor_30 = GetNodeInOtherChunk(chunks[i], vertexIdPairs[node.side[3].vertexId],
+                                                                 vertexIdPairs[node.side[0].vertexId], node);
+                    }
+                }
+
+                // foreach(Node node in chunks[i].mapData.nodes){
+                //     if(vertexIDOverllapsOtherChunk.Contains(node.side[0].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[1].vertexId)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[0].vertexId} {node.side[1].vertexId}");
+                //     }
+                //     if(vertexIDOverllapsOtherChunk.Contains(node.side[1].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[2].vertexId)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[1].vertexId} {node.side[2].vertexId}");
+                //     }
+                //     if(vertexIDOverllapsOtherChunk.Contains(node.side[2].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[3].vertexId)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[2].vertexId} {node.side[3].vertexId}");
+                //     }
+                //     if(vertexIDOverllapsOtherChunk.Contains(node.side[3].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[0].vertexId)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[3].vertexId} {node.side[0].vertexId}");
+                //     }
+                // }
+                // foreach(Node node in chunk.mapData.nodes){
+                //     if(verticiesOverlapping.Contains(node.side[0].vertexPosition) && verticiesOverlapping.Contains(node.side[1].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[0].vertexId} {node.side[1].vertexId}");
+                //     }
+                //     if(verticiesOverlapping.Contains(node.side[1].vertexPosition) && verticiesOverlapping.Contains(node.side[2].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[1].vertexId} {node.side[2].vertexId}");
+                //     }
+                //     if(verticiesOverlapping.Contains(node.side[2].vertexPosition) && verticiesOverlapping.Contains(node.side[3].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[2].vertexId} {node.side[3].vertexId}");
+                //     }
+                //     if(verticiesOverlapping.Contains(node.side[3].vertexPosition) && verticiesOverlapping.Contains(node.side[0].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[3].vertexId} {node.side[0].vertexId}");
+                //     }
+                // }
+
+                // foreach(Node node in chunks[i].mapData.nodes){
+                //     if(verticiesOverlapping.Contains(node.side[0].vertexPosition) && verticiesOverlapping.Contains(node.side[1].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[0].vertexId} {node.side[1].vertexId}");
+                //     }
+                //     if(verticiesOverlapping.Contains(node.side[1].vertexPosition) && verticiesOverlapping.Contains(node.side[2].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[1].vertexId} {node.side[2].vertexId}");
+                //     }
+                //     if(verticiesOverlapping.Contains(node.side[2].vertexPosition) && verticiesOverlapping.Contains(node.side[3].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[2].vertexId} {node.side[3].vertexId}");
+                //     }
+                //     if(verticiesOverlapping.Contains(node.side[3].vertexPosition) && verticiesOverlapping.Contains(node.side[0].vertexPosition)){
+                //         Debug.Log($"found overlapping edge {node} {node.side[3].vertexId} {node.side[0].vertexId}");
+                //     }
+
+                    // if(vertexIDOverllapsOtherChunk.Contains(node.side[0].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[1].vertexId)){
+                    //     Debug.Log($"found overlapping edge {node} {node.side[0].vertexId} {node.side[1].vertexId}");
+                    // }
+                    // if(vertexIDOverllapsOtherChunk.Contains(node.side[1].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[2].vertexId)){
+                    //     Debug.Log($"found overlapping edge {node} {node.side[1].vertexId} {node.side[2].vertexId}");
+                    // }
+                    // if(vertexIDOverllapsOtherChunk.Contains(node.side[2].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[3].vertexId)){
+                    //     Debug.Log($"found overlapping edge {node} {node.side[2].vertexId} {node.side[3].vertexId}");
+                    // }
+                    // if(vertexIDOverllapsOtherChunk.Contains(node.side[3].vertexId) && vertexIDOverllapsOtherChunk.Contains(node.side[4].vertexId)){
+                    //     Debug.Log($"found overlapping edge {node} {node.side[3].vertexId} {node.side[4].vertexId}");
+                    // }
+                    
+                        // for(int k = 0; k < verticiesOverlapping.Count; k++){
+                        //     if(s.vertexPosition == verticiesOverlapping[k])
+                        //         overlappingVerticies++;
+                    // if(overlappingVerticies > 1){
+                    //     Debug.Log($"found overlapping edge {node}");
+                    //     if(node.side[0].vertexId == 0){
+                    //         Debug.Log($"neighbor_01 {node.neighbor_01}");
+                    // }
+            }
+        }
     }
 }
 [System.Serializable] public struct int5

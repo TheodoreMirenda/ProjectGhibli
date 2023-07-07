@@ -521,31 +521,6 @@ public static class NetworkMapGenerator {
         }
         return outerVerticies;
     }
-    // public List<int> Sort(List<int> pointers)
-    // {
-    //     List<Vector2> points = new List<Vector2>();
-    //     foreach(int pointer in pointers)
-    //     {
-    //         points.Add(new Vector2(globalVerticies[pointer].x, globalVerticies[pointer].y));
-    //     }
-
-    //     Vector2 centroid = new Vector2(
-    //         points.Average(p => p.x),
-    //         points.Average(p => p.y)
-    //     );
-
-    //     // points.Sort((a, b) => Mathf.Atan2(a.y - centroid.y, a.x - centroid.x)
-    //     //     .CompareTo(Mathf.Atan2(b.y - centroid.y, b.x - centroid.x)));
-
-    //     points.Sort((a, b) => Mathf.Atan2(b.y - centroid.y, b.x - centroid.x)
-    //         .CompareTo(Mathf.Atan2(a.y - centroid.y, a.x - centroid.x)));
-
-    //     for(int i = 0; i < points.Count; i++)
-    //     {
-    //         pointers[i] = globalVerticies.IndexOf(new Vector2(points[i].x, points[i].y));
-    //     }
-    //     return pointers;
-    // }
     public static Vector2 GetCentroid(Vector2[] vertices)
     {
         Vector2 centroid = Vector2.zero;
@@ -556,146 +531,6 @@ public static class NetworkMapGenerator {
         centroid /= vertices.Length;
         return centroid;
     }
-    // public async Task<bool> SpawnVertexAtPoint(int name, Vector2 point)
-    // {
-    //     GameObject vertex = Instantiate(edgePrefab, new Vector3(point.x, 0, point.y), Quaternion.identity, step0Transform);
-    //     // vertexTexts.Add(vertex);
-    //     vertexDict.Add(vertex, point);
-    //     vertDict2.Add(point, vertex);
-    //     vertex.name = name.ToString();
-    //     if(demoMode)
-    //         await Task.Delay(15);
-        
-    //     return true;
-    // }
-    // public async Task<bool> SpawnTriangle(Vector3 triangle)
-    // {
-    //     GameObject a = Instantiate(edgePrefab, new Vector3(globalVerticies[(int)triangle.x].x, 0, globalVerticies[(int)triangle.x].y), Quaternion.identity, step1Transform);
-    //     if(a.GetComponent<LineRenderer>() == null)
-    //     {
-    //         a.AddComponent<LineRenderer>();
-    //         a.GetComponent<LineRenderer>().positionCount = 0;
-    //         a.GetComponent<LineRenderer>().material = lineMat3;
-    //     }
-
-    //     LineRenderer l = a.GetComponent<LineRenderer>();
-    //     List<Vector3> points = new List<Vector3>();
-    //     for(int i = 0; i < l.positionCount; i++)
-    //         points.Add(l.GetPosition(i));
-
-    //     points.Add(a.transform.position);
-    //     points.Add(new Vector3(globalVerticies[(int)triangle.y].x, 0, globalVerticies[(int)triangle.y].y));
-    //     points.Add(new Vector3(globalVerticies[(int)triangle.z].x, 0, globalVerticies[(int)triangle.z].y));
-    //     points.Add(a.transform.position);
-
-    //     l.positionCount = 4+l.positionCount;
-    //     l.SetPositions(points.ToArray());
-    //     l.startWidth = 0.025f;
-    //     l.endWidth = 0.025f;
-    //     l.startColor = Color.blue;
-    //     l.endColor = Color.blue;
-    //     l.textureMode = LineTextureMode.RepeatPerSegment;
-    //     l.material.mainTextureScale = new Vector2(1f / 0.025f, 1.0f);
-    //     l.useWorldSpace = true;
-    //     await Task.Delay(15);
-    //     return true;
-    // }
-    // public async Task<bool> DrawEdge(Vector2 edge, float height, int delayAmount)
-    // {
-    //     GameObject a = Instantiate(edgePrefab, new Vector3(globalVerticies[(int)edge.x].x, 0, globalVerticies[(int)edge.x].y), Quaternion.identity, step2Transform);
-
-    //     if(a.GetComponent<LineRenderer>() == null)
-    //     {
-    //         a.AddComponent<LineRenderer>();
-    //         a.GetComponent<LineRenderer>().positionCount = 0;
-    //         a.GetComponent<LineRenderer>().material = lineMat2;
-    //     }
-
-    //     LineRenderer l = a.GetComponent<LineRenderer>();
-    //     List<Vector3> points = new List<Vector3>();
-    //     for(int i = 0; i < l.positionCount; i++)
-    //         points.Add(l.GetPosition(i));
-
-    //     points.Add(new Vector3(a.transform.position.x,height, a.transform.position.z));
-    //     points.Add(new Vector3(globalVerticies[(int)edge.y].x, height, globalVerticies[(int)edge.y].y));
-    //     // Debug.Log($"corners.Count: {corners.Count}");
-    //     l.positionCount = 2+l.positionCount;
-    //     l.SetPositions(points.ToArray());
-    //     l.startWidth = 0.05f;
-    //     l.endWidth = 0.05f;
-
-    //     l.useWorldSpace = true;
-    //     if(delayAmount > 0)
-    //         await Task.Delay(delayAmount);
-
-    //     return true;
-    // }
-    // public async Task<bool> DrawFinalEdge(Vector2 edge, float height, int delayAmount)
-    // {
-    //     GameObject a = Instantiate(finalEdgePrefab, new Vector3(globalVerticies[(int)edge.x].x, 0, globalVerticies[(int)edge.x].y), Quaternion.identity, step2Transform);
-
-    //     if(a.GetComponent<LineRenderer>() == null)
-    //     {
-    //         a.AddComponent<LineRenderer>();
-    //         a.GetComponent<LineRenderer>().positionCount = 0;
-    //         a.GetComponent<LineRenderer>().material = lineMat2;
-    //     }
-
-    //     LineRenderer l = a.GetComponent<LineRenderer>();
-    //     List<Vector3> points = new List<Vector3>();
-    //     for(int i = 0; i < l.positionCount; i++)
-    //         points.Add(l.GetPosition(i));
-
-    //     points.Add(new Vector3(a.transform.position.x,height, a.transform.position.z));
-    //     points.Add(new Vector3(globalVerticies[(int)edge.y].x, height, globalVerticies[(int)edge.y].y));
-    //     // Debug.Log($"corners.Count: {corners.Count}");
-    //     l.positionCount = 2+l.positionCount;
-    //     l.SetPositions(points.ToArray());
-    //     l.startWidth = 0.05f;
-    //     l.endWidth = 0.05f;
-
-    //     l.useWorldSpace = true;
-    //     if(delayAmount > 0)
-    //         await Task.Delay(delayAmount);
-
-    //     return true;
-    // }
-    // List<GameObject> newQuads = new List<GameObject>();
-    // public void GenerateMeshes(Face face)
-    // {
-    //     MeshData meshData = new MeshData ();
-    //     GameObject newQuad = Instantiate(quadPrefab);
-    //     MeshFilter meshFilter = newQuad.GetComponent<MeshFilter>();
-    //     newQuads.Add(newQuad);
-	//     //  MeshRenderer meshRenderer;
-
-    //     for(int i = 0; i < globalVerticies.Count; i++)
-    //     {
-    //         // Debug.Log($"broke at {i}");
-    //         meshData.vertices[i] = new Vector3(globalVerticies[i].x, 0, globalVerticies[i].y);
-    //     }
-
-    //     for(int i = 0; i < face.newEdges.Count; i++)
-    //     {
-    //         int a = (int)face.newEdges[i].x;
-    //         int b = (int)face.newEdges[i].y;
-    //         int c = (int)face.centroidCode;
-    //         meshData.AddTriangle(a,b,c);
-    //         // Debug.Log($"a: {a}, b: {b}, c: {c}");
-
-    //     }
-	// 	// textureRender.sharedMaterial.mainTexture = texture;
-	// 	// textureRender.transform.localScale = new Vector3 (texture.width, 1, texture.height);
-	
-
-    //     Material generatedMaterial = new Material(Shader.Find("Standard"));
-    //     generatedMaterial.SetColor("_Color",Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
-
-    //     newQuad.GetComponent<MeshRenderer>().material = generatedMaterial;
-
-	// 	meshFilter.sharedMesh = meshData.CreateMesh();
-	// 	// meshRenderer.sharedMaterial.mainTexture = texture;
-    // }
     public static Vector2 SortEdges(float x, float y)
     {
         return new Vector2(Mathf.Min(x, y), Mathf.Max(x, y));
@@ -731,12 +566,12 @@ public static class NetworkMapGenerator {
         // Check if the sum of the three points is equal to 2
         return a + b + c == 2;
     }
-
 }
 [System.Serializable] public struct MapDataFinal
 {
     public List<Vector2> globalVerticies;
     public List<Vector4> faces;
     public List<Cell> cells;
+    public Node[] nodes;
 }
 }

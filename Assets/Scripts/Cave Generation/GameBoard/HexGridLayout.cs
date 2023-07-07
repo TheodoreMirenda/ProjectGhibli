@@ -10,7 +10,7 @@ public static class HexGridLayout
     {
         Chunk activeHex = chunks[activeChunkIndex];
 
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 1; i++)
         {
             //Sqrt(3) is the distance between the center of a hexagon and the center of a neighboring hexagon 1.73205080757
             Vector2 newHexagonCentroid = GetPoint(chunkRings*Mathf.Sqrt(3), 1-i) + activeHex.centroid;
