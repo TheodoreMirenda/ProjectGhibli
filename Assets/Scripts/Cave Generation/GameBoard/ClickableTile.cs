@@ -6,7 +6,7 @@ namespace TJ
 {
 [System.Serializable] public class ClickableTile : MonoBehaviour
 {
-    public int vertexId;
+    // public int vertexId;
     public MeshFilter clickableTileMesh;
     public MeshCollider clickableTileCollider;
     public List<Vector3> corners;

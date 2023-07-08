@@ -209,6 +209,19 @@ public class Node : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
     }
+    public Vector2 GetCentroid()
+    {
+        Vector2 centroid = Vector2.zero;
+        for(int i = 0; i < side.Length; i++)
+            centroid += side[i].vertexPosition;
+            
+        centroid /= side.Length;
+        return centroid;
+    }
+    public Vector3 GetCentroidAsVector3(){
+        Vector2 centroid = GetCentroid();
+        return new Vector3(centroid.x, 0, centroid.y);
+    }
 }
 [System.Serializable] public struct NodeSide
 {

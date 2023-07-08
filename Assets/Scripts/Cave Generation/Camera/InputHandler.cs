@@ -252,7 +252,7 @@ public class InputHandler : MonoBehaviour
         if(cubeBeingDisplayed == null)
             return;
 
-        gameboard.MarkVertexAsClicked(cubeBeingDisplayed.gameObject.GetComponent<ClickableTile>().vertexId);
+        // gameboard.MarkVertexAsClicked(cubeBeingDisplayed.gameObject.GetComponent<ClickableTile>().vertexId);
     }
     private void HandleEscape()
     {
