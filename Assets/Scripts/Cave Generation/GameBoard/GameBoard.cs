@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Unity.Mathematics;
 
 namespace TJ
 {
@@ -156,25 +157,30 @@ public class GameBoard : MonoBehaviour
         tile.clickableTileMesh.sharedMesh = null;
         tile.clickableTileCollider.sharedMesh = null;
 
-        if(tile.corners.Count == 3)
-        {
+        if(tile.corners.Count == 3){
             mesh.triangles = new int[] {
                 0, 1, 2,
             };
         }
-        else if(tile.corners.Count == 4)
-        {
+        else if(tile.corners.Count == 4){
             mesh.triangles = new int[] {
                 0, 1, 2,
                 0, 2, 3
             };
         }
-        else if(tile.corners.Count == 5)
-        {
+        else if(tile.corners.Count == 5){
             mesh.triangles = new int[] {
                 0, 1, 2,
                 0, 2, 3,
                 0, 3, 4
+            };
+        }
+        else if(tile.corners.Count == 6){
+            mesh.triangles = new int[] {
+                0, 1, 2,
+                0, 2, 3,
+                0, 3, 4,
+                0, 4, 5
             };
         }
 
@@ -310,18 +316,17 @@ public class GameBoard : MonoBehaviour
         return null;
     }
     private void CheckForVertexOverlap(Chunk chunk){
-        vertexIdPairs?.Clear();
         for(int chunkIndex = 0; chunkIndex < chunks.Count; chunkIndex++){
             if(chunks[chunkIndex].centroid == chunk.centroid) continue;
-
+            vertexIdPairs?.Clear();
             if(Vector2.Distance(chunks[chunkIndex].centroid, chunk.centroid) < 1.5f*sizeMultiplier){
                 //check for any overlapping verticies
-                List<Vector2> verticiesOverlapping = new List<Vector2>();
+                List<float2> verticiesOverlapping = new List<float2>();
                 List<int> vertexIDOverllaps = new List<int>();
                 List<int> vertexIDOverllapsOtherChunk = new List<int>();
 
                 for(int j = 0; j < chunk.mapData.globalVerticies.Count; j++){
-                    for(int k = 0; k < chunks[chunkIndex].mapData.globalVerticies.Count; k++){
+                    for(int k = 0; k < chunks[chunkIndex].mapData.globalVerticies?.Count; k++){
                         if(Vector2.Distance(chunk.mapData.globalVerticies[j], chunks[chunkIndex].mapData.globalVerticies[k]) < 0.1f){
 
                             GameObject trash = Instantiate(hexSpot, new Vector3(chunk.mapData.globalVerticies[j].x*sizeMultiplier, 0, 
@@ -378,6 +383,8 @@ public class GameBoard : MonoBehaviour
 
                     //if there are 3 or more nodes, create a clickable tile
                     if(nodes.Count >= 3){
+                        //need to delete old clickable tile if one exists
+
                         List<Vector3> corners = new List<Vector3>();
                         foreach(Node node in nodes){
                             Vector3 centroid = node.GetCentroid();

@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4fdc593b3b3944e94275115bc5abe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vertexId: 0
   clickableTileMesh: {fileID: 8195707795925157636}
   clickableTileCollider: {fileID: 8195707795925157638}
   corners: []
