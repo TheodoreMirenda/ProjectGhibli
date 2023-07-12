@@ -19,6 +19,7 @@ public class GameBoard : MonoBehaviour
     [SerializeField] private Transform playerGameObject;
     [SerializeField] private int playerLocationChunkIndex;
     Dictionary<int, int> vertexIdPairs = new Dictionary<int, int> ();
+    [SerializeField] private int vertexToClick;
     private void Update()
     {
         UpdateVisibleChunks();
@@ -255,9 +256,10 @@ public class GameBoard : MonoBehaviour
         // }
     }
     [ContextMenu("MarkVertexAsClicked")]
-    public void MarkVertexAsClicked(int vertexId)
+    public void MarkVertexAsClicked()
     {
         // Debug.Log($"Marking vertex {vertexId} as clicked");
+        int vertexId = vertexToClick;
         int5 faces = vertexToFaceMap[vertexId];
 
         // Debug.Log($"faces: {faces.w} {faces.x} {faces.y} {faces.z}");
@@ -274,6 +276,27 @@ public class GameBoard : MonoBehaviour
         if(faces.z != -1)
             chunks[0].mapData.cells[faces.z]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
     }
+    public void MarkVertexAsClicked(ClickableTile clickableTile)
+    {
+        // Debug.Log($"Marking vertex {vertexId} as clicked");
+        int vertexId = chunks[0].mapData.globalVerticies.IndexOf(clickableTile.corners[0]/sizeMultiplier);
+        int5 faces = vertexToFaceMap[vertexId];
+
+        // Debug.Log($"faces: {faces.w} {faces.x} {faces.y} {faces.z}");
+
+        //get the cell that contains the vertex
+        if(faces.v != -1)
+            chunks[0].mapData.cells[faces.v]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
+        if(faces.w != -1)
+            chunks[0].mapData.cells[faces.w]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
+        if(faces.x != -1)
+            chunks[0].mapData.cells[faces.x]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
+        if(faces.y != -1)
+            chunks[0].mapData.cells[faces.y]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
+        if(faces.z != -1)
+            chunks[0].mapData.cells[faces.z]?.gameObject.GetComponent<Node>().MarkCorner(vertexId, 1);
+    }
+
     private void UpdateVisibleChunks(){
         //get the chunk that is closest to the player
         int closestChunkIndex = 0;
