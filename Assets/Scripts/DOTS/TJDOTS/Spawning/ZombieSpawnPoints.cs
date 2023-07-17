@@ -1,8 +1,8 @@
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-
-namespace TJ
+using Unity.Transforms;
+namespace TJ.DOTS
 {
     public struct ZombieSpawnPoints : IComponentData
     {

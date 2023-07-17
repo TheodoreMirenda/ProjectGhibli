@@ -2,5 +2,6 @@ using Unity.Entities;
 
 namespace TJ.DOTS
 {
-    public struct CastleTag : IComponentData {}
+    public struct CastleTag : IComponentData {
+    }
 }

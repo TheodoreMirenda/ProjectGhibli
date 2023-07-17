@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TJ.DOTS.Execute
 {
-    public class ExecuteAuthoring : MonoBehaviour
+    public class ExecuteAuthoring : MonoBehaviour 
     {
         public bool MainThread;
         public bool IJobEntity;

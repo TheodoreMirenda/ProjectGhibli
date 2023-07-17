@@ -3,49 +3,72 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace TJ.DOTS
 {
-    public partial struct SpawnSystem : ISystem
+    // [UpdateInGroup(typeof(InitializationSystemGroup))]//build in group
+    public partial struct SpawnSystem : ISystem//ISystem is burst compatible
     {
         uint updateCounter;
 
         [BurstCompile]
+        
         public void OnCreate(ref SystemState state)
         {
             // This call makes the system not update unless at least one entity in the world exists that has the Spawner component.
-            state.RequireForUpdate<Spawner>();
+            // state.RequireForUpdate<Spawner>();
             state.RequireForUpdate<CastleTag>();
-            state.RequireForUpdate<Execute.Prefabs>();
+            state.RequireForUpdate<Config>();
+            // state.RequireForUpdate<GoblinSpawningProperties>();
+            // state.RequireForUpdate<Execute.Prefabs>();
+        }
+        [BurstCompile]
+        public void OnDestroy(ref SystemState state){
+        }
+        [BurstDiscard]
+        public void Logg(){
+            UnityEngine.Debug.Log("SpawnSystem");
         }
 
-        [BurstCompile]
+        // [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
             // Create a query that matches all entities having a RotationSpeed component.
             // (The query is cached in source generation, so this does not incur a cost of recreating it every update.)
             var spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<RotationSpeed>().Build();
+            if (!spinningCubesQuery.IsEmpty) return;
+            Logg();
 
-            // Only spawn cubes when no cubes currently exist.
-            if (spinningCubesQuery.IsEmpty)
+
+            //get CastleAspect 
+            // var castle = SystemAPI.GetSingleton<CastleTag>();
+            // var castlePosition = castle.CastleAspect.Position;
+            
+            var query = SystemAPI.QueryBuilder().WithAll<RotationSpeed>().Build();
+            // An EntityQueryMask provides an efficient test of whether a specific entity would
+            // be selected by an EntityQuery.
+            var queryMask = query.GetEntityQueryMask();
+            var ecb = new EntityCommandBuffer(Allocator.Temp);
+
+            var config = SystemAPI.GetSingleton<Config>();
+            var goblins = new NativeArray<Entity>(config.GoblinCount, Allocator.Temp);
+            ecb.Instantiate(config.GoblinPrefab, goblins);
+
+            foreach (var goblin in goblins)
             {
-                //There is only one spawner in the scene, so we can just get the Singleton
-                var prefab = SystemAPI.GetSingleton<Spawner>().Prefab;
-
-                // Instantiating an entity creates copy entities with the same component types and values.
-                var instances = state.EntityManager.Instantiate(prefab, 500, Allocator.Temp);
-
-                // Unlike new Random(), CreateFromIndex() hashes the random seed
-                // so that similar seeds don't produce similar results.
-                var random = Random.CreateFromIndex(updateCounter++);
-
-                foreach (var entity in instances)
-                {
-                    // Update the entity's LocalTransform component with the new position.
-                    var transform = SystemAPI.GetComponentRW<LocalTransform>(entity);
-                    transform.ValueRW.Position = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 20;
-                }
+                var random = Unity.Mathematics.Random.CreateFromIndex(updateCounter++);
+                var goblinPosition = new LocalTransform {
+                        Position = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 20,
+                        Rotation = quaternion.identity,
+                        Scale = 1
+                };
+                ecb.SetComponentForLinkedEntityGroup(goblin, queryMask, goblinPosition);
+                // var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, castlePosition);
+                // ecb.SetComponent(goblin, new GoblinHeading{Value = goblinHeading});
             }
+
+            ecb.Playback(state.EntityManager);
         }
     }
 }

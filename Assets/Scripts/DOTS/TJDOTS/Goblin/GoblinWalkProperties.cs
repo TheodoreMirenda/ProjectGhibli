@@ -1,31 +1,31 @@
 using Unity.Entities;
 
-namespace TJ
+namespace TJ.DOTS
 {
     //IEnableableComponent means we can enable/disable this component
-    public struct ZombieWalkProperties : IComponentData, IEnableableComponent
+    public struct GoblinWalkProperties : IComponentData, IEnableableComponent
     {
         public float WalkSpeed;
         public float WalkAmplitude;
         public float WalkFrequency;
     }
     
-    public struct ZombieEatProperties : IComponentData, IEnableableComponent
+    public struct GoblinEatProperties : IComponentData, IEnableableComponent
     {
         public float EatDamagePerSecond;
         public float EatAmplitude;
         public float EatFrequency;
     }
     
-    public struct ZombieTimer : IComponentData
+    public struct GoblinTimer : IComponentData
     {
         public float Value;
     }
 
-    public struct ZombieHeading : IComponentData
+    public struct GoblinHeading : IComponentData
     {
         public float Value;
     }
     
-    public struct NewZombieTag : IComponentData {}//allows us to find any new zombies that have been created
+    public struct NewGoblinTag : IComponentData {}//allows us to find any new zombies that have been created
 }
