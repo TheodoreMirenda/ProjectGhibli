@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoblinPrefab: {fileID: 3695741666904938212, guid: 822cfa20af5b7fb4ea55bae77dec9d5f,
     type: 3}
-  GoblinCount: 2
+  GoblinCount: 1000
   SafeZoneRadius: 10
   FieldDimensions:
     x: 50

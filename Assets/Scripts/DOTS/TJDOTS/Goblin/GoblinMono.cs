@@ -5,14 +5,13 @@ namespace TJ.DOTS
 {
     public class GoblinMono : MonoBehaviour
     {
-        public float RiseRate;
         public float WalkSpeed;
         public float WalkAmplitude;
         public float WalkFrequency;
         
-        public float EatDamage;
-        public float EatAmplitude;
-        public float EatFrequency;
+        // public float EatDamage;
+        // public float EatAmplitude;
+        // public float EatFrequency;
     }
 
     public class GoblinBaker : Baker<GoblinMono> 

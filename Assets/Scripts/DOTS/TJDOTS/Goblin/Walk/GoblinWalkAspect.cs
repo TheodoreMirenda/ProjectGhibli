@@ -17,21 +17,22 @@ namespace TJ.DOTS
         private float WalkAmplitude => _walkProperties.ValueRO.WalkAmplitude;
         private float WalkFrequency => _walkProperties.ValueRO.WalkFrequency;
         private float Heading => _heading.ValueRO.Value;
+        private float WalkTimerOffset => _heading.ValueRO.Offset;
 
         private float WalkTimer
         {
             get => _walkTimer.ValueRO.Value;
             set => _walkTimer.ValueRW.Value = value;
         }
-
         public void Walk(float deltaTime)
         {
             WalkTimer += deltaTime;
             _transform.ValueRW.Position += _transform.ValueRO.Forward() * WalkSpeed * deltaTime;
             
             //sway the zombie's body from side to side
-            var swayAngle = WalkAmplitude * math.sin(WalkFrequency * WalkTimer);
-            _transform.ValueRW.Rotation = quaternion.Euler(0, Heading, swayAngle);
+            var swayAngle = WalkAmplitude * math.sin(WalkFrequency * (WalkTimer+WalkTimerOffset));
+            _transform.ValueRW.Rotation = quaternion.Euler(0, Heading, 0);
+            _transform.ValueRW.Position.y = swayAngle;
         }
         
         public bool IsInStoppingRange(float3 brainPosition, float brainRadiusSq)

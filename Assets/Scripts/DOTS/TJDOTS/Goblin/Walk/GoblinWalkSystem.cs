@@ -27,7 +27,7 @@ namespace TJ.DOTS
             // var brainEntity = SystemAPI.GetSingletonEntity<Config>(); //empty entity that is used to get the brain position
             // var brainScale = SystemAPI.GetComponent<LocalTransform>(brainEntity).Scale;
             // var brainRadius = brainScale * 5f + 0.5f;
-            var brainRadius = 5f + 0.5f;
+            var brainRadius = 2.5f;
             new GoblinWalkJob
             {
                 DeltaTime = deltaTime,
@@ -50,7 +50,8 @@ namespace TJ.DOTS
             goblin.Walk(DeltaTime);
             if (goblin.IsInStoppingRange(float3.zero, BrainRadiusSq))//if the zombie is in stopping range, chill with the walk and eat
             {
-                ECB.SetComponentEnabled<GoblinWalkProperties>(sortKey, goblin.Entity, false);
+                // ECB.SetComponentEnabled<GoblinWalkProperties>(sortKey, goblin.Entity, false);
+                ECB.DestroyEntity(sortKey, goblin.Entity);
                 // ECB.SetComponentEnabled<ZombieEatProperties>(sortKey, zombie.Entity, true);
             }
         }

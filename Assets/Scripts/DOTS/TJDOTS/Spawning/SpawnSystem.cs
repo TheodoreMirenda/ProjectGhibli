@@ -31,7 +31,7 @@ namespace TJ.DOTS
             UnityEngine.Debug.Log("SpawnSystem: " + i);
         }
 
-        // [BurstCompile]
+        [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
             // Create a query that matches all entities having a RotationSpeed component.
@@ -57,14 +57,18 @@ namespace TJ.DOTS
             foreach (var goblin in goblins)
             {
                 var random = Unity.Mathematics.Random.CreateFromIndex(updateCounter++);
+                float3 newPosition = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 50;
+                newPosition.y = 0;
+
                 var goblinPosition = new LocalTransform {
-                        Position = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 20,
+                        Position = newPosition,
                         Rotation = quaternion.identity,
                         Scale = 1
                 };
                 ecb.SetComponentForLinkedEntityGroup(goblin, queryMask, goblinPosition);
-                // var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, castlePosition);
-                // ecb.SetComponent(goblin, new GoblinHeading{Value = goblinHeading});
+
+                var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, new float3(0, 0, 0));
+                ecb.SetComponent(goblin, new GoblinHeading{Value = goblinHeading, Offset = random.NextFloat()});
             }
 
             ecb.Playback(state.EntityManager);
