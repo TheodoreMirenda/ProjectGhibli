@@ -27,8 +27,8 @@ namespace TJ.DOTS
         public void OnDestroy(ref SystemState state){
         }
         [BurstDiscard]
-        public void Logg(){
-            UnityEngine.Debug.Log("SpawnSystem");
+        public void Logg(int i = 0){
+            UnityEngine.Debug.Log("SpawnSystem: " + i);
         }
 
         // [BurstCompile]
@@ -36,19 +36,18 @@ namespace TJ.DOTS
         {
             // Create a query that matches all entities having a RotationSpeed component.
             // (The query is cached in source generation, so this does not incur a cost of recreating it every update.)
-            var spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<RotationSpeed>().Build();
+            var spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<GoblinComponent>().Build();
             if (!spinningCubesQuery.IsEmpty) return;
-            Logg();
-
+            // Logg();
 
             //get CastleAspect 
             // var castle = SystemAPI.GetSingleton<CastleTag>();
             // var castlePosition = castle.CastleAspect.Position;
             
-            var query = SystemAPI.QueryBuilder().WithAll<RotationSpeed>().Build();
+
             // An EntityQueryMask provides an efficient test of whether a specific entity would
             // be selected by an EntityQuery.
-            var queryMask = query.GetEntityQueryMask();
+            var queryMask = spinningCubesQuery.GetEntityQueryMask();
             var ecb = new EntityCommandBuffer(Allocator.Temp);
 
             var config = SystemAPI.GetSingleton<Config>();

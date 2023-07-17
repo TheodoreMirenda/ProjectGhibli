@@ -19,20 +19,20 @@ namespace TJ.DOTS
             // An EntityCommandBuffer created from EntityCommandBufferSystem.Singleton will be
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
 
-            var fallAndDestroyJob = new FallAndDestroyJob
-            {
-                ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged),
-                DeltaTime = SystemAPI.Time.DeltaTime
-            };
+            // var fallAndDestroyJob = new FallAndDestroyJob
+            // {
+            //     ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged),
+            //     DeltaTime = SystemAPI.Time.DeltaTime
+            // };
 
-            fallAndDestroyJob.Schedule();
+            // fallAndDestroyJob.Schedule();
         }
 
         [BurstCompile]
         public partial struct FallAndDestroyJob : IJobEntity{
             public EntityCommandBuffer ECB;
             public float DeltaTime;
-            public void Execute(Entity entity, ref RotationSpeed rotationSpeed, ref LocalTransform transform)
+            public void Execute(Entity entity, in GoblinComponent goblinComponent, ref LocalTransform transform)
             {
                 var movement = new float3(0, -DeltaTime * 5f, 0);
 

@@ -117,7 +117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1413029408562369453}
-  - component: {fileID: 6547484904807889816}
+  - component: {fileID: 531992182912660822}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Untagged
@@ -141,7 +141,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6547484904807889816
+--- !u!114 &531992182912660822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,10 +150,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3695741666904938212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf43348a152241043aa3eee10b58208e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c0a439bd1920f846b5d70ddd39451c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DegreesPerSecond: 360
+  RiseRate: 0
+  WalkSpeed: 1
+  WalkAmplitude: 1
+  WalkFrequency: 1
+  EatDamage: 1
+  EatAmplitude: 1
+  EatFrequency: 1
 --- !u!1001 &7923126748674597526
 PrefabInstance:
   m_ObjectHideFlags: 0

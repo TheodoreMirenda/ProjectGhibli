@@ -27,5 +27,5 @@ namespace TJ.DOTS
         public float Value;
     }
     
-    public struct NewGoblinTag : IComponentData {}//allows us to find any new zombies that have been created
+    public struct NewGoblinTag : IComponentData {}//allows us to find any new zombies that have been created 
 }
