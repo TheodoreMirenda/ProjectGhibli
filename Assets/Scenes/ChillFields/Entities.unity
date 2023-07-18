@@ -157,8 +157,8 @@ MonoBehaviour:
   GoblinCount: 1000
   SafeZoneRadius: 10
   FieldDimensions:
-    x: 50
-    y: 50
+    x: 1000
+    y: 1
   NumberTombstonesToSpawn: 500
   RandomSeed: 100
 --- !u!4 &1143280664

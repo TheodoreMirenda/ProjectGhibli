@@ -11,9 +11,8 @@ namespace TJ.DOTS
     {
         public GameObject GoblinPrefab;
         public int GoblinCount;
-        public float SafeZoneRadius;
+        // public float SafeZoneRadius;
         public float2 FieldDimensions;
-        public int NumberTombstonesToSpawn;
         public uint RandomSeed;
 
         // In baking, this Baker will run once for every SpawnerAuthoring instance in a subscene.
@@ -42,8 +41,8 @@ namespace TJ.DOTS
                 AddComponent(entity, new Config
                 {
                     GoblinPrefab = GetEntity(authoring.GoblinPrefab, TransformUsageFlags.Dynamic),
-                    GoblinCount = authoring.GoblinCount,
-                    SafeZoneRadius = authoring.SafeZoneRadius
+                    GoblinCount = authoring.GoblinCount
+                    // SafeZoneRadius = authoring.SafeZoneRadius
                 });
             }
         }
@@ -52,7 +51,7 @@ namespace TJ.DOTS
     {
         public Entity GoblinPrefab;
         public int GoblinCount;
-        public float SafeZoneRadius;   // Used in a later step.
+        // public float SafeZoneRadius;   // Used in a later step.
     }
 
     // struct Spawner : IComponentData
