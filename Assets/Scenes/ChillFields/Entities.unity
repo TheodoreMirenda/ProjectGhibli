@@ -155,11 +155,9 @@ MonoBehaviour:
   GoblinPrefab: {fileID: 3695741666904938212, guid: 822cfa20af5b7fb4ea55bae77dec9d5f,
     type: 3}
   GoblinCount: 1000
-  SafeZoneRadius: 10
   FieldDimensions:
     x: 1000
     y: 1
-  NumberTombstonesToSpawn: 500
   RandomSeed: 100
 --- !u!4 &1143280664
 Transform:
