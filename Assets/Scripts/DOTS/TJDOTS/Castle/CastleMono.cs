@@ -19,6 +19,7 @@ namespace TJ.DOTS
         {
             var castleEntity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent<CastleTag>(castleEntity);
+            AddComponent<BuildingTag>(castleEntity);
             AddComponent(castleEntity, new CastleHealth { Value = authoring.CastleHealth, Max = authoring.CastleHealth });            
             //since a bunch of goblins will be damaging this across multiple threads, we cant just subtract from the health
             //so we add all the damage to a buffer, and then subtract from the health in the system

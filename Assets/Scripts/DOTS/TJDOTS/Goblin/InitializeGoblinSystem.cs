@@ -22,10 +22,11 @@ namespace TJ.DOTS
         public void OnUpdate(ref SystemState state)
         {
             var ecb = new EntityCommandBuffer(Allocator.Temp);
-            foreach (var zombie in SystemAPI.Query<GoblinWalkAspect>().WithAll<NewGoblinTag>())
+            foreach (var goblin in SystemAPI.Query<GoblinWalkAspect>().WithAll<NewGoblinTag>())
             {
-                ecb.RemoveComponent<NewGoblinTag>(zombie.Entity);
-                // ecb.SetComponentEnabled<ZombieEatProperties>(zombie.Entity, false);//disables the zombie eat properties (until the zombie is at the brain)
+                ecb.RemoveComponent<NewGoblinTag>(goblin.Entity);
+                ecb.SetComponentEnabled<GoblinTargetProperties>(goblin.Entity, false);//disables the zombie eat properties (until the zombie is at the brain)
+                
             }
 
             ecb.Playback(state.EntityManager);

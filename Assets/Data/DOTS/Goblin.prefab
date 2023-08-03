@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c0a439bd1920f846b5d70ddd39451c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkSpeed: 2
+  WalkSpeed: 5
   WalkAmplitude: 0.1
   WalkFrequency: 20
 --- !u!1001 &3490950877096931451

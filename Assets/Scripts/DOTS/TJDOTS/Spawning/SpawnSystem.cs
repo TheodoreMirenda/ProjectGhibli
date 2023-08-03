@@ -66,9 +66,13 @@ namespace TJ.DOTS
                         Scale = 1
                 };
                 ecb.SetComponentForLinkedEntityGroup(goblin, queryMask, goblinPosition);
+                //get random building
+                // var randomBuilding = SystemAPI.GetSingleton<BuildingTag>();
+                float3 goalPosition = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 50;
+                goalPosition.y = 0;
 
-                var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, new float3(0, 0, 0));
-                ecb.SetComponent(goblin, new GoblinHeading{Value = goblinHeading, Offset = random.NextFloat()});
+                var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, goalPosition);
+                ecb.SetComponent(goblin, new GoblinHeading{Value = goblinHeading, Offset = random.NextFloat(), Position = goalPosition});
             }
 
             ecb.Playback(state.EntityManager);

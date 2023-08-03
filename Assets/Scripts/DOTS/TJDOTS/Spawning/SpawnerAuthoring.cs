@@ -33,9 +33,9 @@ namespace TJ.DOTS
                 //     NumberOfGoblinsToSpawn = authoring.NumberTombstonesToSpawn,
                 //     GoblinPrefab = GetEntity(authoring.GoblinPrefab, TransformUsageFlags.Dynamic)
                 // });
-                AddComponent(entity, new GoblinSpawningRandom
+                AddComponent(entity, new GoblinRandom
                 {
-                    Value = Random.CreateFromIndex(authoring.RandomSeed)
+                    RandomValue = Random.CreateFromIndex(authoring.RandomSeed)
                 });
                 // AddComponent<ZombieSpawnPoints>(entity);
                 AddComponent(entity, new Config

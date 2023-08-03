@@ -10,7 +10,7 @@ public readonly partial struct GoblinSpawningAspect : IAspect
     public readonly Entity Entity;
 
     private readonly RefRO<GoblinSpawningProperties> _graveyardProperties;
-    private readonly RefRW<GoblinSpawningRandom> _graveyardRandom;
+    private readonly RefRW<GoblinRandom> _goblinSpawningRandom;
     private readonly RefRW<ZombieSpawnPoints> _zombieSpawnPoints;
     private readonly RefRO<LocalTransform> _transformAspect;
 
@@ -26,7 +26,7 @@ public readonly partial struct GoblinSpawningAspect : IAspect
         float3 randomPosition;
         do
         {
-            randomPosition = _graveyardRandom.ValueRW.Value.NextFloat3(MinCorner, MaxCorner);
+            randomPosition = _goblinSpawningRandom.ValueRW.RandomValue.NextFloat3(MinCorner, MaxCorner);
         } while (math.distancesq(Transform.Position, randomPosition) <= BRAIN_SAFETY_RADIUS_SQ);
 
         return randomPosition;

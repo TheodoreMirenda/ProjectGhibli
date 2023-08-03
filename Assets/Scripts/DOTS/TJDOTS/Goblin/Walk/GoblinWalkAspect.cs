@@ -9,13 +9,17 @@ namespace TJ.DOTS
         public readonly Entity Entity;
         
         private readonly RefRW<LocalTransform> _transform;
+        public float3 CurrentPosition => _transform.ValueRO.Position;
+
         private readonly RefRW<GoblinTimer> _walkTimer;
         private readonly RefRO<GoblinWalkProperties> _walkProperties;
         private readonly RefRO<GoblinHeading> _heading;
+        private readonly RefRW<GoblinRandom> _goblinSpawningRandom;
 
         private float WalkSpeed => _walkProperties.ValueRO.WalkSpeed;
         private float WalkAmplitude => _walkProperties.ValueRO.WalkAmplitude;
         private float WalkFrequency => _walkProperties.ValueRO.WalkFrequency;
+        private float3 Position => _heading.ValueRO.Position;
         private float Heading => _heading.ValueRO.Value;
         private float WalkTimerOffset => _heading.ValueRO.Offset;
 
@@ -34,10 +38,23 @@ namespace TJ.DOTS
             _transform.ValueRW.Rotation = quaternion.Euler(0, Heading, 0);
             _transform.ValueRW.Position.y = swayAngle;
         }
-        
-        public bool IsInStoppingRange(float3 brainPosition, float brainRadiusSq)
+        public float3 GetRandomPosition()
         {
-            return math.distancesq(brainPosition, _transform.ValueRW.Position) <= brainRadiusSq;
+            return new float3(
+                _goblinSpawningRandom.ValueRW.RandomValue.NextFloat(0f, 15f),
+                0,
+                _goblinSpawningRandom.ValueRW.RandomValue.NextFloat(0f, 15f)
+            );
+        }
+        public float GetOffset()
+        {
+            return _goblinSpawningRandom.ValueRW.RandomValue.NextFloat();
+        }
+        
+        public bool IsInStoppingRange(float brainRadiusSq)
+        {
+            // return math.distancesq(brainPosition, _transform.ValueRW.Position) <= brainRadiusSq;
+            return math.distancesq(Position, _transform.ValueRW.Position) <= brainRadiusSq;
         }
     }
 }

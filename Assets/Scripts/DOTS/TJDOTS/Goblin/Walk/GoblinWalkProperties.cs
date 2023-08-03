@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 
 namespace TJ.DOTS
 {
@@ -10,13 +11,6 @@ namespace TJ.DOTS
         public float WalkFrequency;
     }
     
-    public struct GoblinEatProperties : IComponentData, IEnableableComponent
-    {
-        public float EatDamagePerSecond;
-        public float EatAmplitude;
-        public float EatFrequency;
-    }
-    
     public struct GoblinTimer : IComponentData
     {
         public float Value;
@@ -26,6 +20,7 @@ namespace TJ.DOTS
     {
         public float Value;
         public float Offset;
+        public float3 Position;
     }
     
     public struct NewGoblinTag : IComponentData {}//allows us to find any new zombies that have been created 

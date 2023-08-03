@@ -8,6 +8,7 @@ namespace TJ.DOTS
         public float WalkSpeed;
         public float WalkAmplitude;
         public float WalkFrequency;
+        public uint RandomSeed;
         
         // public float EatDamage;
         // public float EatAmplitude;
@@ -18,6 +19,8 @@ namespace TJ.DOTS
     {
         public override void Bake(GoblinMono authoring)
         {
+            // RefRW<RandomComponent> random =  SystemAPI.GetSingletonRW<RandomComponent>();
+
             var goblinEntity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(goblinEntity, new GoblinComponent{});
             AddComponent(goblinEntity, new GoblinWalkProperties
@@ -26,17 +29,18 @@ namespace TJ.DOTS
                 WalkAmplitude = authoring.WalkAmplitude,
                 WalkFrequency = authoring.WalkFrequency
             });
-            // AddComponent(goblinEntity, new ZombieEatProperties
-            // {
-            //     EatDamagePerSecond = authoring.EatDamage,
-            //     EatAmplitude = authoring.EatAmplitude,
-            //     EatFrequency = authoring.EatFrequency
-            // });
+            AddComponent(goblinEntity, new GoblinTargetProperties{});
             AddComponent<GoblinTimer>(goblinEntity);
             AddComponent<GoblinHeading>(goblinEntity);
             AddComponent<NewGoblinTag>(goblinEntity);
+            // AddComponent(goblinEntity, new GoblinRandom{RandomValue = random.ValueRW.random});
+        }
+        public float GetOffset(RefRW<RandomComponent> randomComponent)
+        {
+            return randomComponent.ValueRW.random.NextFloat();
         }
     }
     public struct GoblinComponent : IComponentData {
     }
+    
 }

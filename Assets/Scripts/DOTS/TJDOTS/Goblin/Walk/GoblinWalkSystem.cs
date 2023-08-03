@@ -2,12 +2,16 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace TJ.DOTS
 {
     [BurstCompile]
+    // [UpdateAfter(typeof(InitializeGoblinSystem))]
+    [UpdateAfter(typeof(SpawnSystem))]//this is so that the zombie rise system runs after the spawn zombie system
     public partial struct GoblinWalkSystem : ISystem
     {
+
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
@@ -24,15 +28,15 @@ namespace TJ.DOTS
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-            // var brainEntity = SystemAPI.GetSingletonEntity<Config>(); //empty entity that is used to get the brain position
-            // var brainScale = SystemAPI.GetComponent<LocalTransform>(brainEntity).Scale;
-            // var brainRadius = brainScale * 5f + 0.5f;
+            // RefRW<RandomComponent> random =  SystemAPI.GetSingletonRW<RandomComponent>();
             var brainRadius = 2.5f;
+
             new GoblinWalkJob
             {
                 DeltaTime = deltaTime,
-                BrainRadiusSq = brainRadius * brainRadius,
-                ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
+                distanceToObject = brainRadius * brainRadius,
+                ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
+                // randomComponent = random
             }.ScheduleParallel();
         }
     }
@@ -41,20 +45,31 @@ namespace TJ.DOTS
     public partial struct GoblinWalkJob : IJobEntity
     {
         public float DeltaTime;
-        public float BrainRadiusSq;
+        public float distanceToObject;
         public EntityCommandBuffer.ParallelWriter ECB;
+        // public RefRW<RandomComponent> randomComponent;
         
         [BurstCompile]
         private void Execute(GoblinWalkAspect goblin, [ChunkIndexInQuery] int sortKey)
         {
             goblin.Walk(DeltaTime);
-            if (goblin.IsInStoppingRange(float3.zero, BrainRadiusSq))//if the zombie is in stopping range, chill with the walk and eat
+            if (goblin.IsInStoppingRange(distanceToObject))//if the zombie is in stopping range, chill with the walk and eat
             {
-                // ECB.SetComponentEnabled<GoblinWalkProperties>(sortKey, goblin.Entity, false);
-                ECB.DestroyEntity(sortKey, goblin.Entity);
-                // ECB.SetComponentEnabled<ZombieEatProperties>(sortKey, zombie.Entity, true);
+                float3 goalPosition = goblin.GetRandomPosition();
+                goalPosition.y = 0;
+                var goblinHeading = MathHelpers.GetHeading(goblin.CurrentPosition, goalPosition);
+
+                ECB.SetComponent(sortKey, goblin.Entity, new GoblinHeading{Value = goblinHeading, Offset = goblin.GetOffset(), Position = goalPosition});
             }
         }
+                
+        //UnityEngine.Random.Range(0f, 15f) doesnt work in burst, need to use mathematics library
+        
+        
     }
+
+                // random = SystemAPI.GetSingleton<RandomComponent>().random 
+                //actual single not being modified, are you working with a copy or the data
+
 
 }
