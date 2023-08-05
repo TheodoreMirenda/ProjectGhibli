@@ -29,16 +29,16 @@ public class Test : MonoBehaviour {
     [SerializeField] private Color debugColor;
     [SerializeField] private List<int> distanceIncrements = new () { 50, 100, 150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500 };
 
-    [System.Serializable] public struct VectorContainer {
-        public List<Vector2> vectors;
-    }
-    [System.Serializable] public struct LandDeed {
-        public int id;
-        public float2 location;
-        public float lattitude;
-        public float longitude;
-        public List<string> tags;
-    }
+    // [System.Serializable] public struct VectorContainer {
+    //     public List<Vector2> vectors;
+    // }
+    // [System.Serializable] public struct LandDeed {
+    //     public int id;
+    //     public float2 location;
+    //     public float lattitude;
+    //     public float longitude;
+    //     public List<string> tags;
+    // }
     [System.Serializable] public struct NFTCollection {
         public List<LandDeedMetadata> landDeeds;
     }
@@ -56,9 +56,16 @@ public class Test : MonoBehaviour {
         public string waterSource;  
         public string road;
     }
-    [System.Serializable] public struct LandDeedStruct{
-        public List<LandDeed> landDeeds;
+    public AttributeDictionary[] attributeDictionaries;
+    [System.Serializable] public struct AttributeDictionary {
+        public string aspect;
+        public List<Attribute> attributes;
     }
+    [System.Serializable] public struct Attribute {
+        public string traitName;
+        public float likelyhood;
+    }
+
     void GeneratePoints() {
 
         for(int i = this.transform.childCount-1; i > 0; i--) {
@@ -82,11 +89,11 @@ public class Test : MonoBehaviour {
             }
         }
 
-        var vectorContainer = new VectorContainer {
-            vectors = oldPoints
-        };
+        // var vectorContainer = new VectorContainer {
+        //     vectors = oldPoints
+        // };
 
-        string json = JsonUtility.ToJson(vectorContainer, true);
+        // string json = JsonUtility.ToJson(vectorContainer, true);
         // System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/Points.json", json);
         // Debug.Log($"json: {json}");
     }
