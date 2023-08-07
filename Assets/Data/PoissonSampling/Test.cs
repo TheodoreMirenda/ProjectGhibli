@@ -13,11 +13,13 @@ public class Test : MonoBehaviour {
 	public int rejectionSamples = 30;
 	public float displayRadius =1;
 
-	[SerializeField] private List<Vector2> oldPoints;
-	[SerializeField] private List<float2> points = new ();
-    [SerializeField] private int pointCount => oldPoints.Count;
+	// [SerializeField] private List<Vector2> oldPoints;
+	// [SerializeField] private List<float2> points = new ();
+    // [SerializeField] private int pointCount => oldPoints.Count;
     [SerializeField] private Sprite mapSprite;
     [SerializeField] private GameObject textPrefab;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private Material selectedMaterial, offMaterial;
     public bool spawnText;
 
     [Header("Regions")]
@@ -55,7 +57,24 @@ public class Test : MonoBehaviour {
         public string resource;
         public string waterSource;  
         public string road;
+
+        public LandDeedMetadata (int id, float longitude, float lattitude, string region, string underlandLeft, string underlandMid, 
+                                 string underlandRight, string artifact, string placeOfInterest, string resource, string waterSource, string road) {
+            this.id = id;
+            this.longitude = longitude;
+            this.lattitude = lattitude;
+            this.region = region;
+            this.underlandLeft = underlandLeft;
+            this.underlandMid = underlandMid;
+            this.underlandRight = underlandRight;
+            this.artifact = artifact;
+            this.placeOfInterest = placeOfInterest;
+            this.resource = resource;
+            this.waterSource = waterSource;
+            this.road = road;
+        }
     }
+    
     public AttributeDictionary[] attributeDictionaries;
     [System.Serializable] public struct AttributeDictionary {
         public string aspect;
@@ -65,29 +84,45 @@ public class Test : MonoBehaviour {
         public string traitName;
         public float likelyhood;
     }
+    public string thingToSearchFor;
+    public void SearchForThing(){
+        if(thingToSearchFor == "") return;
+
+        // if(thingToSearchFor=="road"){
+        //     for()
+        // }
+    }
+    [ContextMenu("Generate Attributes")]
+    public void GenerateAttributes(){
+        for(int i = 0; i < attributeDictionaries.Length; i++) {
+            for(int j = 0; j < attributeDictionaries[i].attributes.Count; j++) {
+                Debug.Log($"aspect: {attributeDictionaries[i].aspect}, trait: {attributeDictionaries[i].attributes[j].traitName}, likelyhood: {attributeDictionaries[i].attributes[j].likelyhood}");
+            }
+        }
+    }
 
     void GeneratePoints() {
 
-        for(int i = this.transform.childCount-1; i > 0; i--) {
-            DestroyImmediate(this.transform.GetChild(i).gameObject);
-        }
+        // for(int i = this.transform.childCount-1; i > 0; i--) {
+        //     DestroyImmediate(this.transform.GetChild(i).gameObject);
+        // }
 
-        oldPoints = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples, 2500, mapSprite);
+        // oldPoints = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples, 2500, mapSprite);
             
-        //sort points numerically so top left is 1
-        oldPoints.Sort((a, b) => b.x.CompareTo(a.x));
-        oldPoints.Sort((a, b) => b.y.CompareTo(a.y));
+        // //sort points numerically so top left is 1
+        // oldPoints.Sort((a, b) => b.x.CompareTo(a.x));
+        // oldPoints.Sort((a, b) => b.y.CompareTo(a.y));
         
-        if(spawnText) {
-            for(int i = 0; i < oldPoints.Count; i++) {
-                //spawn text mesh pro at point
-                GameObject textMesh = Instantiate(textPrefab);
-                textMesh.transform.parent = this.transform;
-                textMesh.transform.position = new Vector3(oldPoints[i].x, oldPoints[i].y, 0);
-                TMP_Text textMeshComponent = textMesh.GetComponent<TMP_Text>();
-                textMeshComponent.text = (i+1).ToString();
-            }
-        }
+        // if(spawnText) {
+        //     for(int i = 0; i < oldPoints.Count; i++) {
+        //         //spawn text mesh pro at point
+        //         GameObject textMesh = Instantiate(textPrefab);
+        //         textMesh.transform.parent = this.transform;
+        //         textMesh.transform.position = new Vector3(oldPoints[i].x, oldPoints[i].y, 0);
+        //         TMP_Text textMeshComponent = textMesh.GetComponent<TMP_Text>();
+        //         textMeshComponent.text = (i+1).ToString();
+        //     }
+        // }
 
         // var vectorContainer = new VectorContainer {
         //     vectors = oldPoints
@@ -170,13 +205,21 @@ public class Test : MonoBehaviour {
     }
     [ContextMenu("Spawn Text")]
     private void SpawnText() {
+
+        // //destroy all children
+        for(int i = this.transform.childCount-1; i > 0; i--) {
+            DestroyImmediate(this.transform.GetChild(i).gameObject);
+        }
+
         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
             GameObject textMesh = Instantiate(textPrefab);
-            textMesh.transform.parent = this.transform;
-            textMesh.transform.position = new Vector3(nftCollection.landDeeds[i].lattitude, nftCollection.landDeeds[i].longitude, 0);
+            textMesh.transform.SetParent(this.transform);
+            textMesh.transform.position = new Vector3(nftCollection.landDeeds[i].longitude,
+                 nftCollection.landDeeds[i].lattitude, 0);
             TMP_Text textMeshComponent = textMesh.GetComponent<TMP_Text>();
             textMeshComponent.text = (i+1).ToString();
             textMeshComponent.color = GetColorFromTag(nftCollection.landDeeds[i].region);
+            textMesh.GetComponent<LandDeedID>().id = nftCollection.landDeeds[i].id;
         }
     }
     private Color GetColorFromTag(string tag) {
@@ -194,20 +237,33 @@ public class Test : MonoBehaviour {
     [ContextMenu("Generate Roads")]
     public void GenerateRoads(){
         //get all settlements
-        // List<float2> settlements = new();
-        // Dictionary<float2, int> roadDict = new();
+        List<float2> settlements = new();
+        Dictionary<float2, int> roadDict = new();
 
-
-        // for(int i = 0; i < landDeeds.Count; i++) {
-        //     if(landDeeds[i].tags.Contains("settlement")) {
-        //         settlements.Add(landDeeds[i].location);
-        //         roadDict.Add(landDeeds[i].location, 0);
-        //     }
-        // }
-        // Debug.Log($"settlements: {settlements.Count}");
+        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            if(nftCollection.landDeeds[i].region.Contains("settlement")) {
+                settlements.Add(new float2(nftCollection.landDeeds[i].longitude, nftCollection.landDeeds[i].lattitude));
+                roadDict.Add(new float2(nftCollection.landDeeds[i].longitude, nftCollection.landDeeds[i].lattitude), 0);
+            }
+            nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                nftCollection.landDeeds[i].region,
+                nftCollection.landDeeds[i].underlandLeft,
+                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandRight,
+                nftCollection.landDeeds[i].artifact,
+                nftCollection.landDeeds[i].placeOfInterest,
+                nftCollection.landDeeds[i].resource,
+                nftCollection.landDeeds[i].waterSource,
+                ""
+            );
+        }
+        Debug.Log($"settlements: {settlements.Count}");
         
 
-        //get settlement in middle of map
+        // get settlement in middle of map
         // float2 middle = new float2(1024, 831);
         // float2 closestSettlement = new float2(0,0);
         // float closestDistance = 1000000;
@@ -223,10 +279,10 @@ public class Test : MonoBehaviour {
         // List<float2> settlementsWithRoads = new();
         // settlementsWithoutRoads.AddRange(settlements);
 
-        //remove closest settlement from list
+        // // remove closest settlement from list
         // settlementsWithoutRoads.Remove(closestSettlement);
 
-        //for settlement, create a road to the 5 closest settlements
+        // for settlement, create a road to the 5 closest settlements
         // for(int i = 0; i < settlements.Count; i++) {
         //     float distance = math.distance(settlements[i], closestSettlement);
         //     if(distance < 150) {
@@ -237,43 +293,157 @@ public class Test : MonoBehaviour {
         // }
         
 
-        // for(int k = 0; k < distanceIncrements.Count; k++) {
-        //     for(int i = 0; i < settlements.Count; i++) {
-        //         for(int j = 0; j < settlements.Count; j++) {
-        //             if(i != j) {
-        //                 float distance = math.distance(settlements[i], settlements[j]);
-        //                 if(distance < distanceIncrements[k] && roadDict[settlements[i]] < maxRoads && roadDict[settlements[j]] < maxRoads) {
+        for(int k = 0; k < distanceIncrements.Count; k++) {
+            for(int i = 0; i < settlements.Count; i++) {
+                for(int j = 0; j < settlements.Count; j++) {
+                    if(i != j) {
+                        float distance = math.distance(settlements[i], settlements[j]);
+                        if(distance < distanceIncrements[k] && roadDict[settlements[i]] < 
+                            maxRoads && roadDict[settlements[j]] < maxRoads) {
 
-        //                     Debug.DrawLine(new Vector3(settlements[i].x, settlements[i].y, 0), new Vector3(settlements[j].x, settlements[j].y, 0), debugColor, 30);
+                            Debug.DrawLine(new Vector3(settlements[i].x, settlements[i].y, 
+                            0), new Vector3(settlements[j].x, settlements[j].y, 0), debugColor, 30);
 
-        //                     roadDict[settlements[i]]++;
-        //                     roadDict[settlements[j]]++;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                            roadDict[settlements[i]]++;
+                            roadDict[settlements[j]]++;
 
+                            //spherecast along line to see if it hits anything
+                            Vector3 direction = new Vector3(settlements[j].x, settlements[j].y, 0) -  new Vector3(settlements[i].x, settlements[i].y, 0);
+                            RaycastHit[] raycastHits = Physics.SphereCastAll(new Vector3(settlements[i].x, settlements[i].y, 0), 5, direction, distance);
+                            if(raycastHits.Length > 0) {
+                                Debug.Log($"amount of hits {raycastHits.Length}");
+                                foreach(RaycastHit hit in raycastHits) {
+                                    LandDeedID hitObject = hit.collider.gameObject.GetComponentInParent<LandDeedID>();
+                                    hitObject.GetComponent<TMP_Text>().color = debugColor;
 
-        // Debug.Log($"settlementsWithoutRoads: {settlementsWithoutRoads.Count}");
-        // // for each settlement, get closest settlement and draw a line there
-        // for(int i = 0; i < settlementsWithoutRoads.Count; i++) {
-        //     float2 closest = new();
-        //     float closestDistance2 = Mathf.Infinity;
+                                    if(nftCollection.landDeeds[hitObject.id].region=="beach")
+                                        continue;
 
-        //     for(int j = 0; j < settlements.Count; j++) {
-        //         float distance = math.distance(settlementsWithoutRoads[i], settlements[j]);
-        //         if(distance < closestDistance2) {
-        //             closestDistance2 = distance;
-        //             closest = settlements[j];
-        //         }
-        //     }
-        //     Debug.Log($"closest: {closest}");
-        //     Debug.DrawLine(new Vector3(settlementsWithoutRoads[i].x, settlements[i].y, 0), new Vector3(closest.x, closest.y, 0), Color.blue, 30);
-        // }
-
+                                    nftCollection.landDeeds[hitObject.id] = new LandDeedMetadata(
+                                        nftCollection.landDeeds[hitObject.id].id,
+                                        nftCollection.landDeeds[hitObject.id].longitude,
+                                        nftCollection.landDeeds[hitObject.id].lattitude,
+                                        nftCollection.landDeeds[hitObject.id].region,
+                                        nftCollection.landDeeds[hitObject.id].underlandLeft,
+                                        nftCollection.landDeeds[hitObject.id].underlandMid,
+                                        nftCollection.landDeeds[hitObject.id].underlandRight,
+                                        nftCollection.landDeeds[hitObject.id].artifact,
+                                        nftCollection.landDeeds[hitObject.id].placeOfInterest,
+                                        nftCollection.landDeeds[hitObject.id].resource,
+                                        nftCollection.landDeeds[hitObject.id].waterSource,
+                                        "dirt path"
+                                    );
+                                }
+                                // Debug.Log($"hit something: {raycastHits[0].collider.gameObject.name}");
+                            }
+                            else {
+                                // Debug.Log($"hit nothing");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
+    [ContextMenu("Generate WaterSources")]
+    public void GenerateWaterSources() {
+
+    for(int i = 0; i < 5; i++) {
+        //get point on left edge of canvas
+        Vector3 point = new (0, UnityEngine.Random.Range(0, 1646),0);
+        //get point on oposite edge of canvas
+        Vector3 point2 = new (2048, UnityEngine.Random.Range(0, 1646),0);
+        Debug.DrawLine(point, point2, debugColor, 30);
+        //spherecast along line to see if it hits anything
+        Vector3 direction = point2 -  point;
+        float distance = Vector3.Distance(point, point2);
+        RaycastHit[] raycastHits = Physics.SphereCastAll(point, 5, direction, distance);
+
+        if(raycastHits.Length > 0) {
+            Debug.Log($"amount of hits {raycastHits.Length}");
+            foreach(RaycastHit hit in raycastHits) {
+                LandDeedID hitObject = hit.collider.gameObject.GetComponentInParent<LandDeedID>();
+                hitObject.GetComponent<TMP_Text>().color = debugColor;
+
+                if(nftCollection.landDeeds[hitObject.id].region=="beach")
+                    continue;
+
+                nftCollection.landDeeds[hitObject.id] = new LandDeedMetadata(
+                    nftCollection.landDeeds[hitObject.id].id,
+                    nftCollection.landDeeds[hitObject.id].longitude,
+                    nftCollection.landDeeds[hitObject.id].lattitude,
+                    nftCollection.landDeeds[hitObject.id].region,
+                    nftCollection.landDeeds[hitObject.id].underlandLeft,
+                    nftCollection.landDeeds[hitObject.id].underlandMid,
+                    nftCollection.landDeeds[hitObject.id].underlandRight,
+                    nftCollection.landDeeds[hitObject.id].artifact,
+                    nftCollection.landDeeds[hitObject.id].placeOfInterest,
+                    nftCollection.landDeeds[hitObject.id].resource,
+                    "river",
+                    nftCollection.landDeeds[hitObject.id].road
+                );
+            }
+            Debug.Log($"hit something: {raycastHits[0].collider.gameObject.name}");
+        }
+        else {
+            Debug.Log($"hit nothing");
+        }
+        }
+        
+
+    }
+    [ContextMenu("Generate Resources")]
+    public void GenerateResources() {
+        
+
+    }
+    [ContextMenu("Provide Summary")]
+    public void ProvideSummary() {
+        // get the counts of each reagion type
+        int beachCount = 0;
+        int plainsCount = 0;
+        int forestCount = 0;
+        int highlandsCount = 0;
+        int rocksCount = 0;
+        int settlementCount = 0;
+        int dirtPathCount = 0;
+        int waterSourceCount = 0;
+        int resourceCount = 0;
+
+        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            if(nftCollection.landDeeds[i].region.Contains("beach")) {
+                beachCount++;
+            }
+            else if(nftCollection.landDeeds[i].region.Contains("plains")) {
+                plainsCount++;
+            }
+            else if(nftCollection.landDeeds[i].region.Contains("forest")) {
+                forestCount++;
+            }
+            else if(nftCollection.landDeeds[i].region.Contains("highlands")) {
+                highlandsCount++;
+            }
+            else if(nftCollection.landDeeds[i].region.Contains("rocks")) {
+                rocksCount++;
+            }
+            if(nftCollection.landDeeds[i].region.Contains("settlement")) {
+                settlementCount++;
+            }
+            if(nftCollection.landDeeds[i].road.Contains("dirt path")) {
+                dirtPathCount++;
+            }
+            if(nftCollection.landDeeds[i].waterSource.Contains("river")) {
+                waterSourceCount++;
+            }
+            if(nftCollection.landDeeds[i].resource.Contains("iron")) {
+                resourceCount++;
+            }
+        }
+
+        Debug.Log($"beach: {beachCount}, plains: {plainsCount}, forest: {forestCount}, highlands: {highlandsCount}, rocks: {rocksCount}");
+        Debug.Log($"settlements: {settlementCount}, dirt paths: {dirtPathCount}, water sources: {waterSourceCount}, resources: {resourceCount}");
+    }
 	// void OnDrawGizmos() {
 	// 	Gizmos.DrawWireCube(regionSize/2,regionSize);
 	// 	if (points != null) {
