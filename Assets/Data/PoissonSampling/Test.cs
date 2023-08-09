@@ -152,6 +152,7 @@ public class Test : MonoBehaviour {
     void SaveMetaData() {
         string json = JsonUtility.ToJson(nftCollection, true);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/NFTCollection.json", json);
+        SeededRandom.Init(0);
 
         FinalMetadataList finalMetadata = new(){
             finalMetadata = new List<FinalMetadata>()
@@ -164,23 +165,27 @@ public class Test : MonoBehaviour {
             if(nftCollection.landDeeds[i].underlandLeft.Length > 0)
                 traits.Add(new Trait("underlandLeft", nftCollection.landDeeds[i].underlandLeft, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
             if(nftCollection.landDeeds[i].underlandMid.Length > 0)
-                traits.Add(new Trait("underlandMid", nftCollection.landDeeds[i].underlandMid, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+                traits.Add(new Trait("underlandMid", nftCollection.landDeeds[i].underlandMid, GetTraitType(nftCollection.landDeeds[i].underlandMid)));
             if(nftCollection.landDeeds[i].underlandRight.Length > 0)
-                traits.Add(new Trait("underlandRight", nftCollection.landDeeds[i].underlandRight, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+                traits.Add(new Trait("underlandRight", nftCollection.landDeeds[i].underlandRight, GetTraitType(nftCollection.landDeeds[i].underlandRight)));
             if(nftCollection.landDeeds[i].northSpot.Length > 0)
-                traits.Add(new Trait("northSpot", nftCollection.landDeeds[i].northSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
-            if(nftCollection.landDeeds[i].southSpot.Length > 0)
-                traits.Add(new Trait("southSpot", nftCollection.landDeeds[i].southSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+                traits.Add(new Trait("northSpot", nftCollection.landDeeds[i].northSpot, GetTraitType(nftCollection.landDeeds[i].northSpot)));
+
+            if(nftCollection.landDeeds[i].settlement)
+                traits.Add(new Trait("southSpot", "settlement", "PlaceOfInterest"));
+            else if(nftCollection.landDeeds[i].southSpot.Length > 0){
+                traits.Add(new Trait("southSpot", nftCollection.landDeeds[i].southSpot, GetTraitType(nftCollection.landDeeds[i].southSpot)));
+            }
+
             if(nftCollection.landDeeds[i].eastSpot.Length > 0)
-                traits.Add(new Trait("eastSpot", nftCollection.landDeeds[i].eastSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+                traits.Add(new Trait("eastSpot", nftCollection.landDeeds[i].eastSpot, GetTraitType(nftCollection.landDeeds[i].eastSpot)));
             if(nftCollection.landDeeds[i].westSpot.Length > 0)
-                traits.Add(new Trait("westSpot", nftCollection.landDeeds[i].westSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+                traits.Add(new Trait("westSpot", nftCollection.landDeeds[i].westSpot, GetTraitType(nftCollection.landDeeds[i].westSpot)));
             if(nftCollection.landDeeds[i].waterSource)
                 traits.Add(new Trait("waterSource", GetRandomAttribute("WaterSource"), "WaterSource"));
             if(nftCollection.landDeeds[i].road)
                 traits.Add(new Trait("road", GetRandomAttribute("Road"), "Road"));
-            if(nftCollection.landDeeds[i].settlement)
-                traits.Add(new Trait("settlement", nftCollection.landDeeds[i].settlement.ToString(), "Settlement"));
+            
             
             Trait[] traitsArray = traits.ToArray();
 
@@ -211,12 +216,16 @@ public class Test : MonoBehaviour {
                     else if(attributeDictionaries[i].aspect == "Artifact" || attributeDictionaries[i].aspect == "ArtifactUnderland"){
                         return "Artifact";
                     }
+                    else if(attributeDictionaries[i].aspect =="PlaceOfInterestOther"){
+                        return "PlaceOfInterest";
+                    }
                 }
                     
             }
         }
-        Debug.LogError($"could not find trait type for {traitName}");
-        return null;
+        // Debug.LogError($"could not find trait type for {traitName}");
+        return "Resource";
+        // return null;
     }
    
     // [ContextMenu("Add Settlement Tags")]
@@ -235,11 +244,6 @@ public class Test : MonoBehaviour {
     void RegionTags() {
 
         // LoadLandDeeds();
-        
-        //destroy all children
-        for(int i = this.transform.childCount-1; i > 0; i--) {
-            DestroyImmediate(this.transform.GetChild(i).gameObject);
-        }
 
         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
             Color pixelColor = regionsSprite.texture.GetPixel((int)nftCollection.landDeeds[i].longitude, 
@@ -297,6 +301,13 @@ public class Test : MonoBehaviour {
 
         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
             string underlandLeft = GetRandomAttribute("Underland");
+             if(underlandLeft!="")
+                underlandLeft = SeededRandom.Range(0f, 1f) switch
+                {
+                    > 0.33f => underlandLeft,
+                    _ => "Chest",
+                };
+
             string underlandMid = GetRandomAttribute("Underland");
             string underlandRight = GetRandomAttribute("Underland");
 
@@ -628,6 +639,7 @@ public class Test : MonoBehaviour {
             "forest" => forestColor,
             "highlands" => Color.magenta,
             "rocks" => Color.cyan,
+            "mystic" => Color.blue,
             _ => Color.black,
         };
     }
