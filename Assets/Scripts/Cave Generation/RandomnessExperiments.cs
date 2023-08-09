@@ -82,10 +82,13 @@ public static class SeededRandom
     {
         return (float)random.NextDouble() * (max - min) + min;
     }
-    // public static int Range(int min, int max)
-    // {
-    //     return (int)random.NextDouble() * (max - min) + min;
-    // }
+    public static int Range(int min, int max)
+    {
+        return (int)(random.NextDouble() * (max - min) + min);
+    }
+    public static bool FlipCoin(){
+        return random.NextDouble() > 0.5;
+    }
     private static bool ValidateBucketPercentages(float[] bucketWeights)
     {
         float total = 0;

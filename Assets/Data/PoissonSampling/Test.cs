@@ -48,33 +48,51 @@ public class Test : MonoBehaviour {
         public int id;
         public float longitude;
         public float lattitude;
-        public string region;//mystic, beach plains, highlands, forest
+        public string landType;//mystic, beach plains, highlands, forest
+
         public string underlandLeft;
         public string underlandMid;
         public string underlandRight;
-        public string artifact;
-        public string placeOfInterest;
-        public string resource;
-        public string waterSource;  
-        public string road;
+        public string northSpot;
+        public string southSpot;
+        public string eastSpot;
+        public string westSpot;
 
-        public LandDeedMetadata (int id, float longitude, float lattitude, string region, string underlandLeft, string underlandMid, 
-                                 string underlandRight, string artifact, string placeOfInterest, string resource, string waterSource, string road) {
+        public bool waterSource;  
+        public bool road;
+        public bool settlement;
+
+        public LandDeedMetadata (int id, float longitude, float lattitude, string underlandLeft, 
+                                 string underlandMid, string underlandRight, string northSpot, string southSpot, 
+                                 string eastSpot, string westSpot, bool waterSource, bool road, bool settlement, string landType) {
             this.id = id;
             this.longitude = longitude;
             this.lattitude = lattitude;
-            this.region = region;
+
             this.underlandLeft = underlandLeft;
             this.underlandMid = underlandMid;
             this.underlandRight = underlandRight;
-            this.artifact = artifact;
-            this.placeOfInterest = placeOfInterest;
-            this.resource = resource;
+            this.northSpot =  northSpot;
+            this.southSpot = southSpot;
+            this.eastSpot = eastSpot;
+            this.westSpot = westSpot;
+
             this.waterSource = waterSource;
             this.road = road;
+            this.settlement = settlement;
+            this.landType = landType;
         }
     }
-    
+    [System.Serializable] public struct Trait {
+        public string trait_type;
+        public string value;
+        public string display_type;
+        public Trait(string trait_type, string value, string displayType) {
+            this.trait_type = trait_type;
+            this.value = value;
+            this.display_type = displayType;
+        }
+    }
     public AttributeDictionary[] attributeDictionaries;
     [System.Serializable] public struct AttributeDictionary {
         public string aspect;
@@ -84,21 +102,18 @@ public class Test : MonoBehaviour {
         public string traitName;
         public float likelyhood;
     }
-    public string thingToSearchFor;
-    public void SearchForThing(){
-        if(thingToSearchFor == "") return;
-
-        // if(thingToSearchFor=="road"){
-        //     for()
-        // }
-    }
-    [ContextMenu("Generate Attributes")]
-    public void GenerateAttributes(){
-        for(int i = 0; i < attributeDictionaries.Length; i++) {
-            for(int j = 0; j < attributeDictionaries[i].attributes.Count; j++) {
-                Debug.Log($"aspect: {attributeDictionaries[i].aspect}, trait: {attributeDictionaries[i].attributes[j].traitName}, likelyhood: {attributeDictionaries[i].attributes[j].likelyhood}");
-            }
+    [System.Serializable] public struct FinalMetadata {
+        public string image;
+        public string name;
+        public Trait[] attributes;
+        public FinalMetadata(string image, string name, Trait[] attributes) {
+            this.image = image;
+            this.name = name;
+            this.attributes = attributes;
         }
+    }
+    [System.Serializable] public struct FinalMetadataList {
+        public List<FinalMetadata> finalMetadata;
     }
 
     void GeneratePoints() {
@@ -133,18 +148,75 @@ public class Test : MonoBehaviour {
         // Debug.Log($"json: {json}");
     }
 
-    [ContextMenu("Save Tags")]
-    void SaveTags() {
+    [ContextMenu("Save MetaData")]
+    void SaveMetaData() {
         string json = JsonUtility.ToJson(nftCollection, true);
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/NFTCollectionNew.json", json);
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/NFTCollection.json", json);
+
+        FinalMetadataList finalMetadata = new(){
+            finalMetadata = new List<FinalMetadata>()
+        };
+        for (int i = 0; i < nftCollection.landDeeds.Count; i++) {
+
+            List<Trait> traits = new();
+            if(nftCollection.landDeeds[i].landType.Length > 0)
+                traits.Add(new Trait("landType", nftCollection.landDeeds[i].landType, "LandType"));
+            if(nftCollection.landDeeds[i].underlandLeft.Length > 0)
+                traits.Add(new Trait("underlandLeft", nftCollection.landDeeds[i].underlandLeft, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].underlandMid.Length > 0)
+                traits.Add(new Trait("underlandMid", nftCollection.landDeeds[i].underlandMid, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].underlandRight.Length > 0)
+                traits.Add(new Trait("underlandRight", nftCollection.landDeeds[i].underlandRight, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].northSpot.Length > 0)
+                traits.Add(new Trait("northSpot", nftCollection.landDeeds[i].northSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].southSpot.Length > 0)
+                traits.Add(new Trait("southSpot", nftCollection.landDeeds[i].southSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].eastSpot.Length > 0)
+                traits.Add(new Trait("eastSpot", nftCollection.landDeeds[i].eastSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].westSpot.Length > 0)
+                traits.Add(new Trait("westSpot", nftCollection.landDeeds[i].westSpot, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
+            if(nftCollection.landDeeds[i].waterSource)
+                traits.Add(new Trait("waterSource", GetRandomAttribute("WaterSource"), "WaterSource"));
+            if(nftCollection.landDeeds[i].road)
+                traits.Add(new Trait("road", GetRandomAttribute("Road"), "Road"));
+            if(nftCollection.landDeeds[i].settlement)
+                traits.Add(new Trait("settlement", nftCollection.landDeeds[i].settlement.ToString(), "Settlement"));
+            
+            Trait[] traitsArray = traits.ToArray();
+
+            finalMetadata.finalMetadata.Add(new FinalMetadata(
+                "",
+                (nftCollection.landDeeds[i].id+1).ToString(),
+                traitsArray
+            ));
+            // finalMetadata.finalMetadata[i].attributes = traits;
+
+        }
+
+        string finalJson = JsonUtility.ToJson(finalMetadata, true);
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/FinalMetadata.json", finalJson);
+    
     }
-    [ContextMenu("Whole Process")]
-    void WholeProcess() {
-        LoadLandDeeds();
-        // CreateSettlements();
-        RegionTags();
-        SpawnText();
-        GenerateRoads();
+    private string GetTraitType(string traitName) {
+        for(int i = 0; i < attributeDictionaries.Length; i++) {
+            for(int j = 0; j < attributeDictionaries[i].attributes.Count; j++) {
+                if(attributeDictionaries[i].attributes[j].traitName == traitName)
+                {
+                    if(attributeDictionaries[i].aspect == "Resource" || attributeDictionaries[i].aspect == "ResourceUnderland"){
+                        return "Resource";
+                    }
+                    else if(attributeDictionaries[i].aspect == "PlaceOfInterest"){
+                        return "PlaceOfInterest";
+                    }
+                    else if(attributeDictionaries[i].aspect == "Artifact" || attributeDictionaries[i].aspect == "ArtifactUnderland"){
+                        return "Artifact";
+                    }
+                }
+                    
+            }
+        }
+        Debug.LogError($"could not find trait type for {traitName}");
+        return null;
     }
    
     // [ContextMenu("Add Settlement Tags")]
@@ -164,41 +236,366 @@ public class Test : MonoBehaviour {
 
         // LoadLandDeeds();
         
-        // List<Vector2> pointsToReColor = new List<Vector2>();
+        //destroy all children
+        for(int i = this.transform.childCount-1; i > 0; i--) {
+            DestroyImmediate(this.transform.GetChild(i).gameObject);
+        }
 
-        // //destroy all children
-        // for(int i = this.transform.childCount-1; i > 0; i--) {
-        //     DestroyImmediate(this.transform.GetChild(i).gameObject);
-        // }
+        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            Color pixelColor = regionsSprite.texture.GetPixel((int)nftCollection.landDeeds[i].longitude, 
+                (int)nftCollection.landDeeds[i].lattitude);
 
-        // for(int i = 0; i < landDeeds.Count; i++) {
-        //     Color pixelColor = regionsSprite.texture.GetPixel((int)landDeeds[i].location.x, (int)landDeeds[i].location.y);
-        //     //get color that matches pixel color
-        //     if(HasSimilarPixels(pixelColor,plainsColor)) {
-        //         landDeeds[i].tags.Add("plains");
-        //     }
-        //     else if(HasSimilarPixels(pixelColor,beachColor)) {
-        //         landDeeds[i].tags.Add("beach");
-        //     }
-        //     else if(HasSimilarPixels(pixelColor,forestColor)) {
-        //         landDeeds[i].tags.Add("forest");
-        //     }
-        //     else if(HasSimilarPixels(pixelColor,highlandsColor)) {
-        //         landDeeds[i].tags.Add("highlands");
-        //     }
-        //     else if(HasSimilarPixels(pixelColor,rocks)) {
-        //         landDeeds[i].tags.Add("rocks");
-        //     }
-        //     else {
-                
-        //         Debug.LogError($"points missing a color: {landDeeds[i].location}");
-        //     }
-        // }
-        // string taggedPointsJson = JsonUtility.ToJson(vectorContainer, true);
-        // System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/taggedPoints.json", taggedPointsJson);
+            // Debug.Log($"pixel color: {pixelColor}");
+
+            string landType = "";
+            //get color that matches pixel color
+            if(HasSimilarPixels(pixelColor,plainsColor)) {
+                landType = "Plains";
+            }
+            else if(HasSimilarPixels(pixelColor,beachColor)) {
+                landType = "Beach";
+            }
+            else if(HasSimilarPixels(pixelColor,forestColor)) {
+                landType = "Verdant Forest";
+            }
+            else if(HasSimilarPixels(pixelColor,highlandsColor)) {
+                landType = "Highlands";
+            }
+            else if(HasSimilarPixels(pixelColor,rocks)) {
+                landType = "Rocks";
+            }
+            else if(HasSimilarPixels(pixelColor,Color.black)) {
+                landType = "Mystic";
+                Debug.Log($"Mystic");
+            }
+            else {
+                Debug.LogError($"points missing a color: ");
+            }
+
+            nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                nftCollection.landDeeds[i].underlandLeft,
+                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandRight,
+                nftCollection.landDeeds[i].northSpot,
+                nftCollection.landDeeds[i].southSpot,
+                nftCollection.landDeeds[i].eastSpot,
+                nftCollection.landDeeds[i].westSpot,
+                nftCollection.landDeeds[i].waterSource,
+                nftCollection.landDeeds[i].road,
+                nftCollection.landDeeds[i].settlement,
+                landType
+            );
+        }
+        SaveMetaData();
+    }
+    [ContextMenu("Add Random Attributes")]
+    public void AddRandomAttributes(){
+        SeededRandom.Init(0);
+
+        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            string underlandLeft = GetRandomAttribute("Underland");
+            string underlandMid = GetRandomAttribute("Underland");
+            string underlandRight = GetRandomAttribute("Underland");
+
+            string northSpot = GetRandomAttribute("Top");
+            string southSpot = GetRandomAttribute("Top");
+            string eastSpot = GetRandomAttribute("Top");
+            string westSpot = GetRandomAttribute("Top");
+
+            nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                underlandLeft,
+                underlandMid,
+                underlandRight,
+                northSpot,
+                southSpot,
+                eastSpot,
+                westSpot,
+                nftCollection.landDeeds[i].waterSource,
+                nftCollection.landDeeds[i].road,
+                nftCollection.landDeeds[i].settlement,
+                nftCollection.landDeeds[i].landType
+            );
+        }
+        HandleTrees();
+        Handle1of1s();
+        SaveMetaData();
+    }
+    public string GetRandomAttribute(string attributeName){
+
+        if(attributeName == "Top") {
+            switch (SeededRandom.Range(0f,1f))
+            {
+                case > 0.4f:
+                    attributeName = "Resource";
+                    break;
+                case > 0.2f:
+                    attributeName = "PlaceOfInterest";
+                    break;
+                case > 0.15f:
+                    attributeName = "Artifact";
+                    break;
+                default:
+                    return "";
+            } 
+        }
+        else if(attributeName =="Underland"){
+            switch (SeededRandom.Range(0f,1f))
+            {
+                case > 0.7f:
+                    attributeName = "ResourceUnderland";
+                    break;
+                case > 0.66f:
+                    attributeName = "PlaceOfInterestUnderland";
+                    break;
+                case > 0.60f:
+                    attributeName = "ArtifactUnderland";
+                    break;
+                default:
+                    return "";
+            } 
+            if(attributeName == "PlaceOfInterestUnderland"){
+                return (float)SeededRandom.Range(0f, 1f) switch
+                {
+                    > 0.65f => "Subway",
+                    > 0.25f => "Cave System",
+                    _ => "Dungeon",
+                };
+            }
+        }
+
+        for(int i = 0; i < attributeDictionaries.Length; i++) {
+
+            if(attributeDictionaries[i].aspect == attributeName) {
+                float random = SeededRandom.Range(0,attributeDictionaries[i].attributes.Count);
+                return attributeDictionaries[i].attributes[(int)random].traitName;
+            }
+        }
+        Debug.LogError($"could not find attribute: {attributeName}");
+        return null;
     }
 
-    [ContextMenu("Load Land Deeds")]
+    [ContextMenu("Handle 1 of 1s")]
+    public void Handle1of1s(){
+        int felisgarde = 1519;
+        int ebisusBay = 2155;
+        int brambleThorn = 986;
+        int[] lightHouses = new int[] {2440, 2495, 2484, 2497, 2271, 2156, 2165, 2340, 2281, 2466, 2225, 1194, 892, 624, 350, 213, 163, 125, 781, 2322};
+        int[] tikiLounge = new int[] {2303, 2352, 2441,2488,2473,2457,2460,2448,2444,2420,2385,2307,2210,2147,2111,2110,2119,2161,1043,905,816,800,586,610,670,382,499,718,360,408,305,259,161,360,599,169};
+
+        for(int i = 0; i<nftCollection.landDeeds.Count; i++){
+            if(felisgarde == nftCollection.landDeeds[i].id){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                nftCollection.landDeeds[i].underlandLeft,
+                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandRight,
+                "Felisgarde",
+                nftCollection.landDeeds[i].southSpot,
+                nftCollection.landDeeds[i].eastSpot,
+                nftCollection.landDeeds[i].westSpot,
+                nftCollection.landDeeds[i].waterSource,
+                nftCollection.landDeeds[i].road,
+                nftCollection.landDeeds[i].settlement,
+                nftCollection.landDeeds[i].landType
+                );
+            }
+            if(brambleThorn == nftCollection.landDeeds[i].id){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                nftCollection.landDeeds[i].underlandLeft,
+                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandRight,
+                "Bramblethorn Titan",
+                nftCollection.landDeeds[i].southSpot,
+                nftCollection.landDeeds[i].eastSpot,
+                nftCollection.landDeeds[i].westSpot,
+                nftCollection.landDeeds[i].waterSource,
+                nftCollection.landDeeds[i].road,
+                nftCollection.landDeeds[i].settlement,
+                nftCollection.landDeeds[i].landType
+                );
+            }
+            if(ebisusBay== nftCollection.landDeeds[i].id){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                nftCollection.landDeeds[i].underlandLeft,
+                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandRight,
+                "Ebisu's Bay",
+                nftCollection.landDeeds[i].southSpot,
+                nftCollection.landDeeds[i].eastSpot,
+                nftCollection.landDeeds[i].westSpot,
+                nftCollection.landDeeds[i].waterSource,
+                nftCollection.landDeeds[i].road,
+                nftCollection.landDeeds[i].settlement,
+                nftCollection.landDeeds[i].landType
+                );
+            }
+            for(int j = 0; j < lightHouses.Length; j++){
+                if(lightHouses[j] == nftCollection.landDeeds[i].id){
+                    nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    "Lighthouse",
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                    );
+                }
+            }
+            for(int j = 0; j < tikiLounge.Length; j++){
+                if(tikiLounge[j] == nftCollection.landDeeds[i].id){
+                    nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    "Tiki Lounge",
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                    );
+                }
+            }
+
+        }
+
+    } 
+    public void HandleTrees(){
+        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            if(nftCollection.landDeeds[i].northSpot=="tree"){
+                string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
+
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    newTree,
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            else if(nftCollection.landDeeds[i].southSpot=="tree"){
+                string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
+
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    newTree,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            } 
+            else if(nftCollection.landDeeds[i].eastSpot == "tree"){
+                string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
+
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    newTree,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            } 
+            else if(nftCollection.landDeeds[i].westSpot == "tree"){
+                string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
+
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    newTree,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+        }
+        SaveMetaData();
+    }
+    private string GetNewTree(string landType){
+        string newTree = "";
+        switch (SeededRandom.Range(0,3))
+        {
+            case 0:
+                newTree = "deciduous tree 1";
+                break;
+            case 1:
+                newTree = "deciduous tree 2";
+                break;
+            case 2:
+                newTree = "Cherry Blossom Tree";
+                break;
+        } 
+
+        if(landType=="beach")
+            newTree = "palm tree";
+
+        if(landType=="forest")
+            newTree = SeededRandom.FlipCoin() ? "nightshade" : newTree;
+            
+        return newTree;
+    }
+    // [ContextMenu("Load Land Deeds")]
     private void LoadLandDeeds(){
         string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/PoissonSampling/NFTCollection.json");
         nftCollection = JsonUtility.FromJson<NFTCollection>(json);
@@ -218,7 +615,7 @@ public class Test : MonoBehaviour {
                  nftCollection.landDeeds[i].lattitude, 0);
             TMP_Text textMeshComponent = textMesh.GetComponent<TMP_Text>();
             textMeshComponent.text = (i+1).ToString();
-            textMeshComponent.color = GetColorFromTag(nftCollection.landDeeds[i].region);
+            textMeshComponent.color = GetColorFromTag(nftCollection.landDeeds[i].landType);
             textMesh.GetComponent<LandDeedID>().id = nftCollection.landDeeds[i].id;
         }
     }
@@ -241,24 +638,26 @@ public class Test : MonoBehaviour {
         Dictionary<float2, int> roadDict = new();
 
         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
-            if(nftCollection.landDeeds[i].region.Contains("settlement")) {
+            if(nftCollection.landDeeds[i].settlement) {
                 settlements.Add(new float2(nftCollection.landDeeds[i].longitude, nftCollection.landDeeds[i].lattitude));
                 roadDict.Add(new float2(nftCollection.landDeeds[i].longitude, nftCollection.landDeeds[i].lattitude), 0);
             }
-            nftCollection.landDeeds[i] = new LandDeedMetadata(
-                nftCollection.landDeeds[i].id,
-                nftCollection.landDeeds[i].longitude,
-                nftCollection.landDeeds[i].lattitude,
-                nftCollection.landDeeds[i].region,
-                nftCollection.landDeeds[i].underlandLeft,
-                nftCollection.landDeeds[i].underlandMid,
-                nftCollection.landDeeds[i].underlandRight,
-                nftCollection.landDeeds[i].artifact,
-                nftCollection.landDeeds[i].placeOfInterest,
-                nftCollection.landDeeds[i].resource,
-                nftCollection.landDeeds[i].waterSource,
-                ""
-            );
+            // nftCollection.landDeeds[i] = new (
+            //     nftCollection.landDeeds[i].id,
+            //     nftCollection.landDeeds[i].longitude,
+            //     nftCollection.landDeeds[i].lattitude,
+            //     nftCollection.landDeeds[i].underlandLeft,
+            //     nftCollection.landDeeds[i].underlandMid,
+            //     nftCollection.landDeeds[i].underlandRight,
+            //     nftCollection.landDeeds[i].northSpot,
+            //     nftCollection.landDeeds[i].southSpot,
+            //     nftCollection.landDeeds[i].eastSpot,
+            //     nftCollection.landDeeds[i].westSpot,
+            //     nftCollection.landDeeds[i].waterSource,
+            //     nftCollection.landDeeds[i].road,
+            //     nftCollection.landDeeds[i].settlement,
+            //     nftCollection.landDeeds[i].landType
+            // );
         }
         Debug.Log($"settlements: {settlements.Count}");
         
@@ -316,22 +715,24 @@ public class Test : MonoBehaviour {
                                     LandDeedID hitObject = hit.collider.gameObject.GetComponentInParent<LandDeedID>();
                                     hitObject.GetComponent<TMP_Text>().color = debugColor;
 
-                                    if(nftCollection.landDeeds[hitObject.id].region=="beach")
+                                    if(nftCollection.landDeeds[hitObject.id].landType=="Beach")
                                         continue;
 
-                                    nftCollection.landDeeds[hitObject.id] = new LandDeedMetadata(
+                                    nftCollection.landDeeds[hitObject.id] = new (
                                         nftCollection.landDeeds[hitObject.id].id,
                                         nftCollection.landDeeds[hitObject.id].longitude,
                                         nftCollection.landDeeds[hitObject.id].lattitude,
-                                        nftCollection.landDeeds[hitObject.id].region,
                                         nftCollection.landDeeds[hitObject.id].underlandLeft,
                                         nftCollection.landDeeds[hitObject.id].underlandMid,
                                         nftCollection.landDeeds[hitObject.id].underlandRight,
-                                        nftCollection.landDeeds[hitObject.id].artifact,
-                                        nftCollection.landDeeds[hitObject.id].placeOfInterest,
-                                        nftCollection.landDeeds[hitObject.id].resource,
+                                        nftCollection.landDeeds[hitObject.id].northSpot,
+                                        nftCollection.landDeeds[hitObject.id].southSpot,
+                                        nftCollection.landDeeds[hitObject.id].eastSpot,
+                                        nftCollection.landDeeds[hitObject.id].westSpot,
                                         nftCollection.landDeeds[hitObject.id].waterSource,
-                                        "dirt path"
+                                        true,
+                                        nftCollection.landDeeds[hitObject.id].settlement,
+                                        nftCollection.landDeeds[hitObject.id].landType
                                     );
                                 }
                                 // Debug.Log($"hit something: {raycastHits[0].collider.gameObject.name}");
@@ -344,6 +745,7 @@ public class Test : MonoBehaviour {
                 }
             }
         }
+        SaveMetaData();
     }
     
     [ContextMenu("Generate WaterSources")]
@@ -366,22 +768,24 @@ public class Test : MonoBehaviour {
                 LandDeedID hitObject = hit.collider.gameObject.GetComponentInParent<LandDeedID>();
                 hitObject.GetComponent<TMP_Text>().color = debugColor;
 
-                if(nftCollection.landDeeds[hitObject.id].region=="beach")
+                if(nftCollection.landDeeds[hitObject.id].landType=="beach")
                     continue;
 
-                nftCollection.landDeeds[hitObject.id] = new LandDeedMetadata(
+                nftCollection.landDeeds[hitObject.id] = new (
                     nftCollection.landDeeds[hitObject.id].id,
                     nftCollection.landDeeds[hitObject.id].longitude,
                     nftCollection.landDeeds[hitObject.id].lattitude,
-                    nftCollection.landDeeds[hitObject.id].region,
                     nftCollection.landDeeds[hitObject.id].underlandLeft,
                     nftCollection.landDeeds[hitObject.id].underlandMid,
                     nftCollection.landDeeds[hitObject.id].underlandRight,
-                    nftCollection.landDeeds[hitObject.id].artifact,
-                    nftCollection.landDeeds[hitObject.id].placeOfInterest,
-                    nftCollection.landDeeds[hitObject.id].resource,
-                    "river",
-                    nftCollection.landDeeds[hitObject.id].road
+                    nftCollection.landDeeds[hitObject.id].northSpot,
+                    nftCollection.landDeeds[hitObject.id].southSpot,
+                    nftCollection.landDeeds[hitObject.id].eastSpot,
+                    nftCollection.landDeeds[hitObject.id].westSpot,
+                    true,
+                    nftCollection.landDeeds[hitObject.id].road,
+                    nftCollection.landDeeds[hitObject.id].settlement,
+                    nftCollection.landDeeds[hitObject.id].landType
                 );
             }
             Debug.Log($"hit something: {raycastHits[0].collider.gameObject.name}");
@@ -390,61 +794,11 @@ public class Test : MonoBehaviour {
             Debug.Log($"hit nothing");
         }
         }
-        
+        SaveMetaData();
 
     }
-    [ContextMenu("Generate Resources")]
-    public void GenerateResources() {
-        
 
-    }
-    [ContextMenu("Provide Summary")]
-    public void ProvideSummary() {
-        // get the counts of each reagion type
-        int beachCount = 0;
-        int plainsCount = 0;
-        int forestCount = 0;
-        int highlandsCount = 0;
-        int rocksCount = 0;
-        int settlementCount = 0;
-        int dirtPathCount = 0;
-        int waterSourceCount = 0;
-        int resourceCount = 0;
-
-        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
-            if(nftCollection.landDeeds[i].region.Contains("beach")) {
-                beachCount++;
-            }
-            else if(nftCollection.landDeeds[i].region.Contains("plains")) {
-                plainsCount++;
-            }
-            else if(nftCollection.landDeeds[i].region.Contains("forest")) {
-                forestCount++;
-            }
-            else if(nftCollection.landDeeds[i].region.Contains("highlands")) {
-                highlandsCount++;
-            }
-            else if(nftCollection.landDeeds[i].region.Contains("rocks")) {
-                rocksCount++;
-            }
-            if(nftCollection.landDeeds[i].region.Contains("settlement")) {
-                settlementCount++;
-            }
-            if(nftCollection.landDeeds[i].road.Contains("dirt path")) {
-                dirtPathCount++;
-            }
-            if(nftCollection.landDeeds[i].waterSource.Contains("river")) {
-                waterSourceCount++;
-            }
-            if(nftCollection.landDeeds[i].resource.Contains("iron")) {
-                resourceCount++;
-            }
-        }
-
-        Debug.Log($"beach: {beachCount}, plains: {plainsCount}, forest: {forestCount}, highlands: {highlandsCount}, rocks: {rocksCount}");
-        Debug.Log($"settlements: {settlementCount}, dirt paths: {dirtPathCount}, water sources: {waterSourceCount}, resources: {resourceCount}");
-    }
-	// void OnDrawGizmos() {
+    // void OnDrawGizmos() {
 	// 	Gizmos.DrawWireCube(regionSize/2,regionSize);
 	// 	if (points != null) {
 	// 		foreach (Vector2 point in points) {
