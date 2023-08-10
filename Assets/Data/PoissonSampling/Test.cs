@@ -243,7 +243,7 @@ public class Test : MonoBehaviour {
             string landType = "";
             //get color that matches pixel color
             if(HasSimilarPixels(pixelColor,plainsColor)) {
-                landType = "Plains";
+                landType = "Rolling Plains";
             }
             else if(HasSimilarPixels(pixelColor,beachColor)) {
                 landType = "Beach";
@@ -255,11 +255,10 @@ public class Test : MonoBehaviour {
                 landType = "Highlands";
             }
             else if(HasSimilarPixels(pixelColor,rocks)) {
-                landType = "Cliffs";
+                landType = "Celestial Cliffs";
             }
             else if(HasSimilarPixels(pixelColor,Color.black)) {
-                landType = "Mystic";
-                Debug.Log($"Mystic");
+                landType = "Mystic Grove";
             }
             else {
                 Debug.LogError($"points missing a color: ");
@@ -322,7 +321,11 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].landType
             );
         }
+        // SpawnText();
+        // GenerateRoads();
+        GenerateWaterSources();
         HandleTrees();
+        HandleRocks();
         Handle1of1s();
         SaveMetaData();
     }
@@ -571,6 +574,35 @@ public class Test : MonoBehaviour {
         }
         SaveMetaData();
     }
+    public void HandleRocks(){
+         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            if(nftCollection.landDeeds[i].landType=="Celestial Cliffs"){
+
+                string northSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].northSpot;
+                string southSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].southSpot;
+                string eastSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].eastSpot;
+                string westSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].westSpot;
+
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandRight,
+                    northSpot,
+                    southSpot,
+                    eastSpot,
+                    westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+        }
+        SaveMetaData();
+    }    
     private string GetNewTree(string landType){
         string newTree = "";
         switch (SeededRandom.Range(0,3))
