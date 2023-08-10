@@ -161,7 +161,7 @@ public class Test : MonoBehaviour {
                 traits.Add(new Trait("northSpot", nftCollection.landDeeds[i].northSpot, GetTraitType(nftCollection.landDeeds[i].northSpot)));
 
             if(nftCollection.landDeeds[i].settlement)
-                traits.Add(new Trait("southSpot", "settlement", "PlaceOfInterest"));
+                traits.Add(new Trait("southSpot", "Settlement", "PlaceOfInterest"));
             else if(nftCollection.landDeeds[i].southSpot.Length > 0){
                 traits.Add(new Trait("southSpot", nftCollection.landDeeds[i].southSpot, GetTraitType(nftCollection.landDeeds[i].southSpot)));
             }
@@ -255,7 +255,7 @@ public class Test : MonoBehaviour {
                 landType = "Highlands";
             }
             else if(HasSimilarPixels(pixelColor,rocks)) {
-                landType = "Rocks";
+                landType = "Cliffs";
             }
             else if(HasSimilarPixels(pixelColor,Color.black)) {
                 landType = "Mystic";
@@ -380,12 +380,12 @@ public class Test : MonoBehaviour {
         return null;
     }
 
-    [ContextMenu("Handle 1 of 1s")]
+    // [ContextMenu("Handle 1 of 1s")]
     public void Handle1of1s(){
         int felisgarde = 1519;
         int ebisusBay = 2155;
         int brambleThorn = 986;
-        int[] lightHouses = new int[] {2440, 2495, 2484, 2497, 2271, 2156, 2165, 2340, 2281, 2466, 2225, 1194, 892, 624, 350, 213, 163, 125, 781, 2322};
+        int[] lightHouses = new int[] {2440, 2495, 2484, 2497, 2271, 2165, 2340, 2281, 2466, 2225, 1194, 892, 624, 350, 213, 163, 125, 781, 2322};
         int[] tikiLounge = new int[] {2303, 2352, 2441,2488,2473,2457,2460,2448,2444,2420,2385,2307,2210,2147,2111,2110,2119,2161,1043,905,816,800,586,610,670,382,499,718,360,408,305,259,161,360,599,169};
 
         for(int i = 0; i<nftCollection.landDeeds.Count; i++){
@@ -508,7 +508,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].landType
                 );
             }
-            else if(nftCollection.landDeeds[i].southSpot=="tree"){
+            if(nftCollection.landDeeds[i].southSpot=="tree"){
                 string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
 
                 nftCollection.landDeeds[i] = new LandDeedMetadata(
@@ -528,7 +528,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].landType
                 );
             } 
-            else if(nftCollection.landDeeds[i].eastSpot == "tree"){
+            if(nftCollection.landDeeds[i].eastSpot == "tree"){
                 string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
 
                 nftCollection.landDeeds[i] = new LandDeedMetadata(
@@ -548,7 +548,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].landType
                 );
             } 
-            else if(nftCollection.landDeeds[i].westSpot == "tree"){
+            if(nftCollection.landDeeds[i].westSpot == "tree"){
                 string newTree = GetNewTree(nftCollection.landDeeds[i].landType);
 
                 nftCollection.landDeeds[i] = new LandDeedMetadata(
@@ -576,18 +576,18 @@ public class Test : MonoBehaviour {
         switch (SeededRandom.Range(0,3))
         {
             case 0:
-                newTree = "deciduous tree 1";
+                newTree = "Tree (Ash)";
                 break;
             case 1:
-                newTree = "deciduous tree 2";
+                newTree = "Tree (Oak)";
                 break;
             case 2:
-                newTree = "Cherry Blossom Tree";
+                newTree = "Tree (Cherry Blossom)";
                 break;
         } 
 
         if(landType=="Beach")
-            newTree = "Palm Tree";
+            newTree = "Tree (Palm)";
 
         if(landType=="Verdant Forest")
             newTree = SeededRandom.FlipCoin() ? "Nightshade" : newTree;
@@ -621,7 +621,7 @@ public class Test : MonoBehaviour {
     private Color GetColorFromTag(string tag) {
         return tag switch
         {
-            "settlement" => Color.white,
+            "Settlement" => Color.white,
             "plains" => plainsColor,
             "beach" => Color.black,
             "forest" => forestColor,
@@ -642,25 +642,9 @@ public class Test : MonoBehaviour {
                 settlements.Add(new float2(nftCollection.landDeeds[i].longitude, nftCollection.landDeeds[i].lattitude));
                 roadDict.Add(new float2(nftCollection.landDeeds[i].longitude, nftCollection.landDeeds[i].lattitude), 0);
             }
-            // nftCollection.landDeeds[i] = new (
-            //     nftCollection.landDeeds[i].id,
-            //     nftCollection.landDeeds[i].longitude,
-            //     nftCollection.landDeeds[i].lattitude,
-            //     nftCollection.landDeeds[i].underlandLeft,
-            //     nftCollection.landDeeds[i].underlandMid,
-            //     nftCollection.landDeeds[i].underlandRight,
-            //     nftCollection.landDeeds[i].northSpot,
-            //     nftCollection.landDeeds[i].southSpot,
-            //     nftCollection.landDeeds[i].eastSpot,
-            //     nftCollection.landDeeds[i].westSpot,
-            //     nftCollection.landDeeds[i].waterSource,
-            //     nftCollection.landDeeds[i].road,
-            //     nftCollection.landDeeds[i].settlement,
-            //     nftCollection.landDeeds[i].landType
-            // );
         }
+
         Debug.Log($"settlements: {settlements.Count}");
-        
 
         // get settlement in middle of map
         // float2 middle = new float2(1024, 831);
