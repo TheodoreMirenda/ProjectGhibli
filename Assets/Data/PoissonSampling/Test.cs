@@ -25,22 +25,11 @@ public class Test : MonoBehaviour {
     [Header("Regions")]
     [SerializeField] private Sprite regionsSprite;
     [SerializeField] private Color beachColor, plainsColor, forestColor, highlandsColor, rocks;
-    // [SerializeField] private LandDeedStruct landDeeds = new ();
 
     [SerializeField] private int maxRoads = 5;
     [SerializeField] private Color debugColor;
     [SerializeField] private List<int> distanceIncrements = new () { 50, 100, 150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500 };
 
-    // [System.Serializable] public struct VectorContainer {
-    //     public List<Vector2> vectors;
-    // }
-    // [System.Serializable] public struct LandDeed {
-    //     public int id;
-    //     public float2 location;
-    //     public float lattitude;
-    //     public float longitude;
-    //     public List<string> tags;
-    // }
     [System.Serializable] public struct NFTCollection {
         public List<LandDeedMetadata> landDeeds;
     }
@@ -200,7 +189,7 @@ public class Test : MonoBehaviour {
 
         string finalJson = JsonUtility.ToJson(finalMetadata, true);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/FinalMetadata.json", finalJson);
-    
+        Debug.Log($"saved metadata: {finalJson}");
     }
     private string GetTraitType(string traitName) {
         for(int i = 0; i < attributeDictionaries.Length; i++) {
@@ -455,7 +444,7 @@ public class Test : MonoBehaviour {
                 );
             }
             for(int j = 0; j < lightHouses.Length; j++){
-                if(lightHouses[j] == nftCollection.landDeeds[i].id){
+                if(lightHouses[j] == nftCollection.landDeeds[i].id+1){
                     nftCollection.landDeeds[i] = new LandDeedMetadata(
                     nftCollection.landDeeds[i].id,
                     nftCollection.landDeeds[i].longitude,
@@ -475,7 +464,7 @@ public class Test : MonoBehaviour {
                 }
             }
             for(int j = 0; j < tikiLounge.Length; j++){
-                if(tikiLounge[j] == nftCollection.landDeeds[i].id){
+                if(tikiLounge[j] == nftCollection.landDeeds[i].id+1){
                     nftCollection.landDeeds[i] = new LandDeedMetadata(
                     nftCollection.landDeeds[i].id,
                     nftCollection.landDeeds[i].longitude,
@@ -494,9 +483,8 @@ public class Test : MonoBehaviour {
                     );
                 }
             }
-
         }
-
+        SaveMetaData();
     } 
     public void HandleTrees(){
         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
@@ -598,11 +586,11 @@ public class Test : MonoBehaviour {
                 break;
         } 
 
-        if(landType=="beach")
-            newTree = "palm tree";
+        if(landType=="Beach")
+            newTree = "Palm Tree";
 
-        if(landType=="forest")
-            newTree = SeededRandom.FlipCoin() ? "nightshade" : newTree;
+        if(landType=="Verdant Forest")
+            newTree = SeededRandom.FlipCoin() ? "Nightshade" : newTree;
             
         return newTree;
     }
@@ -809,15 +797,6 @@ public class Test : MonoBehaviour {
         SaveMetaData();
 
     }
-
-    // void OnDrawGizmos() {
-	// 	Gizmos.DrawWireCube(regionSize/2,regionSize);
-	// 	if (points != null) {
-	// 		foreach (Vector2 point in points) {
-	// 			Gizmos.DrawSphere(point, displayRadius);
-	// 		}
-	// 	}
-	// }
     private bool HasSimilarPixels(Color a, Color b) {
         float threshold = 0.2f;
         if(Mathf.Abs(a.r - b.r) < threshold && Mathf.Abs(a.g - b.g) < threshold && Mathf.Abs(a.b - b.b) < threshold) {

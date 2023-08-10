@@ -4360,7 +4360,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Fairy Fountain",
+                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -4396,8 +4396,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "lotus",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -5630,6 +5630,11 @@
                     "display_type": "Resource"
                 },
                 {
+                    "trait_type": "northSpot",
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
+                },
+                {
                     "trait_type": "southSpot",
                     "value": "Academy Outpost ",
                     "display_type": "PlaceOfInterest"
@@ -5662,8 +5667,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "gold mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -5693,8 +5698,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "mushroom 2",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -5729,8 +5734,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "emerald",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -5899,8 +5904,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "topaz",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -5927,11 +5932,6 @@
                     "trait_type": "underlandLeft",
                     "value": "Chest",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -7488,8 +7488,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 1",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -7519,8 +7519,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "rock",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -9019,8 +9019,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "paddy field",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -9055,8 +9055,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "Cherry Blossom Tree",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -10635,7 +10635,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Fairy Fountain",
+                    "value": "Tiki Lounge",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -10663,11 +10663,6 @@
                     "trait_type": "underlandLeft",
                     "value": "Topaz",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -12204,6 +12199,11 @@
                     "display_type": "Artifact"
                 },
                 {
+                    "trait_type": "northSpot",
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
+                },
+                {
                     "trait_type": "southSpot",
                     "value": "mushroom 2",
                     "display_type": "Resource"
@@ -12246,8 +12246,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 2",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -12565,7 +12565,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "bandit camp",
+                    "value": "Tiki Lounge",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -12606,8 +12606,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "Metacosmic Genome Harmonizer",
+                    "display_type": "Artifact"
                 },
                 {
                     "trait_type": "southSpot",
@@ -13301,6 +13301,11 @@
                     "display_type": "Resource"
                 },
                 {
+                    "trait_type": "northSpot",
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
+                },
+                {
                     "trait_type": "southSpot",
                     "value": "Metacosmic Genome Harmonizer",
                     "display_type": "Artifact"
@@ -13333,8 +13338,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "rock",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -14223,8 +14228,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 1",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -14264,8 +14269,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "paddy field",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -17464,8 +17469,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 2",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -17495,7 +17500,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
+                    "value": "Torii",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -20671,8 +20676,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "mushroom 1",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -20707,8 +20712,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "Cherry Blossom Tree",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -21144,8 +21149,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "cherry tree",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -21187,11 +21192,6 @@
                     "trait_type": "underlandRight",
                     "value": "Lava",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -21535,7 +21535,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Torii",
+                    "value": "Tiki Lounge",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -21571,8 +21571,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "copper mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -22029,8 +22029,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Bamboo",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -22055,8 +22055,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 1",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -23670,8 +23670,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Cherry Blossom Tree",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -23706,8 +23706,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 2",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -25338,8 +25338,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 1",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -25376,11 +25376,6 @@
                     "trait_type": "underlandRight",
                     "value": "Fossils",
                     "display_type": "Artifact"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -27516,8 +27511,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "ruby",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -27559,11 +27554,6 @@
                     "trait_type": "underlandRight",
                     "value": "Lava",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -28220,8 +28210,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 1",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -28261,8 +28251,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 1",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -28786,8 +28776,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Cherry Blossom Tree",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -28817,8 +28807,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "copper mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -31406,6 +31396,11 @@
                     "display_type": "PlaceOfInterest"
                 },
                 {
+                    "trait_type": "northSpot",
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
+                },
+                {
                     "trait_type": "eastSpot",
                     "value": "lotus",
                     "display_type": "Resource"
@@ -31438,8 +31433,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "paddy field",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -31860,8 +31855,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Genesis Scythe",
-                    "display_type": "Artifact"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -31891,8 +31886,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "mushroom 1",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -36703,8 +36698,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "copper mine",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -36734,8 +36729,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 2",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -42084,7 +42079,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "bandit camp",
+                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -42105,8 +42100,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "gold mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -74250,8 +74245,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Cherry Blossom Tree",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -74327,8 +74322,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 1",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -74574,8 +74569,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 2",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -74607,11 +74602,6 @@
                     "trait_type": "underlandMid",
                     "value": "Oil",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -75622,8 +75612,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "rock",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -75648,8 +75638,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "Iron node",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -75931,7 +75921,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Ebisu's Bay",
+                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -75964,11 +75954,6 @@
                     "trait_type": "underlandRight",
                     "value": "Emerald",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -76111,8 +76096,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "copper mine",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -76142,8 +76127,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "mushroom 2",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -76235,8 +76220,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Cherry Blossom Tree",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -76271,7 +76256,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
+                    "value": "Torii",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -77755,8 +77740,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "copper mine",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -77786,7 +77771,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
+                    "value": "bandit camp",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -78260,8 +78245,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "topaz",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -78297,11 +78282,6 @@
                 {
                     "trait_type": "underlandMid",
                     "value": "Subway",
-                    "display_type": "PlaceOfInterest"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -79921,8 +79901,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "topaz",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -79962,8 +79942,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "farm land",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -80271,8 +80251,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 1",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -80302,8 +80282,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "lotus",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -81008,8 +80988,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Bamboo",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -81039,7 +81019,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
+                    "value": "Moongate",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -81152,8 +81132,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Iron node",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -81198,8 +81178,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "cherry tree",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -81687,8 +81667,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "emerald",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -81723,8 +81703,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "Genesis Scythe",
+                    "display_type": "Artifact"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -82374,6 +82354,11 @@
                     "display_type": "Resource"
                 },
                 {
+                    "trait_type": "northSpot",
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
+                },
+                {
                     "trait_type": "southSpot",
                     "value": "deciduous tree 1",
                     "display_type": "Resource"
@@ -82401,8 +82386,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "Cherry Blossom Tree",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -82817,8 +82802,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 2",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -82853,8 +82838,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "red yucca",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -84000,7 +83985,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "bandit camp",
+                    "value": "Tiki Lounge",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -84031,7 +84016,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
+                    "value": "Fairy Fountain",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -85180,8 +85165,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "gold mine",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -85216,8 +85201,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "rock",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -85885,8 +85870,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "paddy field",
-                    "display_type": "Resource"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -85926,7 +85911,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
+                    "value": "Tiki Lounge",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -85957,8 +85942,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "gold mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86029,8 +86014,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 2",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86070,7 +86055,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
+                    "value": "Inn",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -86173,8 +86158,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "deciduous tree 1",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86209,7 +86194,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
+                    "value": "Fairy Fountain",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -86497,8 +86482,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "copper mine",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86533,8 +86518,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
+                    "value": "copper mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86600,8 +86585,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "mandrake root",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86633,11 +86618,6 @@
                     "trait_type": "underlandLeft",
                     "value": "Chest",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -86791,7 +86771,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "bandit camp",
+                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -86832,7 +86812,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
+                    "value": "Inn",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -87047,6 +87027,11 @@
                     "display_type": "Resource"
                 },
                 {
+                    "trait_type": "northSpot",
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
+                },
+                {
                     "trait_type": "southSpot",
                     "value": "Fairy Fountain",
                     "display_type": "PlaceOfInterest"
@@ -87076,11 +87061,6 @@
                     "trait_type": "underlandRight",
                     "value": "Lava",
                     "display_type": "Resource"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "eastSpot",
@@ -87399,7 +87379,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "bandit camp",
+                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -87430,8 +87410,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "paddy field",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -87543,8 +87523,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Cherry Blossom Tree",
-                    "display_type": "Resource"
+                    "value": "Tiki Lounge",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -87571,11 +87551,6 @@
                     "trait_type": "landType",
                     "value": "Beach",
                     "display_type": "LandType"
-                },
-                {
-                    "trait_type": "northSpot",
-                    "value": "Tiki Lounge",
-                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -87785,8 +87760,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Nasus Recurve",
-                    "display_type": "Artifact"
+                    "value": "Lighthouse",
+                    "display_type": "PlaceOfInterest"
                 },
                 {
                     "trait_type": "southSpot",
@@ -87826,8 +87801,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "gold mine",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
@@ -87862,7 +87837,7 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Torii",
+                    "value": "Lighthouse",
                     "display_type": "PlaceOfInterest"
                 },
                 {
@@ -87893,8 +87868,8 @@
                 },
                 {
                     "trait_type": "northSpot",
-                    "value": "Lighthouse",
-                    "display_type": "PlaceOfInterest"
+                    "value": "deciduous tree 2",
+                    "display_type": "Resource"
                 },
                 {
                     "trait_type": "southSpot",
