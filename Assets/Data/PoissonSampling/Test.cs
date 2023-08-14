@@ -89,7 +89,7 @@ public class Test : MonoBehaviour {
     }
     [System.Serializable] public struct Attribute {
         public string traitName;
-        public float likelyhood;
+        // public float likelyhood;
     }
     [System.Serializable] public struct FinalMetadata {
         public string image;
@@ -189,7 +189,7 @@ public class Test : MonoBehaviour {
 
         string finalJson = JsonUtility.ToJson(finalMetadata, true);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/FinalMetadata.json", finalJson);
-        Debug.Log($"saved metadata: {finalJson}");
+        Debug.Log($"saved metadata");
     }
     private string GetTraitType(string traitName) {
         for(int i = 0; i < attributeDictionaries.Length; i++) {
@@ -323,7 +323,7 @@ public class Test : MonoBehaviour {
         }
         // SpawnText();
         // GenerateRoads();
-        GenerateWaterSources();
+        // GenerateWaterSources();
         HandleTrees();
         HandleRocks();
         Handle1of1s();
@@ -626,7 +626,7 @@ public class Test : MonoBehaviour {
             
         return newTree;
     }
-    // [ContextMenu("Load Land Deeds")]
+    [ContextMenu("Load Land Deeds")]
     private void LoadLandDeeds(){
         string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/PoissonSampling/NFTCollection.json");
         nftCollection = JsonUtility.FromJson<NFTCollection>(json);
