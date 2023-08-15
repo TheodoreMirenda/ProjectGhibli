@@ -40,7 +40,7 @@ public class Test : MonoBehaviour {
         public string landType;//mystic, beach plains, highlands, forest
 
         public string underlandLeft;
-        public string underlandMid;
+        public string underlandMiddle;
         public string underlandRight;
         public string northSpot;
         public string southSpot;
@@ -52,14 +52,14 @@ public class Test : MonoBehaviour {
         public bool settlement;
 
         public LandDeedMetadata (int id, float longitude, float lattitude, string underlandLeft, 
-                                 string underlandMid, string underlandRight, string northSpot, string southSpot, 
+                                 string underlandMiddle, string underlandRight, string northSpot, string southSpot, 
                                  string eastSpot, string westSpot, bool waterSource, bool road, bool settlement, string landType) {
             this.id = id;
             this.longitude = longitude;
             this.lattitude = lattitude;
 
             this.underlandLeft = underlandLeft;
-            this.underlandMid = underlandMid;
+            this.underlandMiddle = underlandMiddle;
             this.underlandRight = underlandRight;
             this.northSpot =  northSpot;
             this.southSpot = southSpot;
@@ -153,8 +153,8 @@ public class Test : MonoBehaviour {
                 traits.Add(new Trait("landType", nftCollection.landDeeds[i].landType, "LandType"));
             if(nftCollection.landDeeds[i].underlandLeft.Length > 0)
                 traits.Add(new Trait("underlandLeft", nftCollection.landDeeds[i].underlandLeft, GetTraitType(nftCollection.landDeeds[i].underlandLeft)));
-            if(nftCollection.landDeeds[i].underlandMid.Length > 0)
-                traits.Add(new Trait("underlandMid", nftCollection.landDeeds[i].underlandMid, GetTraitType(nftCollection.landDeeds[i].underlandMid)));
+            if(nftCollection.landDeeds[i].underlandMiddle.Length > 0)
+                traits.Add(new Trait("underlandMiddle", nftCollection.landDeeds[i].underlandMiddle, GetTraitType(nftCollection.landDeeds[i].underlandMiddle)));
             if(nftCollection.landDeeds[i].underlandRight.Length > 0)
                 traits.Add(new Trait("underlandRight", nftCollection.landDeeds[i].underlandRight, GetTraitType(nftCollection.landDeeds[i].underlandRight)));
             if(nftCollection.landDeeds[i].northSpot.Length > 0)
@@ -243,13 +243,13 @@ public class Test : MonoBehaviour {
             string landType = "";
             //get color that matches pixel color
             if(HasSimilarPixels(pixelColor,plainsColor)) {
-                landType = "Rolling Plains";
+                landType = "Rolling-Plains";
             }
             else if(HasSimilarPixels(pixelColor,beachColor)) {
                 landType = "Beach";
             }
             else if(HasSimilarPixels(pixelColor,forestColor)) {
-                landType = "Verdant Forest";
+                landType = "Verdant-Forest";
             }
             else if(HasSimilarPixels(pixelColor,highlandsColor)) {
                 landType = "Highlands";
@@ -258,7 +258,7 @@ public class Test : MonoBehaviour {
                 landType = "Celestial Cliffs";
             }
             else if(HasSimilarPixels(pixelColor,Color.black)) {
-                landType = "Mystic Grove";
+                landType = "Mystic-Grove";
             }
             else {
                 Debug.LogError($"points missing a color: ");
@@ -269,7 +269,7 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].longitude,
                 nftCollection.landDeeds[i].lattitude,
                 nftCollection.landDeeds[i].underlandLeft,
-                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
                 nftCollection.landDeeds[i].northSpot,
                 nftCollection.landDeeds[i].southSpot,
@@ -293,10 +293,10 @@ public class Test : MonoBehaviour {
                 underlandLeft = SeededRandom.Range(0f, 1f) switch
                 {
                     > 0.33f => underlandLeft,
-                    _ => "Chest",
+                    _ => "Fortune-Chest",
                 };
 
-            string underlandMid = GetRandomAttribute("Underland");
+            string underlandMiddle = GetRandomAttribute("Underland");
             string underlandRight = GetRandomAttribute("Underland");
 
             string northSpot = GetRandomAttribute("Top");
@@ -309,7 +309,7 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].longitude,
                 nftCollection.landDeeds[i].lattitude,
                 underlandLeft,
-                underlandMid,
+                underlandMiddle,
                 underlandRight,
                 northSpot,
                 southSpot,
@@ -398,7 +398,7 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].longitude,
                 nftCollection.landDeeds[i].lattitude,
                 nftCollection.landDeeds[i].underlandLeft,
-                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
                 "Felisgarde",
                 nftCollection.landDeeds[i].southSpot,
@@ -416,7 +416,7 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].longitude,
                 nftCollection.landDeeds[i].lattitude,
                 nftCollection.landDeeds[i].underlandLeft,
-                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
                 "Bramblethorn Titan",
                 nftCollection.landDeeds[i].southSpot,
@@ -434,7 +434,7 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].longitude,
                 nftCollection.landDeeds[i].lattitude,
                 nftCollection.landDeeds[i].underlandLeft,
-                nftCollection.landDeeds[i].underlandMid,
+                nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
                 "Ebisu's Bay",
                 nftCollection.landDeeds[i].southSpot,
@@ -453,7 +453,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     "Lighthouse",
                     nftCollection.landDeeds[i].southSpot,
@@ -473,7 +473,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     "Tiki Lounge",
                     nftCollection.landDeeds[i].southSpot,
@@ -499,7 +499,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     newTree,
                     nftCollection.landDeeds[i].southSpot,
@@ -519,7 +519,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     nftCollection.landDeeds[i].northSpot,
                     newTree,
@@ -539,7 +539,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     nftCollection.landDeeds[i].northSpot,
                     nftCollection.landDeeds[i].southSpot,
@@ -559,7 +559,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     nftCollection.landDeeds[i].northSpot,
                     nftCollection.landDeeds[i].southSpot,
@@ -588,7 +588,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
                     nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMid,
+                    nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
                     northSpot,
                     southSpot,
@@ -621,7 +621,7 @@ public class Test : MonoBehaviour {
         if(landType=="Beach")
             newTree = "Tree (Palm)";
 
-        if(landType=="Verdant Forest")
+        if(landType=="Verdant-Forest")
             newTree = SeededRandom.FlipCoin() ? "Nightshade" : newTree;
             
         return newTree;
@@ -739,7 +739,7 @@ public class Test : MonoBehaviour {
                                         nftCollection.landDeeds[hitObject.id].longitude,
                                         nftCollection.landDeeds[hitObject.id].lattitude,
                                         nftCollection.landDeeds[hitObject.id].underlandLeft,
-                                        nftCollection.landDeeds[hitObject.id].underlandMid,
+                                        nftCollection.landDeeds[hitObject.id].underlandMiddle,
                                         nftCollection.landDeeds[hitObject.id].underlandRight,
                                         nftCollection.landDeeds[hitObject.id].northSpot,
                                         nftCollection.landDeeds[hitObject.id].southSpot,
@@ -792,7 +792,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[hitObject.id].longitude,
                     nftCollection.landDeeds[hitObject.id].lattitude,
                     nftCollection.landDeeds[hitObject.id].underlandLeft,
-                    nftCollection.landDeeds[hitObject.id].underlandMid,
+                    nftCollection.landDeeds[hitObject.id].underlandMiddle,
                     nftCollection.landDeeds[hitObject.id].underlandRight,
                     nftCollection.landDeeds[hitObject.id].northSpot,
                     nftCollection.landDeeds[hitObject.id].southSpot,
