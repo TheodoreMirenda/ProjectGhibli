@@ -255,7 +255,7 @@ public class Test : MonoBehaviour {
                 landType = "Highlands";
             }
             else if(HasSimilarPixels(pixelColor,rocks)) {
-                landType = "Celestial Cliffs";
+                landType = "Celestial-Cliffs";
             }
             else if(HasSimilarPixels(pixelColor,Color.black)) {
                 landType = "Mystic-Grove";
@@ -576,7 +576,7 @@ public class Test : MonoBehaviour {
     }
     public void HandleRocks(){
          for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
-            if(nftCollection.landDeeds[i].landType=="Celestial Cliffs"){
+            if(nftCollection.landDeeds[i].landType=="Celestial-Cliffs"){
 
                 string northSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].northSpot;
                 string southSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].southSpot;
