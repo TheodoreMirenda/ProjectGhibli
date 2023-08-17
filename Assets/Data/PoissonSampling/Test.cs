@@ -384,7 +384,7 @@ public class Test : MonoBehaviour {
         return null;
     }
 
-    // [ContextMenu("Handle 1 of 1s")]
+    // [ContextMenu("Handle 1 of 1s")]//and Inns and Lighthouses and Tiki Lounges
     public void Handle1of1s(){
         int felisgarde = 1519;
         int ebisusBay = 2155;
@@ -393,6 +393,24 @@ public class Test : MonoBehaviour {
         int[] tikiLounge = new int[] {2303, 2352, 2441,2488,2473,2457,2460,2448,2444,2420,2385,2307,2210,2147,2111,2110,2119,2161,1043,905,816,800,586,610,670,382,499,718,360,408,305,259,161,360,599,169};
 
         for(int i = 0; i<nftCollection.landDeeds.Count; i++){
+            if(nftCollection.landDeeds[i].road){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                nftCollection.landDeeds[i].id,
+                nftCollection.landDeeds[i].longitude,
+                nftCollection.landDeeds[i].lattitude,
+                nftCollection.landDeeds[i].underlandLeft,
+                nftCollection.landDeeds[i].underlandMiddle,
+                nftCollection.landDeeds[i].underlandRight,
+                SeededRandom.Range(0f,1f) > 0.7f ? "Inn" : nftCollection.landDeeds[i].northSpot,
+                nftCollection.landDeeds[i].southSpot,
+                nftCollection.landDeeds[i].eastSpot,
+                nftCollection.landDeeds[i].westSpot,
+                nftCollection.landDeeds[i].waterSource,
+                nftCollection.landDeeds[i].road,
+                nftCollection.landDeeds[i].settlement,
+                nftCollection.landDeeds[i].landType
+                );
+            }
             if(felisgarde == nftCollection.landDeeds[i].id){
                 nftCollection.landDeeds[i] = new LandDeedMetadata(
                 nftCollection.landDeeds[i].id,
@@ -579,10 +597,26 @@ public class Test : MonoBehaviour {
          for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
             if(nftCollection.landDeeds[i].landType=="Celestial-Cliffs"){
 
-                string northSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].northSpot;
-                string southSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].southSpot;
-                string eastSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].eastSpot;
-                string westSpot = SeededRandom.Range(0f,1f)>0.7 ? "Rock" : nftCollection.landDeeds[i].westSpot;
+                string northSpot = nftCollection.landDeeds[i].northSpot;
+                string southSpot = nftCollection.landDeeds[i].southSpot;
+                string eastSpot = nftCollection.landDeeds[i].eastSpot;
+                string westSpot = nftCollection.landDeeds[i].westSpot;
+                
+                if(GetTraitType(northSpot)=="Resource"){
+                    northSpot = GetRandomRockThing();
+                    // northSpot = SeededRandom.Range(0f,1f)>0.5 ?  GetRandomRockThing() : "";
+                }
+                if(GetTraitType(southSpot)=="Resource"){
+                    southSpot = GetRandomRockThing();
+                    // southSpot = SeededRandom.Range(0f,1f)>0.5 ?  GetRandomRockThing() : "";
+                }
+                if(GetTraitType(eastSpot)=="Resource"){
+                    eastSpot = GetRandomRockThing();
+                    // eastSpot = SeededRandom.Range(0f,1f)>0.5 ?  GetRandomRockThing() : "";
+                }
+                if(GetTraitType(westSpot)=="Resource"){
+                    westSpot = GetRandomRockThing();
+                }
 
                 nftCollection.landDeeds[i] = new LandDeedMetadata(
                     nftCollection.landDeeds[i].id,
@@ -604,6 +638,14 @@ public class Test : MonoBehaviour {
         }
         SaveMetaData();
     }    
+    private string GetRandomRockThing(){
+        return SeededRandom.Range(0f,1f) switch
+        {
+            > 0.85f => "Copper-Mine",
+            > 0.7f => "Gold-Mine",
+            _ => "Rock",
+        };
+    }
     private string GetNewTree(string landType){
         string newTree = "";
         switch (SeededRandom.Range(0,3))
@@ -721,6 +763,24 @@ public class Test : MonoBehaviour {
             //         nftCollection.landDeeds[i].road,
             //         nftCollection.landDeeds[i].settlement,
             //         "Rolling-Plains"
+            //     );
+            // } 
+            // if(nftCollection.landDeeds[i].landType=="Verdant Forest"){
+            //     nftCollection.landDeeds[i] = new LandDeedMetadata(
+            //         nftCollection.landDeeds[i].id,
+            //         nftCollection.landDeeds[i].longitude,
+            //         nftCollection.landDeeds[i].lattitude,
+            //         nftCollection.landDeeds[i].underlandLeft,
+            //         nftCollection.landDeeds[i].underlandMiddle,
+            //         nftCollection.landDeeds[i].underlandRight,
+            //         nftCollection.landDeeds[i].northSpot,
+            //         nftCollection.landDeeds[i].southSpot,
+            //         nftCollection.landDeeds[i].eastSpot,
+            //         nftCollection.landDeeds[i].westSpot,
+            //         nftCollection.landDeeds[i].waterSource,
+            //         nftCollection.landDeeds[i].road,
+            //         nftCollection.landDeeds[i].settlement,
+            //         "Verdant-Forest"
             //     );
             // } 
         }
