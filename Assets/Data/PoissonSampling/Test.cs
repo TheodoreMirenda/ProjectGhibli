@@ -327,6 +327,7 @@ public class Test : MonoBehaviour {
         HandleTrees();
         HandleRocks();
         Handle1of1s();
+        OneOffFixes();
         SaveMetaData();
     }
     public string GetRandomAttribute(string attributeName){
@@ -401,9 +402,9 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
                 "Felisgarde",
-                nftCollection.landDeeds[i].southSpot,
-                nftCollection.landDeeds[i].eastSpot,
-                nftCollection.landDeeds[i].westSpot,
+                "",
+                "",
+                "",
                 nftCollection.landDeeds[i].waterSource,
                 nftCollection.landDeeds[i].road,
                 nftCollection.landDeeds[i].settlement,
@@ -418,10 +419,10 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].underlandLeft,
                 nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
-                "Bramblethorn Titan",
-                nftCollection.landDeeds[i].southSpot,
-                nftCollection.landDeeds[i].eastSpot,
-                nftCollection.landDeeds[i].westSpot,
+                "Bramblethorn-Titan",
+                "",
+                "",
+                "",
                 nftCollection.landDeeds[i].waterSource,
                 nftCollection.landDeeds[i].road,
                 nftCollection.landDeeds[i].settlement,
@@ -436,10 +437,10 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].underlandLeft,
                 nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
-                "Ebisu's Bay",
-                nftCollection.landDeeds[i].southSpot,
-                nftCollection.landDeeds[i].eastSpot,
-                nftCollection.landDeeds[i].westSpot,
+                "Ebisu's-Bay",
+                "",
+                "",
+                "",
                 nftCollection.landDeeds[i].waterSource,
                 nftCollection.landDeeds[i].road,
                 nftCollection.landDeeds[i].settlement,
@@ -475,7 +476,7 @@ public class Test : MonoBehaviour {
                     nftCollection.landDeeds[i].underlandLeft,
                     nftCollection.landDeeds[i].underlandMiddle,
                     nftCollection.landDeeds[i].underlandRight,
-                    "Tiki Lounge",
+                    "Coastal-Tiki-Lounge",
                     nftCollection.landDeeds[i].southSpot,
                     nftCollection.landDeeds[i].eastSpot,
                     nftCollection.landDeeds[i].westSpot,
@@ -620,9 +621,12 @@ public class Test : MonoBehaviour {
 
         if(landType=="Beach")
             newTree = "Tree (Palm)";
-
-        if(landType=="Verdant-Forest")
+        else if(landType=="Verdant-Forest")
             newTree = SeededRandom.FlipCoin() ? "Nightshade" : newTree;
+        else if(landType=="Rolling-Plains")
+            newTree = SeededRandom.FlipCoin() ? "Thornfire-lily" : newTree;
+        else if(landType=="Highlands")
+            newTree = SeededRandom.FlipCoin() ? "Mandrake-Root" : newTree;
             
         return newTree;
     }
@@ -662,6 +666,64 @@ public class Test : MonoBehaviour {
             "mystic" => Color.blue,
             _ => Color.black,
         };
+    }
+    private void OneOffFixes(){
+        for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
+            // if(nftCollection.landDeeds[i].landType=="Mystic Grove"){
+            //     nftCollection.landDeeds[i] = new LandDeedMetadata(
+            //         nftCollection.landDeeds[i].id,
+            //         nftCollection.landDeeds[i].longitude,
+            //         nftCollection.landDeeds[i].lattitude,
+            //         nftCollection.landDeeds[i].underlandLeft,
+            //         nftCollection.landDeeds[i].underlandMiddle,
+            //         nftCollection.landDeeds[i].underlandRight,
+            //         nftCollection.landDeeds[i].northSpot,
+            //         nftCollection.landDeeds[i].southSpot,
+            //         nftCollection.landDeeds[i].eastSpot,
+            //         nftCollection.landDeeds[i].westSpot,
+            //         nftCollection.landDeeds[i].waterSource,
+            //         nftCollection.landDeeds[i].road,
+            //         nftCollection.landDeeds[i].settlement,
+            //         "Mystic-Grove"
+            //     );
+            // }
+            // if(nftCollection.landDeeds[i].landType=="Celestial Cliffs"){
+            //     nftCollection.landDeeds[i] = new LandDeedMetadata(
+            //         nftCollection.landDeeds[i].id,
+            //         nftCollection.landDeeds[i].longitude,
+            //         nftCollection.landDeeds[i].lattitude,
+            //         nftCollection.landDeeds[i].underlandLeft,
+            //         nftCollection.landDeeds[i].underlandMiddle,
+            //         nftCollection.landDeeds[i].underlandRight,
+            //         nftCollection.landDeeds[i].northSpot,
+            //         nftCollection.landDeeds[i].southSpot,
+            //         nftCollection.landDeeds[i].eastSpot,
+            //         nftCollection.landDeeds[i].westSpot,
+            //         nftCollection.landDeeds[i].waterSource,
+            //         nftCollection.landDeeds[i].road,
+            //         nftCollection.landDeeds[i].settlement,
+            //         "Celestial-Cliffs"
+            //     );
+            // } 
+            // if(nftCollection.landDeeds[i].landType=="Rolling Plains"){
+            //     nftCollection.landDeeds[i] = new LandDeedMetadata(
+            //         nftCollection.landDeeds[i].id,
+            //         nftCollection.landDeeds[i].longitude,
+            //         nftCollection.landDeeds[i].lattitude,
+            //         nftCollection.landDeeds[i].underlandLeft,
+            //         nftCollection.landDeeds[i].underlandMiddle,
+            //         nftCollection.landDeeds[i].underlandRight,
+            //         nftCollection.landDeeds[i].northSpot,
+            //         nftCollection.landDeeds[i].southSpot,
+            //         nftCollection.landDeeds[i].eastSpot,
+            //         nftCollection.landDeeds[i].westSpot,
+            //         nftCollection.landDeeds[i].waterSource,
+            //         nftCollection.landDeeds[i].road,
+            //         nftCollection.landDeeds[i].settlement,
+            //         "Rolling-Plains"
+            //     );
+            // } 
+        }
     }
     [ContextMenu("Generate Roads")]
     public void GenerateRoads(){
