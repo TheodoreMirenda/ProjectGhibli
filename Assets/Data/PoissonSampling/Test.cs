@@ -50,10 +50,11 @@ public class Test : MonoBehaviour {
         public bool waterSource;  
         public bool road;
         public bool settlement;
+        public string legendary;
 
         public LandDeedMetadata (int id, float longitude, float lattitude, string underlandLeft, 
                                  string underlandMiddle, string underlandRight, string northSpot, string southSpot, 
-                                 string eastSpot, string westSpot, bool waterSource, bool road, bool settlement, string landType) {
+                                 string eastSpot, string westSpot, bool waterSource, bool road, bool settlement, string landType, string legendary = "") {
             this.id = id;
             this.longitude = longitude;
             this.lattitude = lattitude;
@@ -70,6 +71,7 @@ public class Test : MonoBehaviour {
             this.road = road;
             this.settlement = settlement;
             this.landType = landType;
+            this.legendary = legendary;
         }
     }
     [System.Serializable] public struct Trait {
@@ -174,7 +176,8 @@ public class Test : MonoBehaviour {
                 traits.Add(new Trait("waterSource", GetRandomAttribute("WaterSource"), "WaterSource"));
             if(nftCollection.landDeeds[i].road)
                 traits.Add(new Trait("road", GetRandomAttribute("Road"), "Road"));
-            
+            if(nftCollection.landDeeds[i].legendary != "")
+                traits.Add(new Trait("legendary", nftCollection.landDeeds[i].legendary, "Legendary"));
             
             Trait[] traitsArray = traits.ToArray();
 
@@ -292,7 +295,7 @@ public class Test : MonoBehaviour {
              if(underlandLeft!="")
                 underlandLeft = SeededRandom.Range(0f, 1f) switch
                 {
-                    > 0.33f => underlandLeft,
+                    > 0.16f => underlandLeft,
                     _ => "Fortune-Chest",
                 };
 
@@ -326,6 +329,7 @@ public class Test : MonoBehaviour {
         // GenerateWaterSources();
         HandleTrees();
         HandleRocks();
+        HandlePruneMines();
         Handle1of1s();
         OneOffFixes();
         SaveMetaData();
@@ -351,13 +355,13 @@ public class Test : MonoBehaviour {
         else if(attributeName =="Underland"){
             switch (SeededRandom.Range(0f,1f))
             {
-                case > 0.7f:
+                case > 0.65f:
                     attributeName = "ResourceUnderland";
                     break;
-                case > 0.66f:
+                case > 0.60f:
                     attributeName = "PlaceOfInterestUnderland";
                     break;
-                case > 0.60f:
+                case > 0.55f:
                     attributeName = "ArtifactUnderland";
                     break;
                 default:
@@ -386,11 +390,31 @@ public class Test : MonoBehaviour {
 
     // [ContextMenu("Handle 1 of 1s")]//and Inns and Lighthouses and Tiki Lounges
     public void Handle1of1s(){
-        int felisgarde = 1519;
+        int felisgarde = 1121;
         int ebisusBay = 2155;
-        int brambleThorn = 986;
+        int brambleThorn = 662;
         int[] lightHouses = new int[] {2440, 2495, 2484, 2497, 2271, 2165, 2340, 2281, 2466, 2225, 1194, 892, 624, 350, 213, 163, 125, 781, 2322};
         int[] tikiLounge = new int[] {2303, 2352, 2441,2488,2473,2457,2460,2448,2444,2420,2385,2307,2210,2147,2111,2110,2119,2161,1043,905,816,800,586,610,670,382,499,718,360,408,305,259,161,360,599,169};
+        //generate 60 values at somewhat intervals of 40 between 0 and 2500
+        int[] etherianObelisk = new int[]{ 40, 80, 120, 160, 1068, 240, 280, 320, 360, 400, 500, 480, 520, 560, 475, 640, 680, 720, 760, 800, 840, 
+            880, 920, 960, 990, 1040, 1080, 977, 1160, 336, 1240, 1280, 1320, 1360, 1400, 1440, 1480, 1520, 1502, 1564, 1640, 1680, 1720, 1760, 
+            1800, 1840, 1880, 1920, 1960, 2000, 2040, 2080, 2120, 1886, 2200, 2240, 2125, 2320, 2295, 2400, 2440, 2480, 9};
+
+        //Fortune-Chest artifact decrease amount 350-172
+        //farmland and pond scaling
+        //fresh water gone
+        //move up felisgarde
+        //663 titan
+        //switch off ponds to rivers
+        //cut down on mines, at 350
+        //30 copper 10 gold on rock area
+        //same for rest of map, 100 copper mine  maybe 30 gold
+        //Legendary tag on 1 of 1s
+        //bump up poi from 4-5
+        //bump up underground resources to 35%
+        //add obelisks manually
+        //iron node heavier in rock area
+
 
         for(int i = 0; i<nftCollection.landDeeds.Count; i++){
             if(nftCollection.landDeeds[i].road){
@@ -416,17 +440,18 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].id,
                 nftCollection.landDeeds[i].longitude,
                 nftCollection.landDeeds[i].lattitude,
-                nftCollection.landDeeds[i].underlandLeft,
-                nftCollection.landDeeds[i].underlandMiddle,
-                nftCollection.landDeeds[i].underlandRight,
-                "Felisgarde",
+                "Subway",
+                "Subway",
+                "Subway",
                 "",
                 "",
                 "",
-                nftCollection.landDeeds[i].waterSource,
-                nftCollection.landDeeds[i].road,
-                nftCollection.landDeeds[i].settlement,
-                nftCollection.landDeeds[i].landType
+                "",
+                false,
+                false,
+                false,
+                nftCollection.landDeeds[i].landType,
+                "Felisgarde"
                 );
             }
             if(brambleThorn == nftCollection.landDeeds[i].id){
@@ -437,14 +462,15 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].underlandLeft,
                 nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
-                "Bramblethorn-Titan",
+                "",
                 "",
                 "",
                 "",
                 nftCollection.landDeeds[i].waterSource,
                 nftCollection.landDeeds[i].road,
                 nftCollection.landDeeds[i].settlement,
-                nftCollection.landDeeds[i].landType
+                nftCollection.landDeeds[i].landType,
+                "Bramblethorn-Titan"
                 );
             }
             if(ebisusBay== nftCollection.landDeeds[i].id){
@@ -455,14 +481,15 @@ public class Test : MonoBehaviour {
                 nftCollection.landDeeds[i].underlandLeft,
                 nftCollection.landDeeds[i].underlandMiddle,
                 nftCollection.landDeeds[i].underlandRight,
-                "Ebisu's-Bay",
+                "",
                 "",
                 "",
                 "",
                 nftCollection.landDeeds[i].waterSource,
                 nftCollection.landDeeds[i].road,
                 nftCollection.landDeeds[i].settlement,
-                nftCollection.landDeeds[i].landType
+                nftCollection.landDeeds[i].landType,
+                "Ebisu's-Bay"
                 );
             }
             for(int j = 0; j < lightHouses.Length; j++){
@@ -505,9 +532,297 @@ public class Test : MonoBehaviour {
                     );
                 }
             }
+            for(int j = 0; j < etherianObelisk.Length; j++){
+                if(etherianObelisk[j] == nftCollection.landDeeds[i].id+1){
+                    nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    "Etherian-Obelisk",
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                    );
+                }
+            }
         }
         SaveMetaData();
     } 
+    private void HandlePruneMines(){
+        float goldPercentage = 0.9f, copperPercentage = 0.8f, ironNodePercentage = 0.75f; 
+        for(int i = 0; i<nftCollection.landDeeds.Count; i++){
+            if(nftCollection.landDeeds[i].landType == "Celestial-Cliffs"){
+                  if(nftCollection.landDeeds[i].underlandLeft == ""){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    SeededRandom.Range(0f, 1f) < .25f ? "Iron-Node" : "",
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            if(nftCollection.landDeeds[i].underlandMiddle == ""){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude, 
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft, 
+                    SeededRandom.Range(0f, 1f) < .25f ? "Iron-Node" : "",
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot, 
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot, 
+                    nftCollection.landDeeds[i].westSpot, 
+                    nftCollection.landDeeds[i].waterSource, 
+                    nftCollection.landDeeds[i].road, 
+                    nftCollection.landDeeds[i].settlement, 
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            if(nftCollection.landDeeds[i].underlandRight == ""){
+                Debug.Log($"iron node found");
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id, 
+                    nftCollection.landDeeds[i].longitude, 
+                    nftCollection.landDeeds[i].lattitude, 
+                    nftCollection.landDeeds[i].underlandLeft, 
+                    nftCollection.landDeeds[i].underlandMiddle, 
+                    SeededRandom.Range(0f, 1f) < .25 ? "Iron-Node" : "",
+                    nftCollection.landDeeds[i].northSpot, 
+                    nftCollection.landDeeds[i].southSpot, 
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot, 
+                    nftCollection.landDeeds[i].waterSource, 
+                    nftCollection.landDeeds[i].road, 
+                    nftCollection.landDeeds[i].settlement, 
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+
+                continue;
+            }
+
+            if(nftCollection.landDeeds[i].northSpot == "Copper-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    SeededRandom.Range(0f, 1f) > copperPercentage ? nftCollection.landDeeds[i].northSpot : "",
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            } 
+            else if(nftCollection.landDeeds[i].northSpot == "Gold-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    SeededRandom.Range(0f, 1f) > goldPercentage ? nftCollection.landDeeds[i].northSpot : "",
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+
+            if(nftCollection.landDeeds[i].southSpot == "Copper-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    SeededRandom.Range(0f, 1f) > copperPercentage ? nftCollection.landDeeds[i].southSpot : "",
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            } 
+            else if(nftCollection.landDeeds[i].southSpot == "Gold-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    SeededRandom.Range(0f, 1f) > goldPercentage ? nftCollection.landDeeds[i].southSpot : "",
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            
+            if(nftCollection.landDeeds[i].underlandLeft == "Iron-Node"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    SeededRandom.Range(0f, 1f) > ironNodePercentage ? nftCollection.landDeeds[i].underlandLeft : "",
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            if(nftCollection.landDeeds[i].underlandMiddle == "Iron-Node"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude, 
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft, 
+                    SeededRandom.Range(0f, 1f) > ironNodePercentage ? nftCollection.landDeeds[i].underlandMiddle : "",
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot, 
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot, 
+                    nftCollection.landDeeds[i].westSpot, 
+                    nftCollection.landDeeds[i].waterSource, 
+                    nftCollection.landDeeds[i].road, 
+                    nftCollection.landDeeds[i].settlement, 
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            if(nftCollection.landDeeds[i].underlandRight == "Iron-Node"){
+                Debug.Log($"iron node found");
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id, 
+                    nftCollection.landDeeds[i].longitude, 
+                    nftCollection.landDeeds[i].lattitude, 
+                    nftCollection.landDeeds[i].underlandLeft, 
+                    nftCollection.landDeeds[i].underlandMiddle, 
+                    SeededRandom.Range(0f, 1f) > ironNodePercentage ? nftCollection.landDeeds[i].underlandRight : "",
+                    nftCollection.landDeeds[i].northSpot, 
+                    nftCollection.landDeeds[i].southSpot, 
+                    nftCollection.landDeeds[i].eastSpot,
+                    nftCollection.landDeeds[i].westSpot, 
+                    nftCollection.landDeeds[i].waterSource, 
+                    nftCollection.landDeeds[i].road, 
+                    nftCollection.landDeeds[i].settlement, 
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+
+            if(nftCollection.landDeeds[i].eastSpot == "Copper-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    SeededRandom.Range(0f, 1f) > copperPercentage ? nftCollection.landDeeds[i].eastSpot : "",
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            } 
+            else if(nftCollection.landDeeds[i].eastSpot == "Gold-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    SeededRandom.Range(0f, 1f) > goldPercentage ? nftCollection.landDeeds[i].eastSpot : "",
+                    nftCollection.landDeeds[i].westSpot,
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+            
+            if(nftCollection.landDeeds[i].westSpot == "Copper-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    SeededRandom.Range(0f, 1f) > copperPercentage ? nftCollection.landDeeds[i].westSpot : "",
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            } 
+            else if(nftCollection.landDeeds[i].westSpot == "Gold-Mine"){
+                nftCollection.landDeeds[i] = new LandDeedMetadata(
+                    nftCollection.landDeeds[i].id,
+                    nftCollection.landDeeds[i].longitude,
+                    nftCollection.landDeeds[i].lattitude,
+                    nftCollection.landDeeds[i].underlandLeft,
+                    nftCollection.landDeeds[i].underlandMiddle,
+                    nftCollection.landDeeds[i].underlandRight,
+                    nftCollection.landDeeds[i].northSpot,
+                    nftCollection.landDeeds[i].southSpot,
+                    nftCollection.landDeeds[i].eastSpot,
+                    SeededRandom.Range(0f, 1f) > goldPercentage ? nftCollection.landDeeds[i].westSpot : "",
+                    nftCollection.landDeeds[i].waterSource,
+                    nftCollection.landDeeds[i].road,
+                    nftCollection.landDeeds[i].settlement,
+                    nftCollection.landDeeds[i].landType
+                );
+            }
+        }
+    }
     public void HandleTrees(){
         for(int i = 0; i < nftCollection.landDeeds.Count; i++) {
             if(nftCollection.landDeeds[i].northSpot=="tree"){
@@ -601,6 +916,10 @@ public class Test : MonoBehaviour {
                 string southSpot = nftCollection.landDeeds[i].southSpot;
                 string eastSpot = nftCollection.landDeeds[i].eastSpot;
                 string westSpot = nftCollection.landDeeds[i].westSpot;
+
+                string underlandLeft = nftCollection.landDeeds[i].underlandLeft;
+                string underlandMiddle = nftCollection.landDeeds[i].underlandMiddle;
+                string underlandRight = nftCollection.landDeeds[i].underlandRight;
                 
                 if(GetTraitType(northSpot)=="Resource"){
                     northSpot = GetRandomRockThing();
@@ -617,14 +936,23 @@ public class Test : MonoBehaviour {
                 if(GetTraitType(westSpot)=="Resource"){
                     westSpot = GetRandomRockThing();
                 }
+                if(GetTraitType(underlandLeft)=="ResourceUnderland"){
+                    underlandLeft = SeededRandom.Range(0f,1f)> 0.2 ?  "Iron-Node" : underlandLeft;
+                }
+                if(GetTraitType(underlandMiddle)=="ResourceUnderland"){
+                    underlandMiddle = SeededRandom.Range(0f,1f)> 0.2 ?  "Iron-Node" : underlandMiddle;
+                }
+                if(GetTraitType(underlandRight)=="ResourceUnderland"){
+                    underlandRight = SeededRandom.Range(0f,1f)> 0.2 ?  "Iron-Node" : underlandRight;
+                }
 
                 nftCollection.landDeeds[i] = new LandDeedMetadata(
                     nftCollection.landDeeds[i].id,
                     nftCollection.landDeeds[i].longitude,
                     nftCollection.landDeeds[i].lattitude,
-                    nftCollection.landDeeds[i].underlandLeft,
-                    nftCollection.landDeeds[i].underlandMiddle,
-                    nftCollection.landDeeds[i].underlandRight,
+                    underlandLeft,
+                    underlandMiddle,
+                    underlandRight,
                     northSpot,
                     southSpot,
                     eastSpot,
@@ -641,8 +969,8 @@ public class Test : MonoBehaviour {
     private string GetRandomRockThing(){
         return SeededRandom.Range(0f,1f) switch
         {
-            > 0.85f => "Copper-Mine",
-            > 0.7f => "Gold-Mine",
+            > 0.9f => "Copper-Mine",
+            > 0.85f => "Gold-Mine",
             _ => "Rock",
         };
     }
@@ -933,7 +1261,6 @@ public class Test : MonoBehaviour {
         }
         }
         SaveMetaData();
-
     }
     private bool HasSimilarPixels(Color a, Color b) {
         float threshold = 0.2f;
