@@ -96,10 +96,14 @@ public class Test : MonoBehaviour {
     [System.Serializable] public struct FinalMetadata {
         public string image;
         public string name;
+        public string description;
+        public string id;
         public Trait[] attributes;
-        public FinalMetadata(string image, string name, Trait[] attributes) {
+        public FinalMetadata(string image, string name, string description, string id, Trait[] attributes) {
             this.image = image;
             this.name = name;
+            this.description = description;
+            this.id = id;
             this.attributes = attributes;
         }
     }
@@ -182,7 +186,9 @@ public class Test : MonoBehaviour {
             Trait[] traitsArray = traits.ToArray();
 
             finalMetadata.finalMetadata.Add(new FinalMetadata(
-                "",
+                $"https://app.ebisusbay.com/izanamiscradle/{nftCollection.landDeeds[i].id+1}",
+                "Izanami's Cradle #"+(nftCollection.landDeeds[i].id+1).ToString(),
+                "This Land Deed grants the bearer ownership of a unique plot within the expansive Izanami's Cradle region of Ryoshi Dynasties. Each plot brings its own benefits, including resource harvesting, raid boss quests, and the opportunity to discover mighty artifacts and weapons",
                 (nftCollection.landDeeds[i].id+1).ToString(),
                 traitsArray
             ));
@@ -192,9 +198,13 @@ public class Test : MonoBehaviour {
 
         string finalJson = JsonUtility.ToJson(finalMetadata, true);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/FinalMetadata.json", finalJson);
+        CreateIndFiles(finalMetadata);
         Debug.Log($"saved metadata");
     }
     private string GetTraitType(string traitName) {
+        if(traitName=="Etherian-Obelisk")
+            return "Artifact";
+
         for(int i = 0; i < attributeDictionaries.Length; i++) {
             for(int j = 0; j < attributeDictionaries[i].attributes.Count; j++) {
                 if(attributeDictionaries[i].attributes[j].traitName == traitName)
@@ -1261,6 +1271,15 @@ public class Test : MonoBehaviour {
         }
         }
         SaveMetaData();
+    }
+    [ContextMenu("Create ind files")]
+    public void CreateIndFiles(FinalMetadataList finalMetadata ){
+        //create a specific file for each landdeed
+        for(int i = 0; i < finalMetadata.finalMetadata.Count; i++) {
+            string json = JsonUtility.ToJson(finalMetadata.finalMetadata[i], true);
+            System.IO.File.WriteAllText(Application.dataPath + $"/Data/PoissonSampling/indv-meta/{i+1}.json", json);
+            Debug.Log($"saved metadata");
+        }
     }
     private bool HasSimilarPixels(Color a, Color b) {
         float threshold = 0.2f;

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Clickable
   - UI
+  - Enemy
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -115,7 +115,7 @@ public class InputHandler : MonoBehaviour
         // Debug.Log($"tick{delta}");
         HandleMoveInput(delta);
         HandleRotatBuildingInput();
-        DisplayCursor();
+        // DisplayCursor();
         HandleMouseInput();
         HandleEscape();
     }
