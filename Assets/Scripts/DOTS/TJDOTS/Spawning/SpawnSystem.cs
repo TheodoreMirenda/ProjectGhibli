@@ -16,12 +16,9 @@ namespace TJ.DOTS
         
         public void OnCreate(ref SystemState state)
         {
-            // This call makes the system not update unless at least one entity in the world exists that has the Spawner component.
-            // state.RequireForUpdate<Spawner>();
+            // This call makes the system not update unless at least one entity in the world exists that has the GoblinSpawningProperties component.
             state.RequireForUpdate<CastleTag>();
-            state.RequireForUpdate<Config>();
-            // state.RequireForUpdate<GoblinSpawningProperties>();
-            // state.RequireForUpdate<Execute.Prefabs>();
+            state.RequireForUpdate<GoblinSpawningProperties>();
         }
         [BurstCompile]
         public void OnDestroy(ref SystemState state){
@@ -50,21 +47,18 @@ namespace TJ.DOTS
             var queryMask = spinningCubesQuery.GetEntityQueryMask();
             var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-            var config = SystemAPI.GetSingleton<Config>();
-            var goblins = new NativeArray<Entity>(config.GoblinCount, Allocator.Temp);
-            ecb.Instantiate(config.GoblinPrefab, goblins);
+
+            var goblinSpawningEntity = SystemAPI.GetSingletonEntity<GoblinSpawningProperties>();
+            var goblinSpawningAspect = SystemAPI.GetAspect<GoblinSpawningAspect>(goblinSpawningEntity);
+
+            var goblins = new NativeArray<Entity>(goblinSpawningAspect.NumberGoblinsToSpawn, Allocator.Temp);
+            ecb.Instantiate(goblinSpawningAspect.GoblinPrefab, goblins);
 
             foreach (var goblin in goblins)
             {
                 var random = Unity.Mathematics.Random.CreateFromIndex(updateCounter++);
-                float3 newPosition = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 50;
-                newPosition.y = 0;
 
-                var goblinPosition = new LocalTransform {
-                        Position = newPosition,
-                        Rotation = quaternion.identity,
-                        Scale = 1
-                };
+                var goblinPosition = goblinSpawningAspect.GetRandomTombstoneTransform();
                 ecb.SetComponentForLinkedEntityGroup(goblin, queryMask, goblinPosition);
                 //get random building
                 // var randomBuilding = SystemAPI.GetSingleton<BuildingTag>();

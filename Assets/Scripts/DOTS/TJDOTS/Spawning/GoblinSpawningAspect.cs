@@ -8,17 +8,23 @@ namespace TJ.DOTS
 public readonly partial struct GoblinSpawningAspect : IAspect
 {
     public readonly Entity Entity;
+    private readonly RefRO<LocalTransform> _transformAspect;
+    private LocalTransform Transform => _transformAspect.ValueRO;
 
     private readonly RefRO<GoblinSpawningProperties> _graveyardProperties;
     private readonly RefRW<GoblinRandom> _goblinSpawningRandom;
-    private readonly RefRW<ZombieSpawnPoints> _zombieSpawnPoints;
-    private readonly RefRO<LocalTransform> _transformAspect;
 
+    public int NumberGoblinsToSpawn => _graveyardProperties.ValueRO.NumberOfGoblinsToSpawn;
+    public Entity GoblinPrefab => _graveyardProperties.ValueRO.GoblinPrefab;
 
-    private const float BRAIN_SAFETY_RADIUS_SQ = 100;//area around brain that zombies cant spawn in
-    private LocalTransform Transform => _transformAspect.ValueRO;
-
-
+    public LocalTransform GetRandomTombstoneTransform() {
+        return new LocalTransform
+        {
+            Position = GetRandomPosition(),
+            Rotation = quaternion.identity,
+            Scale = 1f
+        };
+    }
     private float3 MinCorner => Transform.Position - HalfDimensions;
     private float3 MaxCorner => Transform.Position + HalfDimensions;
     private float3 GetRandomPosition()
@@ -27,7 +33,7 @@ public readonly partial struct GoblinSpawningAspect : IAspect
         do
         {
             randomPosition = _goblinSpawningRandom.ValueRW.RandomValue.NextFloat3(MinCorner, MaxCorner);
-        } while (math.distancesq(Transform.Position, randomPosition) <= BRAIN_SAFETY_RADIUS_SQ);
+        } while (math.distancesq(Transform.Position, randomPosition) <=  _graveyardProperties.ValueRO.SafeZoneRadius);
 
         return randomPosition;
     }

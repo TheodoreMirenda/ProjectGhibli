@@ -9,6 +9,7 @@ public struct GoblinSpawningProperties : IComponentData
     public float2 FieldDimensions;
     public int NumberOfGoblinsToSpawn;
     public Entity GoblinPrefab;
+    public float SafeZoneRadius;
 }
 public struct GoblinRandom : IComponentData
 {

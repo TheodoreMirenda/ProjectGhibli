@@ -2,7 +2,6 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
-using TJ.DOTS.Execute;
 
 namespace TJ.DOTS
 {
@@ -11,7 +10,7 @@ namespace TJ.DOTS
     {
         public GameObject GoblinPrefab;
         public int GoblinCount;
-        // public float SafeZoneRadius;
+        public float SafeZoneRadius;
         public float2 FieldDimensions;
         public uint RandomSeed;
 
@@ -22,40 +21,17 @@ namespace TJ.DOTS
         {
             public override void Bake(SpawnerAuthoring authoring)
             {
-                var entity = GetEntity(TransformUsageFlags.None);
-                // AddComponent<Prefabs>(entity);
-                // AddComponent(entity, new Spawner {
-                //     Prefab = GetEntity(authoring.GoblinPrefab, TransformUsageFlags.Dynamic)
-                // });
-                // AddComponent(entity, new GoblinSpawningProperties
-                // {
-                //     FieldDimensions = authoring.FieldDimensions,
-                //     NumberOfGoblinsToSpawn = authoring.NumberTombstonesToSpawn,
-                //     GoblinPrefab = GetEntity(authoring.GoblinPrefab, TransformUsageFlags.Dynamic)
-                // });
-                AddComponent(entity, new GoblinRandom
-                {
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                AddComponent(entity, new GoblinRandom {
                     RandomValue = Random.CreateFromIndex(authoring.RandomSeed)
                 });
-                // AddComponent<ZombieSpawnPoints>(entity);
-                AddComponent(entity, new Config
-                {
+                AddComponent(entity, new GoblinSpawningProperties {
+                    FieldDimensions = authoring.FieldDimensions,
                     GoblinPrefab = GetEntity(authoring.GoblinPrefab, TransformUsageFlags.Dynamic),
-                    GoblinCount = authoring.GoblinCount
-                    // SafeZoneRadius = authoring.SafeZoneRadius
+                    NumberOfGoblinsToSpawn = authoring.GoblinCount,
+                    SafeZoneRadius = authoring.SafeZoneRadius
                 });
             }
         }
     }
-    public struct Config : IComponentData
-    {
-        public Entity GoblinPrefab;
-        public int GoblinCount;
-        // public float SafeZoneRadius;   // Used in a later step.
-    }
-
-    // struct Spawner : IComponentData
-    // {
-    //     public Entity Prefab;
-    // }
 }

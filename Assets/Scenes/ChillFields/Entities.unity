@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &274169579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &926806153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,10 +605,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoblinPrefab: {fileID: 3695741666904938212, guid: 822cfa20af5b7fb4ea55bae77dec9d5f,
     type: 3}
-  GoblinCount: 2000
+  GoblinCount: 1000
+  SafeZoneRadius: 150
   FieldDimensions:
-    x: 1000
-    y: 1
+    x: 50
+    y: 50
   RandomSeed: 100
 --- !u!4 &1143280664
 Transform:
@@ -687,7 +688,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1760729192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,7 +734,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1973502415
 MonoBehaviour:
   m_ObjectHideFlags: 0
