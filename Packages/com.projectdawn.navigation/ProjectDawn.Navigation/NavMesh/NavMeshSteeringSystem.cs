@@ -122,7 +122,7 @@ namespace ProjectDawn.Navigation
                     if (locations.Length > 1)
                     {
                         body.Force = math.normalizesafe((float3) locations[1].position - transform.Position);
-                        body.RemainingDistance = Funnel.GetCornersDistance();
+                        body.RemainingDistance = Funnel.IsEndReachable ? Funnel.GetCornersDistance() : float.MaxValue;
                     }
                 }
                 else

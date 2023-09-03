@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.Burst;
 using UnityEngine.Experimental.AI;
 using static Unity.Entities.SystemAPI;
+using Unity.Mathematics;
 
 namespace ProjectDawn.Navigation
 {
@@ -51,9 +52,16 @@ namespace ProjectDawn.Navigation
                 var newLocation = NavMesh.MoveLocation(location, transform.Position, path.AreaMask);
 
 #if EXPERIMENTAL_SONAR_TIME
-                // Update velocity based on movement
-                // This is needed that if agent hits obstacle it actually would lose velocity
-                body.Velocity = (newLocation.position -location.position) / DeltaTime;
+                float stepLength = math.distance(location.position, newLocation.position) / DeltaTime;
+                float speed = math.length(body.Velocity);
+                if (stepLength > speed)
+                {
+                    body.Velocity = math.normalizesafe(newLocation.position - location.position) * speed;
+                }
+                else
+                {
+                    body.Velocity = (newLocation.position - location.position) / DeltaTime;
+                }
 #endif
 
                 ProgressPath(ref nodes, location.polygon, newLocation.polygon);

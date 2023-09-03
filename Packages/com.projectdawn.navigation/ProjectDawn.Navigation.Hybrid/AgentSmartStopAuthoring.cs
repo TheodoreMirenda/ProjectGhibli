@@ -9,6 +9,7 @@ namespace ProjectDawn.Navigation.Hybrid
     [RequireComponent(typeof(AgentAuthoring))]
     [AddComponentMenu("Agents Navigation/Agent Smart Stop")]
     [DisallowMultipleComponent]
+    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/game-objects/smart-stop.html")]
     public class AgentSmartStopAuthoring : MonoBehaviour
     {
         /// <summary>

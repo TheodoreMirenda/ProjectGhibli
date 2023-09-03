@@ -1,15 +1,18 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityObject = UnityEngine.Object;
 
-namespace ProjectDawn.Navigation.Hybrid.Editor
+namespace ProjectDawn.Navigation.Editor
 {
-    static class AgentsNavigationSettingsProvider
+    class AgentsNavigationSettingsProvider : SettingsProvider
     {
         static class Styles
         {
             public static readonly GUIContent SonarTimeHorizon = EditorGUIUtility.TrTextContent("Sonar Time Horizon", "Changes sonar avoidance radius to be based on velocity and also navmesh collision velocity accounts collision.");
+            public static readonly GUIContent UseRegularUpdate = EditorGUIUtility.TrTextContent("Use Regular Update", "The enabled agents will use regular updates instead of fixed ones. Fixed updates provide a more deterministic motion and a lower possibility for agents to pass through.");
             public static readonly GUIStyle lineStyle = new GUIStyle();
             public static readonly GUIStyle centerStyle = new GUIStyle();
 
@@ -24,59 +27,77 @@ namespace ProjectDawn.Navigation.Hybrid.Editor
             }
         }
 
-        [SettingsProvider]
-        static SettingsProvider CreateSettingsProvider()
+        AgentsNavigationSettings m_Settings;
+        AgentsNavigationSettingsEditor m_Editor;
+
+        public AgentsNavigationSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords)
         {
-            // First parameter is the path in the Settings window.
-            // Second parameter is the scope of this setting: it only appears in the Project Settings window.
-            var provider = new SettingsProvider("Project/AgentsNavigation", SettingsScope.Project)
-            {
-                // By default the last token of the path is used as display name if no label is provided.
-                label = "Agents Navigation",
-                // Create the SettingsProvider and initialize its drawing (IMGUI) function in place:
-                guiHandler = (searchContext) =>
-                {
-                    EditorGUILayout.BeginVertical();
-
-                    GUILayout.Space(10);
-
-                    DrawHorizontalLine();
-
-                    using (new EditorGUI.DisabledScope(Application.isPlaying))
-                    {
-                        foreach (var type in SettingsBehaviour.Types)
-                        {
-                            DrawHeaderGUILayout(type);
-
-                            var settings = GameObject.FindAnyObjectByType(type);
-
-                            if (settings != null)
-                            {
-                                var editor = UnityEditor.Editor.CreateEditor(settings);
-                                editor.OnInspectorGUI();
-                            }
-                            else
-                            {
-                                EditorGUILayout.HelpBox($"Failed to find singleton component of type {type.Name} in the current scene.", MessageType.Warning);
-                            }
-
-                            DrawHorizontalLine();
-                        }
-                    }
-
-                    GUILayout.Space(10);
-
-                    ScriptingDefineToggleField.Draw(Styles.SonarTimeHorizon, "EXPERIMENTAL_SONAR_TIME");
-                    EditorGUILayout.HelpBox($"This feature should result better sonar avoidance, but for now it is experimental! Make sure commit changes, before turning it on.", MessageType.Info);
-
-                    GUILayout.Space(10);
-
-                    EditorGUILayout.EndVertical();
-                },
-            };
-
-            return provider;
+            label = "Agents Navigation";
         }
+
+        public override void OnActivate(string searchContext, VisualElement rootElement)
+        {
+            m_Settings = AgentsNavigationSettings.Instance;
+            m_Editor = UnityEditor.Editor.CreateEditor(m_Settings) as AgentsNavigationSettingsEditor;
+        }
+
+        public override void OnDeactivate()
+        {
+            if (m_Editor != null)
+                Object.DestroyImmediate(m_Editor);
+            m_Editor = null;
+        }
+
+        public override void OnGUI(string searchContext)
+        {
+            EditorGUILayout.BeginVertical();
+
+            GUILayout.Space(10);
+
+            EditorGUI.BeginChangeCheck();
+            m_Settings = (AgentsNavigationSettings)EditorGUILayout.ObjectField(m_Settings, typeof(AgentsNavigationSettings), false);
+            if (EditorGUI.EndChangeCheck())
+            {
+                AgentsNavigationSettings.Instance = m_Settings;
+                if (m_Editor != null)
+                    Object.DestroyImmediate(m_Editor);
+                m_Editor = UnityEditor.Editor.CreateEditor(m_Settings) as AgentsNavigationSettingsEditor;
+            }
+
+            GUILayout.Space(10);
+
+            if (m_Settings != null)
+            {
+                DrawHorizontalLine();
+
+                using (new EditorGUI.DisabledScope(Application.isPlaying))
+                {
+                    m_Editor?.OnInspectorGUI();
+                }
+            }
+            else
+            {
+                EditorGUILayout.HelpBox($"Settings asset can be created by clicking menu item Assets>Create>AI>Agents Navigation Settings.", MessageType.Info);
+            }
+
+            GUILayout.Space(10);
+
+            DrawHorizontalLine();
+
+            ScriptingDefineToggleField.Draw(Styles.SonarTimeHorizon, "EXPERIMENTAL_SONAR_TIME");
+            Rect controlRect = EditorGUILayout.GetControlRect();
+            controlRect.height = 20;
+            EditorGUI.HelpBox(controlRect, $"This feature should result better sonar avoidance, but for now it is experimental! Make sure commit changes, before turning it on.", MessageType.Info);
+
+            ScriptingDefineToggleField.Draw(Styles.UseRegularUpdate, "AGENTS_NAVIGATION_REGULAR_UPDATE");
+
+            GUILayout.Space(10);
+
+            EditorGUILayout.EndVertical();
+        }
+
+        [SettingsProvider]
+        static SettingsProvider CreateSettingsProvider() => new AgentsNavigationSettingsProvider("Project/AgentsNavigation", SettingsScope.Project);
 
         static void DrawHeaderGUILayout(System.Type type, float height = 20)
         {

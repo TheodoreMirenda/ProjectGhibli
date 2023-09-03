@@ -99,7 +99,7 @@ namespace ProjectDawn.Navigation
                 };
                 if (shape.Type == ShapeType.Cylinder)
                 {
-                    Spatial.QueryCylinder(transform.Position, shape.Radius + sonarRadius, shape.Height, ref action);
+                    Spatial.QueryCylinder(transform.Position, shape.Radius + sonarRadius, shape.Height, Spatial.m_QueryCapacity, ref action);
 
                     if (HasNavMeshWall)
                     {
@@ -122,7 +122,7 @@ namespace ProjectDawn.Navigation
                 }
                 else
                 {
-                    Spatial.QuerySphere(transform.Position, shape.Radius + sonarRadius, ref action);
+                    Spatial.QueryCircle(transform.Position, shape.Radius + sonarRadius, Spatial.m_QueryCapacity, ref action);
                 }
 
                 bool success = Sonar.FindClosestDirection(out float3 newDirection);

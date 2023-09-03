@@ -39,25 +39,43 @@ namespace ProjectDawn.Navigation
             {
                 float radius = math.max(shape.Radius, separation.Radius);
 
-                var action = new Action
+                if (shape.Type == ShapeType.Cylinder)
                 {
-                    Entity = entity,
-                    Body = body,
-                    Shape = shape,
-                    Separation = separation,
-                    Transform = transform,
-                    Radius = radius,
-                };
+                    var action = new CylindersSeperation
+                    {
+                        Entity = entity,
+                        Body = body,
+                        Shape = shape,
+                        Separation = separation,
+                        Transform = transform,
+                        Radius = radius,
+                    };
 
-                Spatial.QuerySphere(transform.Position, radius, ref action);
+                    Spatial.QueryCylinder(transform.Position, radius, shape.Height, Spatial.QueryCapacity, ref action);
 
-                if (action.Weight > 0)
+                    if (action.Weight > 0)
+                        body.Force += action.Force * separation.Weight;
+                }
+                else
                 {
-                    body.Force += action.Force * separation.Weight;
+                    var action = new CirclesSeperation
+                    {
+                        Entity = entity,
+                        Body = body,
+                        Shape = shape,
+                        Separation = separation,
+                        Transform = transform,
+                        Radius = radius,
+                    };
+
+                    Spatial.QueryCircle(transform.Position, radius, Spatial.QueryCapacity, ref action);
+
+                    if (action.Weight > 0)
+                        body.Force.xy += action.Force * separation.Weight;
                 }
             }
 
-            struct Action : ISpatialQueryEntity
+            struct CylindersSeperation : ISpatialQueryEntity
             {
                 public Entity Entity;
                 public AgentBody Body;
@@ -67,11 +85,42 @@ namespace ProjectDawn.Navigation
                 public float Radius;
 
                 public float3 Force;
-                public float Weight; 
+                public float Weight;
 
                 public void Execute(Entity otherEntity, AgentBody otherBody, AgentShape otherShape, LocalTransform otherTransform)
                 {
-                    float3 towards = Transform.Position - otherTransform.Position;
+                    float2 towards = Transform.Position.xz - otherTransform.Position.xz;
+                    float distance = math.length(towards);
+                    float radiusSum = Radius + otherShape.Radius;
+                    if (distance > radiusSum || Entity == otherEntity)
+                        return;
+
+                    float extent = Shape.Height * 0.5f;
+                    float otherExtent = otherShape.Height * 0.5f;
+                    if (math.abs((Transform.Position.y + extent) - (otherTransform.Position.y + otherExtent)) > extent + otherExtent)
+                        return;
+
+                    var force = math.normalizesafe(towards) * ((radiusSum - distance) / radiusSum);
+                    Force += new float3(force.x, 0, force.y);
+                    Weight++;
+                }
+            }
+
+            struct CirclesSeperation : ISpatialQueryEntity
+            {
+                public Entity Entity;
+                public AgentBody Body;
+                public AgentShape Shape;
+                public AgentSeparation Separation;
+                public LocalTransform Transform;
+                public float Radius;
+
+                public float2 Force;
+                public float Weight;
+
+                public void Execute(Entity otherEntity, AgentBody otherBody, AgentShape otherShape, LocalTransform otherTransform)
+                {
+                    float2 towards = Transform.Position.xy - otherTransform.Position.xy;
                     float distance = math.length(towards);
                     float radiusSum = Radius + otherShape.Radius;
                     if (distance > radiusSum || Entity == otherEntity)

@@ -9,27 +9,27 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenesMenu.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenesMenu.unity
     guid: 5fdea6b5de45c6a46a1caf1bb83d4ccd
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/0_Basics/0_Basics.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/0_Basics/0_Basics.unity
     guid: 4bb0d0d9282012c4faf814caee10eb6f
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/1_LODs/1_LODs.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/1_LODs/1_LODs.unity
     guid: caf8b3bdfc8b4cc4eb27566a464df87b
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/2_Transitions/2_Transitions.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/2_Transitions/2_Transitions.unity
     guid: 95b020c87511bad489c34484692c8676
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/3_AnimatorParameters/3_AnimatorParameters.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/3_AnimatorParameters/3_AnimatorParameters.unity
     guid: e1528dc0c1dd2984eabe8f1b52f6fc8b
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/4_BlendSampling/4_BlendSampling.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/4_BlendSampling/4_BlendSampling.unity
     guid: d26c6874d6fcdbf488919a9f58ea161e
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/Festival/Festival.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/Festival/Festival.unity
     guid: 7318d72ad04595c40932ebfba664141f
   - enabled: 1
-    path: Assets/GPUECSAnimationBaker/Samples/SampleScenes/Marathon/Marathon.unity
+    path: Assets/ImportedPackages/GPUECSAnimationBaker/Samples/SampleScenes/Marathon/Marathon.unity
     guid: a7509d6660f949b478c10ca2ceb60a17
   m_configObjects: {}

@@ -527,14 +527,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea6c7b385918fd41963a6f15ed8d041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 6010206441563009151, guid: bbfa5fe3882a1cb4ca2e2ecde5400bda, type: 3}
+  Prefab: {fileID: 6010206441563009151, guid: 98e67534d458fc2478df5fd75f1d4350, type: 3}
   Interval: 0.03
   Size:
     x: 4
     y: 0
     z: 1
   Count: 0
-  MaxCount: 1000
+  MaxCount: 333
   Destination: {fileID: 344910265}
   DestinationDeferred: 1
 --- !u!4 &412512744
@@ -1407,70 +1407,6 @@ Transform:
   m_Father: {fileID: 2041513758}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &879673779
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 879673781}
-  - component: {fileID: 879673780}
-  - component: {fileID: 879673782}
-  m_Layer: 0
-  m_Name: Spatial Partitioning
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &879673780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879673779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa93905a8868aa40b380ce9af238f33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CellSize:
-    x: 3
-    y: 3
-    z: 3
-  QueryCapacity: 0
---- !u!4 &879673781
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879673779}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &879673782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879673779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cde3d898bad230644a773f2be55d91e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxIterations: 1024
-  m_MaxPath: 1024
 --- !u!1 &886738131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,7 +1473,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &929394718
 PrefabInstance:
@@ -2124,7 +2060,7 @@ RectTransform:
   m_Children:
   - {fileID: 1225845882}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4028,7 +3964,7 @@ MonoBehaviour:
     y: 0
     z: 1
   Count: 0
-  MaxCount: 1000
+  MaxCount: 333
   Destination: {fileID: 813317464}
   DestinationDeferred: 1
 --- !u!4 &2041513758
@@ -4163,7 +4099,7 @@ MonoBehaviour:
     y: 0
     z: 1
   Count: 0
-  MaxCount: 1000
+  MaxCount: 334
   Destination: {fileID: 44443155}
   DestinationDeferred: 1
 --- !u!4 &2075079637

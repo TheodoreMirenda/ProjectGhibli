@@ -1,9 +1,11 @@
+using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace ProjectDawn.Navigation.Hybrid
 {
+    [Obsolete("This class is obsolete, please use new settings workflow https://lukaschod.github.io/agents-navigation-docs/manual/settings.html.")]
     [AddComponentMenu("Agents Navigation/Settings/Nav Mesh Settings")]
     [DisallowMultipleComponent]
     [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/authoring.html")]
@@ -28,18 +30,7 @@ namespace ProjectDawn.Navigation.Hybrid
 
         public override Entity GetOrCreateEntity()
         {
-            var world = World.DefaultGameObjectInjectionWorld;
-            var manager = world.EntityManager;
-            return manager.CreateSingleton(DefaultSettings);
+            return Entity.Null;
         }
-    }
-
-    internal class NavMeshSettingsBaker : Baker<NavMeshSettingsAuthoring>
-    {
-#if UNITY_ENTITIES_VERSION_65
-        public override void Bake(NavMeshSettingsAuthoring authoring) => AddComponent(GetEntity(TransformUsageFlags.Dynamic), authoring.DefaultSettings);
-#else
-        public override void Bake(NavMeshSettingsAuthoring authoring) => AddComponent(authoring.DefaultSettings);
-#endif
     }
 }

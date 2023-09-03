@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace ProjectDawn.Navigation.Hybrid
 {
+    [Obsolete("This class is obsolete, please use new settings workflow https://lukaschod.github.io/agents-navigation-docs/manual/settings.html.")]
     public abstract class SettingsBehaviour : MonoBehaviour
     {
         public static readonly List<Type> Types = FindTypesInAssemblies();

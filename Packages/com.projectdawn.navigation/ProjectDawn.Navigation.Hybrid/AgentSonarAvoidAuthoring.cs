@@ -10,7 +10,7 @@ namespace ProjectDawn.Navigation.Hybrid
     [RequireComponent(typeof(AgentAuthoring))]
     [AddComponentMenu("Agents Navigation/Agent Sonar Avoid")]
     [DisallowMultipleComponent]
-    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/authoring.html")]
+    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/game-objects/avoidance/sonar-avoidance.html")]
     public class AgentAvoidAuthoring : MonoBehaviour
     {
         [SerializeField]
@@ -67,6 +67,10 @@ namespace ProjectDawn.Navigation.Hybrid
             var world = World.DefaultGameObjectInjectionWorld;
             m_Entity = GetComponent<AgentAuthoring>().GetOrCreateEntity();
             world.EntityManager.AddComponentData(m_Entity, DefaultAvoid);
+
+            // Sync in case it was created as disabled
+            if (!enabled)
+                world.EntityManager.SetComponentEnabled<AgentSonarAvoid>(m_Entity, false);
 
             if (UseWalls)
             {

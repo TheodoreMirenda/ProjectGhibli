@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ProjectDawn.Navigation.Hybrid.Editor
+namespace ProjectDawn.Navigation.Editor
 {
     public static class ScriptingDefineToggleField
     {

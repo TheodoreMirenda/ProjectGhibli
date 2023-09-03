@@ -9,7 +9,7 @@ namespace ProjectDawn.Navigation.Hybrid
     [RequireComponent(typeof(AgentAuthoring))]
     [AddComponentMenu("Agents Navigation/Agent Circle Shape")]
     [DisallowMultipleComponent]
-    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/authoring.html")]
+    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/game-objects/shape.html")]
     public class AgentCircleShapeAuthoring : MonoBehaviour
     {
         [SerializeField]

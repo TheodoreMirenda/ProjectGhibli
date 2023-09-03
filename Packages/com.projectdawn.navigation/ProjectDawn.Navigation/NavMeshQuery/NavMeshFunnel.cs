@@ -25,6 +25,8 @@ namespace ProjectDawn.Navigation
             m_Length = 0;
         }
 
+        public bool IsEndReachable => m_Length > 0 && (m_StraightPathFlags[m_Length - 1] & StraightPathFlags.End) != 0;
+
         /// <summary>
         /// Recreates corridor with straight path. This method will attempt to build optimal path using NavMesh polygons.
         /// </summary>

@@ -1,6 +1,23 @@
 # Changelog
 All notable changes to this package will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [3.3.2] - 2023-09-01
+- Fixed regression from 3.3.1 limited query resulting error "HashMap is full"
+
+## [3.3.1] - 2023-08-31
+- Added limited query fully account different agent sizes
+- Changed nav mesh remaining distance to return float max value until it reaches few remaining nodes. It was changed, as it was never accurate value which was resulting other issues
+- Fixed lower push forces on collision with sonar horizon
+- Fixed authoring help links
+
+## [3.3.0] - 2023-08-20
+- Added collider settings
+- Added spatial partitioning cylinder and circle query with limited neighbour count
+- Added map mapping to icons for a reduced aliasing
+- Changed project settings from scene based to project wide
+- Changed separation to use current shape of agent
+- Changed com.unity.entities version to 1.0.14
+
 ## [3.2.0] - 2023-07-16
 - Added NavMeshSettings singleton
 - Added settings component mirroring in the project settings under new tab Agents Navigation
@@ -80,6 +97,7 @@ UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)"
 - Added error message box to AgentNavMeshAuthoring, if game objects also has NavMeshObstacle
 - Added SetDestination method to AgentAuthoring
 - Changed that if agent is not near any NavMesh it will throw error instead moved to the center of the world
+- Changed dependency com.unity.entities version to 1.0.14
 - Fixed few cases where NavMesh update would result in "Any jobs using NavMeshQuery must be completed before we mutate the NavMesh." 
 
 ## [3.0.2] - 2022-12-15

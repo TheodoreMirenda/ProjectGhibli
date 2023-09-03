@@ -14,6 +14,27 @@ using System.Diagnostics;
 
 namespace ProjectDawn.Navigation
 {
+    [System.Serializable]
+    class NavMeshSubSettings : ISubSettings
+    {
+        [SerializeField]
+        [Tooltip("The maximum number of iterations the agent will use to find a path is determined. Each iteration represents visiting a single node. A larger number results in a more accurate path, but it also incurs a greater performance cost.")]
+        int m_MaxIterations = 1024;
+
+        [SerializeField]
+        [Tooltip("The maximum size of the agents path.")]
+        int m_MaxPath = 1024;
+
+        /// <summary>
+        /// The maximum number of iterations the agent will use to find a path is determined. Each iteration represents visiting a single node. A larger number results in a more accurate path, but it also incurs a greater performance cost.
+        /// </summary>
+        public int MaxIterations => m_MaxIterations;
+        /// <summary>
+        /// The maximum size of the agents path.
+        /// </summary>
+        public int MaxPath => m_MaxPath;
+    }
+
     /// <summary>
     /// The status of navmesh query.
     /// </summary>
@@ -59,22 +80,14 @@ namespace ProjectDawn.Navigation
         NavMeshQuery m_QueryForOtherOperations;
         NavMeshWorld m_World;
 
-        [BurstCompile]
+        //[BurstCompile]
         public void OnCreate(ref SystemState state)
         {
             if (!Application.isPlaying)
                 throw new InvalidOperationException("NavMeshQuerySystem does not support lifetime in edit time as unity navmesh does not support it too.");
 
-            if (TryGetSingleton(out Settings settings))
-            {
-                MaxIterations = settings.MaxIterations;
-                MaxPathSize = settings.MaxPathSize;
-            }
-            else
-            {
-                MaxIterations = 1024;
-                MaxPathSize = 1024;
-            }
+            MaxIterations = AgentsNavigationSettings.Get<NavMeshSubSettings>().MaxIterations;
+            MaxPathSize = AgentsNavigationSettings.Get<NavMeshSubSettings>().MaxPath;
 
             m_World = NavMeshWorld.GetDefaultWorld();
             m_Free = new NativeQueue<NavMeshQueryHandle>(Allocator.Persistent);
@@ -134,6 +147,9 @@ namespace ProjectDawn.Navigation
         {
             GetSingletonRW<Singleton>();
 
+            // Complete jobs that used singleton as this update will be accessing the data
+            state.CompleteDependency();
+
             // At handle 0 is dummy query
             for (int index = 1; index < m_Data.Length; ++index)
             {
@@ -171,6 +187,7 @@ namespace ProjectDawn.Navigation
             m_World.AddDependency(state.Dependency);
         }
 
+        [Obsolete("This class is obsolete, please use new settings workflow https://lukaschod.github.io/agents-navigation-docs/manual/settings.html.")]
         public struct Settings : IComponentData
         {
             public int MaxIterations;

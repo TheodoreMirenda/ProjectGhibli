@@ -9,7 +9,7 @@ namespace ProjectDawn.Navigation.Hybrid
     [RequireComponent(typeof(AgentAuthoring))]
     [AddComponentMenu("Agents Navigation/Agent Collider")]
     [DisallowMultipleComponent]
-    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/authoring.html")]
+    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/game-objects/collider.html")]
     public class AgentColliderAuthoring : MonoBehaviour
     {
         Entity m_Entity;

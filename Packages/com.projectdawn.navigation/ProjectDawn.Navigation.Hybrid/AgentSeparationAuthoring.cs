@@ -9,7 +9,7 @@ namespace ProjectDawn.Navigation.Hybrid
     [RequireComponent(typeof(AgentAuthoring))]
     [AddComponentMenu("Agents Navigation/Agent Separation")]
     [DisallowMultipleComponent]
-    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/authoring.html")]
+    [HelpURL("https://lukaschod.github.io/agents-navigation-docs/manual/game-objects/avoidance/separation.html")]
     public class AgentSeparationAuthoring : MonoBehaviour
     {
         [SerializeField]

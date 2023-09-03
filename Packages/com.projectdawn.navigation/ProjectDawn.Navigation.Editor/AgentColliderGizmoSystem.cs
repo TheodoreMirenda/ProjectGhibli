@@ -43,7 +43,7 @@ namespace ProjectDawn.Navigation.Editor
             {
                 var action = new DrawSpatialEntities { Gizmos = Gizmos, Position = transform.Position };
                 Spatial.QueryCylinder(transform.Position, shape.Radius, shape.Height, ref action);
-                Spatial.QueryCylindreBoxes(transform.Position, shape.Radius, shape.Height, new DrawSpatialBoxes { Gizmos = Gizmos });
+                Spatial.QueryCylinderCells(transform.Position, shape.Radius, shape.Height, new DrawSpatialBoxes { Gizmos = Gizmos });
             }
         }
 

@@ -10,7 +10,7 @@ namespace ProjectDawn.Navigation.Hybrid.Editor
         static class Styles
         {
             public static readonly GUIContent Radius = EditorGUIUtility.TrTextContent("Radius", "The maximum distance at which agent will attempt to avoid nearby agents.");
-            public static readonly GUIContent Angle = EditorGUIUtility.TrTextContent("Velocity Obstacle Angle", "The maximum angle at which agent will attempt to nearby agents.");
+            public static readonly GUIContent Angle = EditorGUIUtility.TrTextContent("Velocity Obstacle Angle", "The angle of obstacle inserted behind agent velocity.");
             public static readonly GUIContent MaxAngle = EditorGUIUtility.TrTextContent("Max Angle", "The maximum angle at which agent will attempt to nearby agents.");
             public static readonly GUIContent Mode = EditorGUIUtility.TrTextContent("Mode", "Mode that modifies avoidance behaviour.");
             public static readonly GUIContent BlockedStop = EditorGUIUtility.TrTextContent("Blocked Stop", "Whenever agent should stop, if all directions are blocked.");
