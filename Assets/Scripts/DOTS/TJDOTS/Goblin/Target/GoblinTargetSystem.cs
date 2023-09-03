@@ -18,6 +18,7 @@ namespace TJ.DOTS
         public void OnCreate(ref SystemState state)
         {
             // state.RequireForUpdate<Config>();
+            
         }
 
         [BurstCompile]
@@ -42,18 +43,17 @@ namespace TJ.DOTS
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-
             // Debug.Log($"GoblinTargetSystem state: {state.Enabled}");
             // state.Enabled = false; //dont update every frame, basically used like an awake function
 
+            var deltaTime = SystemAPI.Time.DeltaTime; //cant use systemapi inside of aspect
+            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
 
-            // var deltaTime = SystemAPI.Time.DeltaTime; //cant use systemapi inside of aspect
-            // var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-            // new GoblinTargetJob
-            // {
-            //     goalPosition = new float3(-10,0,10),
-            //     ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
-            // }.ScheduleParallel();
+            new GoblinTargetJob
+            {
+                goalPosition = new float3(-10,0,10),
+                ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
+            }.ScheduleParallel();
         }
     }
 
@@ -67,19 +67,19 @@ namespace TJ.DOTS
         private void Execute(GoblinTargetAspect goblin, [ChunkIndexInQuery] int sortKey)
         {
             //add turning logic here
-            // goblin.Target();
+            goblin.Target();
             // if (goblin.IsInStoppingRange(float3.zero, BrainRadiusSq))
             // {
                 
-                var random = Unity.Mathematics.Random.CreateFromIndex((uint)sortKey+1);
-                float3 goalPosition = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 5;
-                goalPosition.y = 0;
+                // var random = Unity.Mathematics.Random.CreateFromIndex((uint)sortKey+1);
+                // float3 goalPosition = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 5;
+                // goalPosition.y = 0;
 
-                var goblinHeading = MathHelpers.GetHeading(goblin.Target(), goalPosition);
+                // var goblinHeading = MathHelpers.GetHeading(goblin.Target(), goalPosition);
 
-                ECB.SetComponent(sortKey, goblin.Entity, new GoblinHeading{Value = goblinHeading, Offset = random.NextFloat(), Position = goalPosition});
-                ECB.SetComponentEnabled<GoblinTargetProperties>(sortKey, goblin.Entity, false);
-                ECB.SetComponentEnabled<GoblinWalkProperties>(sortKey, goblin.Entity, true);
+                // ECB.SetComponent(sortKey, goblin.Entity, new GoblinHeading{Value = goblinHeading, Offset = random.NextFloat(), Position = goalPosition});
+                // ECB.SetComponentEnabled<GoblinTargetProperties>(sortKey, goblin.Entity, false);
+                // ECB.SetComponentEnabled<GoblinWalkProperties>(sortKey, goblin.Entity, true);
             // }
         }
     }

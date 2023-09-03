@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace TJ.DOTS
 {
+
     public class GoblinMono : MonoBehaviour
     {
         public float WalkSpeed;
@@ -20,8 +21,8 @@ namespace TJ.DOTS
         public override void Bake(GoblinMono authoring)
         {
             // RefRW<RandomComponent> random =  SystemAPI.GetSingletonRW<RandomComponent>();
-
             var goblinEntity = GetEntity(TransformUsageFlags.Dynamic);
+
             AddComponent(goblinEntity, new GoblinComponent{});
             AddComponent(goblinEntity, new GoblinWalkProperties
             {
@@ -29,16 +30,17 @@ namespace TJ.DOTS
                 WalkAmplitude = authoring.WalkAmplitude,
                 WalkFrequency = authoring.WalkFrequency
             });
-            AddComponent(goblinEntity, new GoblinTargetProperties{});
+            // AddComponent(goblinEntity, new GoblinTargetProperties{});
+
             AddComponent<GoblinTimer>(goblinEntity);
             AddComponent<GoblinHeading>(goblinEntity);
             AddComponent<NewGoblinTag>(goblinEntity);
             // AddComponent(goblinEntity, new GoblinRandom{RandomValue = random.ValueRW.random});
         }
-        public float GetOffset(RefRW<RandomComponent> randomComponent)
-        {
-            return randomComponent.ValueRW.random.NextFloat();
-        }
+        // public float GetOffset(RefRW<RandomComponent> randomComponent)
+        // {
+        //     return randomComponent.ValueRW.random.NextFloat();
+        // }
     }
     public struct GoblinComponent : IComponentData {
     }

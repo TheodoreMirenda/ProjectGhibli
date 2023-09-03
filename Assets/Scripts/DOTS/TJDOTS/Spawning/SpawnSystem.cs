@@ -19,6 +19,7 @@ namespace TJ.DOTS
             // This call makes the system not update unless at least one entity in the world exists that has the GoblinSpawningProperties component.
             state.RequireForUpdate<CastleTag>();
             state.RequireForUpdate<GoblinSpawningProperties>();
+            state.RequireForUpdate<CastleTag>();
         }
         [BurstCompile]
         public void OnDestroy(ref SystemState state){
@@ -33,18 +34,17 @@ namespace TJ.DOTS
         {
             // Create a query that matches all entities having a RotationSpeed component.
             // (The query is cached in source generation, so this does not incur a cost of recreating it every update.)
-            var spinningCubesQuery = SystemAPI.QueryBuilder().WithAll<GoblinComponent>().Build();
-            if (!spinningCubesQuery.IsEmpty) return;
+            var goblinComponentQuery = SystemAPI.QueryBuilder().WithAll<GoblinComponent>().Build();
+            if (!goblinComponentQuery.IsEmpty) return;
             // Logg();
 
             //get CastleAspect 
-            // var castle = SystemAPI.GetSingleton<CastleTag>();
-            // var castlePosition = castle.CastleAspect.Position;
+            var castle = SystemAPI.GetSingletonEntity<CastleTag>();
+            var castlePosition = SystemAPI.GetComponent<LocalTransform>(castle).Position;
             
-
             // An EntityQueryMask provides an efficient test of whether a specific entity would
             // be selected by an EntityQuery.
-            var queryMask = spinningCubesQuery.GetEntityQueryMask();
+            var queryMask = goblinComponentQuery.GetEntityQueryMask();
             var ecb = new EntityCommandBuffer(Allocator.Temp);
 
 
@@ -58,15 +58,16 @@ namespace TJ.DOTS
             {
                 var random = Unity.Mathematics.Random.CreateFromIndex(updateCounter++);
 
-                var goblinPosition = goblinSpawningAspect.GetRandomTombstoneTransform();
+                var goblinPosition = goblinSpawningAspect.GetRandomSpawningSpot();
                 ecb.SetComponentForLinkedEntityGroup(goblin, queryMask, goblinPosition);
                 //get random building
                 // var randomBuilding = SystemAPI.GetSingleton<BuildingTag>();
-                float3 goalPosition = (random.NextFloat3() - new float3(0.5f, 0, 0.5f)) * 50;
-                goalPosition.y = 0;
 
-                var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, goalPosition);
-                ecb.SetComponent(goblin, new GoblinHeading{Value = goblinHeading, Offset = random.NextFloat(), Position = goalPosition});
+                var goblinHeading = MathHelpers.GetHeading(goblinPosition.Position, castlePosition);
+                ecb.SetComponent(goblin, new GoblinHeading{ Value = goblinHeading, 
+                                                            Offset = random.NextFloat(), 
+                                                            Position = castlePosition
+                                                            });
             }
 
             ecb.Playback(state.EntityManager);

@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using UnityEngine;
 
 namespace TJ.DOTS
 {
@@ -24,9 +26,10 @@ namespace TJ.DOTS
             var ecb = new EntityCommandBuffer(Allocator.Temp);
             foreach (var goblin in SystemAPI.Query<GoblinWalkAspect>().WithAll<NewGoblinTag>())
             {
+                // UnityEngine.Debug.Log("InitializeGoblinSystem: " + goblin);
+                // UnityEngine.Debug.Log("InitializeGoblinSystem: " + goblin.Entity);
                 ecb.RemoveComponent<NewGoblinTag>(goblin.Entity);
-                ecb.SetComponentEnabled<GoblinTargetProperties>(goblin.Entity, false);//disables the zombie eat properties (until the zombie is at the brain)
-                
+                // ecb.SetComponentEnabled<GoblinTargetProperties>(goblin.Entity, false);//disables the zombie eat properties (until the zombie is at the brain)
             }
 
             ecb.Playback(state.EntityManager);

@@ -15,7 +15,6 @@ namespace TJ.DOTS
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            // state.RequireForUpdate<Config>();
         }
 
         [BurstCompile]
@@ -30,6 +29,7 @@ namespace TJ.DOTS
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
             // RefRW<RandomComponent> random =  SystemAPI.GetSingletonRW<RandomComponent>();
             var brainRadius = 2.5f;
+            // Debug.Log($"GoblinWalkJob: ");
 
             new GoblinWalkJob
             {
@@ -52,15 +52,17 @@ namespace TJ.DOTS
         [BurstCompile]
         private void Execute(GoblinWalkAspect goblin, [ChunkIndexInQuery] int sortKey)
         {
+            // Debug.Log($"GoblinWalkJob:asdfasdf");
             goblin.Walk(DeltaTime);
-            if (goblin.IsInStoppingRange(distanceToObject))//if the zombie is in stopping range, chill with the walk and eat
-            {
-                float3 goalPosition = goblin.GetRandomPosition();
-                goalPosition.y = 0;
-                var goblinHeading = MathHelpers.GetHeading(goblin.CurrentPosition, goalPosition);
+            // if (goblin.IsInStoppingRange(distanceToObject))//if the zombie is in stopping range, chill with the walk and eat
+            // {
+                // ECB.DestroyEntity(sortKey, goblin.Entity);
+                // float3 goalPosition = goblin.GetRandomPosition();
+                // goalPosition.y = 0;
+                // var goblinHeading = MathHelpers.GetHeading(goblin.CurrentPosition, goalPosition);
 
-                ECB.SetComponent(sortKey, goblin.Entity, new GoblinHeading{Value = goblinHeading, Offset = goblin.GetOffset(), Position = goalPosition});
-            }
+                // ECB.SetComponent(sortKey, goblin.Entity, new GoblinHeading{Value = goblinHeading, Offset = goblin.GetOffset(), Position = goalPosition});
+            // }
         }
                 
         //UnityEngine.Random.Range(0f, 15f) doesnt work in burst, need to use mathematics library

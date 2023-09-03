@@ -14,7 +14,7 @@ namespace TJ.DOTS
         private readonly RefRW<GoblinTimer> _walkTimer;
         private readonly RefRO<GoblinWalkProperties> _walkProperties;
         private readonly RefRO<GoblinHeading> _heading;
-        private readonly RefRW<GoblinRandom> _goblinSpawningRandom;
+        // private readonly RefRW<GoblinRandom> _goblinSpawningRandom;
 
         private float WalkSpeed => _walkProperties.ValueRO.WalkSpeed;
         private float WalkAmplitude => _walkProperties.ValueRO.WalkAmplitude;
@@ -37,18 +37,6 @@ namespace TJ.DOTS
             var swayAngle = WalkAmplitude * math.sin(WalkFrequency * (WalkTimer+WalkTimerOffset));
             _transform.ValueRW.Rotation = quaternion.Euler(0, Heading, 0);
             _transform.ValueRW.Position.y = swayAngle;
-        }
-        public float3 GetRandomPosition()
-        {
-            return new float3(
-                _goblinSpawningRandom.ValueRW.RandomValue.NextFloat(0f, 15f),
-                0,
-                _goblinSpawningRandom.ValueRW.RandomValue.NextFloat(0f, 15f)
-            );
-        }
-        public float GetOffset()
-        {
-            return _goblinSpawningRandom.ValueRW.RandomValue.NextFloat();
         }
         
         public bool IsInStoppingRange(float brainRadiusSq)
