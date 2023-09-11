@@ -14,6 +14,7 @@ namespace TJ.DOTS
         private readonly RefRW<GoblinTimer> _walkTimer;
         private readonly RefRO<GoblinWalkProperties> _walkProperties;
         private readonly RefRO<GoblinHeading> _heading;
+        private readonly RefRW<GoblinAttackProperties> _goblinAttackProperties;
         // private readonly RefRW<GoblinRandom> _goblinSpawningRandom;
 
         private float WalkSpeed => _walkProperties.ValueRO.WalkSpeed;
@@ -43,6 +44,11 @@ namespace TJ.DOTS
         {
             // return math.distancesq(brainPosition, _transform.ValueRW.Position) <= brainRadiusSq;
             return math.distancesq(Position, _transform.ValueRW.Position) <= brainRadiusSq;
+        }
+        public void CachePosition()
+        {
+            _goblinAttackProperties.ValueRW.Position = CurrentPosition;
+            _goblinAttackProperties.ValueRW.Cached = true;
         }
     }
 }

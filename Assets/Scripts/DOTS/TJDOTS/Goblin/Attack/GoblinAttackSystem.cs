@@ -7,9 +7,8 @@ using UnityEngine;
 namespace TJ.DOTS
 {
     [BurstCompile]
-    // [UpdateAfter(typeof(InitializeGoblinSystem))]
-    [UpdateAfter(typeof(SpawnSystem))]//this is so that the zombie rise system runs after the spawn zombie system
-    public partial struct GoblinWalkSystem : ISystem
+    [UpdateAfter(typeof(GoblinWalkSystem))]
+    public partial struct GoblinAttackSystem : ISystem
     {
 
         [BurstCompile]
@@ -27,11 +26,9 @@ namespace TJ.DOTS
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-            // RefRW<RandomComponent> random =  SystemAPI.GetSingletonRW<RandomComponent>();
-            var brainRadius = 10f;
-            // Debug.Log($"GoblinWalkJob: ");
+            var brainRadius = 2.5f;
 
-            new GoblinWalkJob
+            new GoblinAttackJob
             {
                 DeltaTime = deltaTime,
                 distanceToObject = brainRadius * brainRadius,
@@ -42,7 +39,7 @@ namespace TJ.DOTS
     }
 
     [BurstCompile]
-    public partial struct GoblinWalkJob : IJobEntity
+    public partial struct GoblinAttackJob : IJobEntity
     {
         public float DeltaTime;
         public float distanceToObject;
@@ -50,16 +47,10 @@ namespace TJ.DOTS
         // public RefRW<RandomComponent> randomComponent;
         
         [BurstCompile]
-        private void Execute(GoblinWalkAspect goblin, [ChunkIndexInQuery] int sortKey)
+        private void Execute(GoblinAttackAspect goblin, [ChunkIndexInQuery] int sortKey)
         {
-            goblin.Walk(DeltaTime);
-            if (goblin.IsInStoppingRange(distanceToObject))//if the zombie is in stopping range, chill with the walk and eat
-            {
-                // ECB.DestroyEntity(sortKey, goblin.Entity);
-                goblin.CachePosition();
-                // ECB.SetComponentEnabled<GoblinWalkProperties>(sortKey, goblin.Entity, false);
-                // ECB.SetComponentEnabled<GoblinAttackProperties>(sortKey, goblin.Entity, true);
-            }
+            goblin.LockPosition();
+            // goblin.Attack(DeltaTime);
         }
     }
 }

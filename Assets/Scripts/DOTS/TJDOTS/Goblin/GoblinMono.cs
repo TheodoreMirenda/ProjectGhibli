@@ -9,11 +9,8 @@ namespace TJ.DOTS
         public float WalkSpeed;
         public float WalkAmplitude;
         public float WalkFrequency;
-        public uint RandomSeed;
-        
-        // public float EatDamage;
-        // public float EatAmplitude;
-        // public float EatFrequency;
+        public float AttackSpeed;
+        public float AttackDamage;
     }
 
     public class GoblinBaker : Baker<GoblinMono> 
@@ -30,11 +27,15 @@ namespace TJ.DOTS
                 WalkAmplitude = authoring.WalkAmplitude,
                 WalkFrequency = authoring.WalkFrequency
             });
-            // AddComponent(goblinEntity, new GoblinTargetProperties{});
 
             AddComponent<GoblinTimer>(goblinEntity);
             AddComponent<GoblinHeading>(goblinEntity);
             AddComponent<NewGoblinTag>(goblinEntity);
+
+            AddComponent(goblinEntity, new GoblinAttackProperties{
+                AttackSpeed = authoring.AttackSpeed,
+                AttackDamage = authoring.AttackDamage
+            });
             // AddComponent(goblinEntity, new GoblinRandom{RandomValue = random.ValueRW.random});
         }
         // public float GetOffset(RefRW<RandomComponent> randomComponent)

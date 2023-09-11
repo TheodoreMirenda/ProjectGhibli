@@ -52,7 +52,8 @@ MonoBehaviour:
   WalkSpeed: 5
   WalkAmplitude: 0.1
   WalkFrequency: 1
-  RandomSeed: 0
+  AttackSpeed: 0
+  AttackDamage: 0
 --- !u!114 &7405514865683039106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,11 +67,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MotionType: 2
-  Speed: 3.5
+  Speed: 0
   Acceleration: 8
   AngularSpeed: 120
   StoppingDistance: 0.1
-  AutoBreaking: 0
+  AutoBreaking: 1
 --- !u!114 &8580974238430984871
 MonoBehaviour:
   m_ObjectHideFlags: 0
