@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TJ.Utilities;
+using System.Xml.Serialization;
 
 public class HeroMetadataGeneration : MonoBehaviour
 {
-    public enum HeroRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic };
-    public enum HeroClass { Rogue, Warrior, Mage, Druid, Paladin, Tinker, Priest}
-    public struct HeroStats {
+    [System.Serializable] public enum HeroRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic };
+    [System.Serializable] public enum HeroClass { Rogue, Warrior, Mage, Druid, Paladin, Tinker, Priest}
+    public struct HeroRarityClass { public HeroRarity rarity; public HeroClass heroClass; }
+    [System.Serializable] public struct HeroStats {
         public int STR;
         public int DEX;
         public int INT;
@@ -14,15 +17,78 @@ public class HeroMetadataGeneration : MonoBehaviour
         public int AGI;
         public int LUCK;
         public int CHA;
+        public void ModifyStat(int statId, int amount){
+            switch(statId){
+                case 0:
+                    STR += amount;
+                    break;
+                case 1:
+                    DEX += amount;
+                    break;
+                case 2:
+                    INT += amount;
+                    break;
+                case 3:
+                    WIS += amount;
+                    break;
+                case 4:
+                    AGI += amount;
+                    break;
+                case 5:
+                    LUCK += amount;
+                    break;
+                case 6:
+                    CHA += amount;
+                    break;
+                default: 
+                    Debug.Log($"wtf");
+                    break;
+            }
+        }
     }
-    public struct HeroRarityClass {
-        public HeroRarity rarity;
-        public HeroClass heroClass;
-    }
-
     public Dictionary<HeroRarityClass, HeroStats> heroStatsDict = new ();
+    [System.Serializable] public struct SerializedHeroes { public List<Hero> heroes; }
+    [System.Serializable] public class Hero {
+        public int id;
+        public string rarity;
+        public string heroClass;
+        public HeroStats stats;
+        public bool isShiny;  
+        public Hero (int id, HeroRarity rarity, HeroClass heroClass, HeroStats stats, bool isShiny) {
+            this.id = id;
+            this.rarity = rarity.ToString();
+            this.heroClass = heroClass.ToString();
+            this.stats = stats;
+            this.isShiny = isShiny;
+        }
+    }
+    [System.Serializable] public struct Trait {
+        public string trait_type;
+        public string value;
+        public string display_type;
+        public Trait(string trait_type, string value, string displayType) {
+            this.trait_type = trait_type;
+            this.value = value;
+            this.display_type = displayType;
+        }
+    }
 
+    [System.Serializable] public struct FinalMetadata {
+        public string image;
+        public string name;
+        public string description;
+        public string id;
+        public Trait[] attributes;
+        public FinalMetadata(string image, string name, string description, string id, Trait[] attributes) {
+            this.image = image;
+            this.name = name;
+            this.description = description;
+            this.id = id;
+            this.attributes = attributes;
+        }
+    }
     public void CreateHeroStatsDict(){
+        heroStatsDict.Clear();
         heroStatsDict.Add(new HeroRarityClass { rarity = HeroRarity.Common, heroClass = HeroClass.Rogue }, new HeroStats { STR = 5, DEX = 8, INT = 4, WIS = 4, AGI = 7, LUCK = 4, CHA = 3 });
         heroStatsDict.Add(new HeroRarityClass { rarity = HeroRarity.Uncommon, heroClass = HeroClass.Rogue }, new HeroStats { STR = 6, DEX = 8, INT = 5, WIS = 4, AGI = 8, LUCK = 4, CHA = 5 });
         heroStatsDict.Add(new HeroRarityClass { rarity = HeroRarity.Rare, heroClass = HeroClass.Rogue }, new HeroStats { STR = 7, DEX = 8, INT = 6, WIS = 5, AGI = 8, LUCK = 5, CHA = 6 });
@@ -74,21 +140,20 @@ public class HeroMetadataGeneration : MonoBehaviour
     }
     [ContextMenu("Test")]
     public void Test(){
-        heroStatsDict.Clear();
         CreateHeroStatsDict();
 
         //print out the total number of all the hero stats attributes for each level
         // for (int i = 0; i < 6; i++){
         //     foreach (KeyValuePair<HeroRarityClass, HeroStats> kvp in heroStatsDict){
+        //         public int AddUpAllStats(HeroStats stats){
+        //     return stats.STR + stats.DEX + stats.INT + stats.WIS + stats.AGI + stats.LUCK + stats.CHA;
+        // }
         //         int amountOfStats = AddUpAllStats(kvp.Value);
         //         print(amountOfStats);
 
         //     }
         // }
 
-    }
-    public int AddUpAllStats(HeroStats stats){
-        return stats.STR + stats.DEX + stats.INT + stats.WIS + stats.AGI + stats.LUCK + stats.CHA;
     }
 
     public int GetStatsPerLevel (HeroRarity rarity)
@@ -104,8 +169,161 @@ public class HeroMetadataGeneration : MonoBehaviour
             _ => 0,
         };
     }
+    public int GetBaseHonorGuard(HeroClass heroClass)
+    {
+        return heroClass switch
+        {
+            HeroClass.Rogue => 10,
+            HeroClass.Warrior => 15,
+            HeroClass.Priest => 7,
+            HeroClass.Druid => 10,
+            HeroClass.Paladin => 7,
+            HeroClass.Tinker => 20,
+            HeroClass.Mage => 10,
+            _ => 0,
+        };
+    }
+    public int GetMaxArmySize(HeroClass heroClass)
+    {
+        return heroClass switch
+        {
+            HeroClass.Rogue => 60,
+            HeroClass.Warrior => 75,
+            HeroClass.Priest => 45,
+            HeroClass.Druid => 60,
+            HeroClass.Paladin => 50,
+            HeroClass.Tinker => 70,
+            HeroClass.Mage => 50,
+            _ => 0,
+        };
+    }
+    public int GetTotalToGenerate(HeroRarity rarity)
+    {
+        return rarity switch
+        {
+            HeroRarity.Common => 500,
+            HeroRarity.Uncommon => 250,
+            HeroRarity.Rare => 125,
+            HeroRarity.Epic => 75,
+            HeroRarity.Legendary => 43,
+            HeroRarity.Mythic => 7,
+            _ => 0,
+        };
+    }
+    public int GetShinyCount(HeroRarity rarity)
+    {
+        return rarity switch
+        {
+            HeroRarity.Common => 50,
+            HeroRarity.Uncommon => 20,
+            HeroRarity.Rare => 8,
+            HeroRarity.Epic => 3,
+            HeroRarity.Legendary => 1,
+            HeroRarity.Mythic => 0,
+            _ => 0,
+        };
+    }
+    public void MapOwners()
+    {
 
-    public void GenerateMetaData(){
+    }
+    public HeroRarity GetHeroRarity(int id)
+    {
+        return id switch
+        {
+            < 500 => HeroRarity.Common,
+            < 750 => HeroRarity.Uncommon,
+            < 875 => HeroRarity.Rare,
+            < 950 => HeroRarity.Epic,
+            < 993 => HeroRarity.Legendary,
+            < 1000 => HeroRarity.Mythic,
+            _ => HeroRarity.Common,
+        };
+    }
+    public HeroClass GetHeroClass(int id)
+    {
+        // use modulo to get the hero class
+        int heroClass = id % 7;
+        return heroClass switch
+        {
+            0 => HeroClass.Rogue,
+            1 => HeroClass.Warrior,
+            2 => HeroClass.Mage,
+            3 => HeroClass.Druid,
+            4 => HeroClass.Paladin,
+            5 => HeroClass.Tinker,
+            6 => HeroClass.Priest,
+            _ => HeroClass.Rogue,
+        };
+    }
+    public List<Hero> DistributeShinies(List<Hero> heroes)
+    {
+        int shinies = 0;
+        List<Hero> localHeroes = new ();
+        List<HeroRarity> heroRarities = new ();
+        heroRarities.AddRange(new HeroRarity[] { HeroRarity.Common, HeroRarity.Uncommon, HeroRarity.Rare, HeroRarity.Epic, HeroRarity.Legendary, HeroRarity.Mythic });
+        foreach(HeroRarity heroRarity in heroRarities){
+            shinies = GetShinyCount(heroRarity);
+            localHeroes = heroes.FindAll(hero => hero.rarity == heroRarity.ToString());
+            localHeroes.Shuffle();
+            for (int i = 0; i < shinies; i++) {
+                // Debug.Log($"Hero {localHeroes[i].id} is shiny");
+                heroes[localHeroes[i].id].isShiny = true;
+            }
+        }
+        return heroes;
+    }
+    public List<Hero> AddVariance(List<Hero> heroes)
+    {
+        for(int i = 0; i < heroes.Count; i++){
+            //modify 2-4 stats on each hero, by 1
+            int statsToModify = SeededRandom.Range(0,3);
+            if(statsToModify == 0){
+                continue;
+            } else if(statsToModify == 1){
+                statsToModify = 2;
+            } else if(statsToModify == 2){
+                statsToModify = 4;
+            } else {
+                Debug.Log($"wtf");
+            }
 
+            while(statsToModify>0){
+                int statId = SeededRandom.Range(0,7);
+                //up on even, down on odd
+                heroes[i].stats.ModifyStat(statId, statsToModify % 2 == 0 ? 1 : -1);
+                statsToModify--;
+            }
+        }
+
+        return heroes;
+    }
+    
+    [ContextMenu("Generate Heroes")]
+    void GenerateHeroes()
+    {
+        SeededRandom.Init(0);
+        CreateHeroStatsDict();
+
+        SerializedHeroes serializedHeroes = new(){
+            heroes = new List<Hero>()
+        };
+        
+        //generate heroes
+        int heroesToGenerate = 1000;
+        for(int i = 0; i < heroesToGenerate; i++){
+            HeroRarity hr = GetHeroRarity(i);
+            HeroClass hc = GetHeroClass(i);
+            HeroStats hs = heroStatsDict[new HeroRarityClass { rarity = hr, heroClass = hc }];
+            bool isShiny = false;
+            serializedHeroes.heroes.Add(new Hero(i, hr, hc, hs, isShiny));
+            // Debug.Log($"hr {hr} hc {hc} hs {hs} isShiny {isShiny}");
+        }
+
+        serializedHeroes.heroes = DistributeShinies(serializedHeroes.heroes);
+        serializedHeroes.heroes = AddVariance(serializedHeroes.heroes);
+
+        string json = JsonUtility.ToJson(serializedHeroes, true);
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/heroes.json", json);
     }
 }
