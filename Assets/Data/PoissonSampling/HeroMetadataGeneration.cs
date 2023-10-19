@@ -8,7 +8,8 @@ public class HeroMetadataGeneration : MonoBehaviour
 {
     [System.Serializable] public enum HeroRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic };
     [System.Serializable] public enum HeroClass { Rogue, Warrior, Mage, Druid, Paladin, Tinker, Priest}
-    public struct HeroRarityClass { public HeroRarity rarity; public HeroClass heroClass; }
+    [System.Serializable] public enum HeroLocation { Celestial_Cliffs, Ebisus_Bay, Verdant_Forest, Felisgarde, Highlands}
+    public struct HeroRarityClass { public HeroRarity rarity; public HeroClass heroClass; public HeroLocation heroLocation;}
     [System.Serializable] public struct HeroStats {
         public int STR;
         public int DEX;
@@ -53,12 +54,14 @@ public class HeroMetadataGeneration : MonoBehaviour
         public string rarity;
         public string heroClass;
         public HeroStats stats;
+        public string location;
         public bool isShiny;  
-        public Hero (int id, HeroRarity rarity, HeroClass heroClass, HeroStats stats, bool isShiny) {
+        public Hero (int id, HeroRarity rarity, HeroClass heroClass, HeroStats stats, HeroLocation heroLocation, bool isShiny) {
             this.id = id;
             this.rarity = rarity.ToString();
             this.heroClass = heroClass.ToString();
             this.stats = stats;
+            this.location = heroLocation.ToString();
             this.isShiny = isShiny;
         }
     }
@@ -73,20 +76,6 @@ public class HeroMetadataGeneration : MonoBehaviour
         }
     }
 
-    [System.Serializable] public struct FinalMetadata {
-        public string image;
-        public string name;
-        public string description;
-        public string id;
-        public Trait[] attributes;
-        public FinalMetadata(string image, string name, string description, string id, Trait[] attributes) {
-            this.image = image;
-            this.name = name;
-            this.description = description;
-            this.id = id;
-            this.attributes = attributes;
-        }
-    }
     public void CreateHeroStatsDict(){
         heroStatsDict.Clear();
         heroStatsDict.Add(new HeroRarityClass { rarity = HeroRarity.Common, heroClass = HeroClass.Rogue }, new HeroStats { STR = 5, DEX = 8, INT = 4, WIS = 4, AGI = 7, LUCK = 4, CHA = 3 });
@@ -242,7 +231,6 @@ public class HeroMetadataGeneration : MonoBehaviour
     }
     public HeroClass GetHeroClass(int id)
     {
-        // use modulo to get the hero class
         int heroClass = id % 7;
         return heroClass switch
         {
@@ -254,6 +242,19 @@ public class HeroMetadataGeneration : MonoBehaviour
             5 => HeroClass.Tinker,
             6 => HeroClass.Priest,
             _ => HeroClass.Rogue,
+        };
+    }
+    public HeroLocation GetHeroLocation(int id)
+    {
+        int heroClass = id % 5;
+        return heroClass switch
+        {
+            0 => HeroLocation.Celestial_Cliffs,
+            1 => HeroLocation.Ebisus_Bay,
+            2 => HeroLocation.Verdant_Forest,
+            3 => HeroLocation.Felisgarde,
+            4 => HeroLocation.Highlands,
+            _ => HeroLocation.Celestial_Cliffs,
         };
     }
     public List<Hero> DistributeShinies(List<Hero> heroes)
@@ -285,7 +286,7 @@ public class HeroMetadataGeneration : MonoBehaviour
             } else if(statsToModify == 2){
                 statsToModify = 4;
             } else {
-                Debug.Log($"wtf");
+                Debug.Log($"broke");
             }
 
             while(statsToModify>0){
@@ -314,9 +315,10 @@ public class HeroMetadataGeneration : MonoBehaviour
         for(int i = 0; i < heroesToGenerate; i++){
             HeroRarity hr = GetHeroRarity(i);
             HeroClass hc = GetHeroClass(i);
+            HeroLocation hl = GetHeroLocation(i);
             HeroStats hs = heroStatsDict[new HeroRarityClass { rarity = hr, heroClass = hc }];
             bool isShiny = false;
-            serializedHeroes.heroes.Add(new Hero(i, hr, hc, hs, isShiny));
+            serializedHeroes.heroes.Add(new Hero(i, hr, hc, hs, hl, isShiny));
             // Debug.Log($"hr {hr} hc {hc} hs {hs} isShiny {isShiny}");
         }
 
@@ -325,5 +327,67 @@ public class HeroMetadataGeneration : MonoBehaviour
 
         string json = JsonUtility.ToJson(serializedHeroes, true);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/heroes.json", json);
+
+        SaveAsMetadata(serializedHeroes);
+        
+    }
+    private void SaveAsMetadata(SerializedHeroes serializedHeroes)
+    {
+        MetadataList finalMetadata = new(){
+            metadata = new List<Metadata>()
+        };
+
+        Hero hero;
+        for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+            hero = serializedHeroes.heroes[i];
+            List<Trait> traits = new()
+            {
+                new Trait("Class", hero.heroClass, "string"),
+                new Trait("Rarity", hero.rarity, "string"),
+                new Trait("Location", hero.location, "string"),
+                new Trait("STR", hero.stats.STR.ToString(), "string"),
+                new Trait("DEX", hero.stats.DEX.ToString(), "string"),
+                new Trait("INT", hero.stats.INT.ToString(), "string"),
+                new Trait("WIS", hero.stats.WIS.ToString(), "string"),
+                new Trait("AGI", hero.stats.AGI.ToString(), "string"),
+                new Trait("LUCK", hero.stats.LUCK.ToString(), "string"),
+                new Trait("CHA", hero.stats.CHA.ToString(), "string")
+            };
+
+            if(hero.isShiny)
+                traits.Add(new Trait("isShiny", hero.isShiny.ToString(), "Shiny"));
+
+            finalMetadata.metadata.Add(new Metadata(
+                $"https://app.ebisusbay.com/heros/{hero.id+1}",
+                "Ryoshi Heroes #"+(hero.id+1).ToString(),
+                "Heroes play a crucial role in defining the overall gameplay experience. Each class brings a distinct play style, appearance, and a set of statistics and profession synergies that enhance the gameplay",
+                (hero.id+1).ToString(),
+                traits.ToArray()
+            ));
+            // finalMetadata.finalMetadata[i].attributes = traits;
+        }
+
+        string metaDataJson = JsonUtility.ToJson(finalMetadata, true);
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroesMetadata.json", metaDataJson);
+        // CreateIndFiles(finalMetadata);
+        Debug.Log($"saved metadata");
+
+    }
+    [System.Serializable] public struct MetadataList {
+        public List<Metadata> metadata;
+    }
+    [System.Serializable] public struct Metadata {
+        public string image;
+        public string name;
+        public string description;
+        public string id;
+        public Trait[] attributes;
+        public Metadata(string image, string name, string description, string id, Trait[] attributes) {
+            this.image = image;
+            this.name = name;
+            this.description = description;
+            this.id = id;
+            this.attributes = attributes;
+        }
     }
 }
