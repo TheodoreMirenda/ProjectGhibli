@@ -1,0 +1,1294 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+OcclusionCullingSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: 0.25
+    backfaceThreshold: 100
+  m_SceneGUID: 00000000000000000000000000000000
+  m_OcclusionCullingData: {fileID: 0}
+--- !u!104 &2
+RenderSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 9
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.01
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  m_DefaultReflectionMode: 0
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
+  m_ReflectionIntensity: 1
+  m_CustomReflection: {fileID: 0}
+  m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_UseRadianceAmbientProbe: 0
+--- !u!157 &3
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 12
+  m_GIWorkflowMode: 1
+  m_GISettings:
+    serializedVersion: 2
+    m_BounceScale: 1
+    m_IndirectOutputScale: 1
+    m_AlbedoBoost: 1
+    m_EnvironmentLightingMode: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
+  m_LightmapEditorSettings:
+    serializedVersion: 12
+    m_Resolution: 2
+    m_BakeResolution: 40
+    m_AtlasSize: 1024
+    m_AO: 0
+    m_AOMaxDistance: 1
+    m_CompAOExponent: 1
+    m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
+    m_Padding: 2
+    m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
+    m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
+    m_ReflectionCompression: 2
+    m_MixedBakeMode: 2
+    m_BakeBackend: 1
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 512
+    m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 256
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 1
+    m_PVRDenoiserTypeDirect: 1
+    m_PVRDenoiserTypeIndirect: 1
+    m_PVRDenoiserTypeAO: 1
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
+    m_PVREnvironmentMIS: 1
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
+  m_LightingDataAsset: {fileID: 0}
+  m_LightingSettings: {fileID: 0}
+--- !u!196 &4
+NavMeshSettings:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    serializedVersion: 3
+    agentTypeID: 0
+    agentRadius: 0.5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: 0.4
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    minRegionArea: 2
+    manualCellSize: 0
+    cellSize: 0.16666667
+    manualTileSize: 0
+    tileSize: 256
+    buildHeightMesh: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
+    debug:
+      m_Flags: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!1 &174032747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174032750}
+  - component: {fileID: 174032749}
+  - component: {fileID: 174032751}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &174032749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174032747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &174032750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174032747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &174032751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174032747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+--- !u!1 &290951862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 290951863}
+  - component: {fileID: 290951865}
+  - component: {fileID: 290951864}
+  - component: {fileID: 290951866}
+  m_Layer: 5
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &290951863
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290951862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1191430265}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &290951864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290951862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.3018868, g: 0.24065503, b: 0.24065503, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &290951865
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290951862}
+  m_CullTransparentMesh: 1
+--- !u!114 &290951866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290951862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!1 &663458860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 663458863}
+  - component: {fileID: 663458862}
+  - component: {fileID: 663458861}
+  - component: {fileID: 663458864}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &663458861
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663458860}
+  m_Enabled: 1
+--- !u!20 &663458862
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663458860}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &663458863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663458860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &663458864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663458860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
+--- !u!1 &1191430261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1191430265}
+  - component: {fileID: 1191430264}
+  - component: {fileID: 1191430263}
+  - component: {fileID: 1191430262}
+  m_Layer: 5
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1191430262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191430261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1191430263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191430261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 2048, y: 2048}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1191430264
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191430261}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &1191430265
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191430261}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 290951863}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!1 &1461356883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461356884}
+  - component: {fileID: 1461356889}
+  - component: {fileID: 1461356886}
+  - component: {fileID: 1461356887}
+  - component: {fileID: 1461356888}
+  m_Layer: 0
+  m_Name: NFTMetadataGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1461356884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461356883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1461356886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461356883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5887e938f01c8ab4d8b553f97f28c3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCamera: {fileID: 663458862}
+  transparentBackground: 0
+  filepath: Assets/TJ.IconCreator/Results/
+--- !u!114 &1461356887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461356883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab55ded7f2106649901806567deebc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takeScreenShots: 1
+  images: []
+  filePath: TJ.IconCreator/Metadata/metadata.json
+  screenshotHandler: {fileID: 1461356886}
+  canvasParent: {fileID: 1191430265}
+  width: 2048
+  height: 2048
+  metaDataGenerator: {fileID: 1461356889}
+--- !u!114 &1461356888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461356883}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2522c242d0dc9e44eb156d2f2d6f0a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takeScreenShots: 0
+  itemsToScreenShot: []
+--- !u!114 &1461356889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461356883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b5484aecdcdad4585cbdfe717782c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filePath: TJ.IconCreator/Metadata/
+  fileName: metadata
+  totalCount: 500
+  layers:
+  - trait_type: Background
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Dark Violet
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: d30336fd7da4c4e4cab6c3c816fd4f9a, type: 3}
+    - traitName: Orange
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 0d53c49d01f47ef4ab5f4da03d3a8899, type: 3}
+    - traitName: Green
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 02c24ab5a1ca8e5479921d7ecbc9be41, type: 3}
+    - traitName: Spider Web
+      useSpecificCount: 0
+      occurance: 0.13
+      count: 0
+      image: {fileID: 21300000, guid: 28d046d71158e9a4d8b29a3a3cef7c75, type: 3}
+    - traitName: Graveyard
+      useSpecificCount: 0
+      occurance: 0.06
+      count: 0
+      image: {fileID: 21300000, guid: e2fa307c799b4a545aa8f4399ba4e35a, type: 3}
+    - traitName: Haunted House
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 8340c45c86619764886ee7a625d152ef, type: 3}
+    - traitName: Magenta
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 7b0e89e2e9ee08247967a22fcebdb639, type: 3}
+  - trait_type: Tails
+    layerChance: 0
+    displayType: 0
+    attributes:
+    - traitName: Black Devil Tail
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: a43a5e1f7b8cccf4f9c681e1b7bd2d60, type: 3}
+    - traitName: Red Devil Tail
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 5c023ede3901f63409efd9166246ce82, type: 3}
+  - trait_type: Body
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Light
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: d78bda6f2c8d29248aaf2377b6c49257, type: 3}
+    - traitName: Dark
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: b8fd96f10496e094388af18ab0e668bf, type: 3}
+    - traitName: Green Paint
+      useSpecificCount: 0
+      occurance: 0.35
+      count: 0
+      image: {fileID: 21300000, guid: 639b2d4e36051b24783863aefe284ef7, type: 3}
+    - traitName: Golden Robot Skin
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 00f0390ce6764894eb9290028c3fee5c, type: 3}
+  - trait_type: Eyes
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Blue
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 7f401a0e02bf4374b97e603951d8052c, type: 3}
+    - traitName: Green
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 2a39848d239a7e64c80f31c33cb42630, type: 3}
+    - traitName: Red
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 32632ad4f0c310641910ba87d5702133, type: 3}
+    - traitName: White
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 87a54b6a550d7424abeae4e079a47ca0, type: 3}
+    - traitName: Yellow
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 138d537b57413d743afccb02378d2e00, type: 3}
+    - traitName: Dead
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 4e92c509d54867240b862405d548033a, type: 3}
+    - traitName: Wink
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 4029e1365355ac740ba3c4beb688fe8e, type: 3}
+    - traitName: Male
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 63028c32154e5d44cbe530a92646fb4a, type: 3}
+    - traitName: Female
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 6ccbbdd01b56f294ebf99ac232c80ca4, type: 3}
+  - trait_type: Mouth
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Angry
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 2e36fa4293d7674499af367ef72da662, type: 3}
+    - traitName: Grimace
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 518470a4652fc9a459329b9ecc4a7e42, type: 3}
+    - traitName: Happy
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 8943a1c6410e9c045adbfe14dce705a1, type: 3}
+    - traitName: Laughing
+      useSpecificCount: 0
+      occurance: 0.15
+      count: 0
+      image: {fileID: 21300000, guid: 962f8c02ece0afe46bfcf4c6c3d2b1b0, type: 3}
+    - traitName: Sewn
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 2bd9c81745c564a4b914c7db134f746a, type: 3}
+    - traitName: Wicked Grin
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 0bacce6a80606744ca3ae82470723be0, type: 3}
+  - trait_type: Accessories
+    layerChance: 0
+    displayType: 0
+    attributes:
+    - traitName: Ash Chainsaw
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: b7c7c64deb9125d4f9ad464c2e083e86, type: 3}
+    - traitName: Broom
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 6f116b27460d57a4cb0a10fb29357fe0, type: 3}
+    - traitName: Black Pitchfork
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 234129ba74844cb4eb20b8983ff4e4a7, type: 3}
+    - traitName: Red Pitchfork
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 6e89822e6b60e8b45863c486e446c180, type: 3}
+    - traitName: Goblin Totem
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 9fb1bd9557437ed448c0d2ffd69294a7, type: 3}
+    - traitName: Goblin Lamp
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: ca3dcbf87f4887441a799d7889f14e4e, type: 3}
+  - trait_type: Clothing
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Cardboard Robot
+      useSpecificCount: 0
+      occurance: 0.22
+      count: 0
+      image: {fileID: 21300000, guid: 7b66cfec5e49c7040b8178464a61c326, type: 3}
+    - traitName: Red Devil Cape
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 4f1898dcc1f3b7049a4919403f7df4ac, type: 3}
+    - traitName: Sanguine Devil Cape
+      useSpecificCount: 0
+      occurance: 0.03
+      count: 0
+      image: {fileID: 21300000, guid: f8032db31e8c236488dc73dc406a30d6, type: 3}
+    - traitName: Jack-o-Lantern
+      useSpecificCount: 0
+      occurance: 0.07
+      count: 0
+      image: {fileID: 21300000, guid: 8b0ef28aee1bed24ea5bd68007180548, type: 3}
+    - traitName: Dark FRTN
+      useSpecificCount: 0
+      occurance: 0.07
+      count: 0
+      image: {fileID: 21300000, guid: 314a63651edc3de40bd1fdb43726d0a8, type: 3}
+    - traitName: Black FRTN
+      useSpecificCount: 0
+      occurance: 0.07
+      count: 0
+      image: {fileID: 21300000, guid: e5ce2f0fd04a0d341af22d4c268d8a7b, type: 3}
+    - traitName: Orange FRTN
+      useSpecificCount: 0
+      occurance: 0.07
+      count: 0
+      image: {fileID: 21300000, guid: 9748f653ec805624187c719eac8d6768, type: 3}
+    - traitName: Meow Shirt
+      useSpecificCount: 0
+      occurance: 0.07
+      count: 0
+      image: {fileID: 21300000, guid: c69f5e237254590478d71d68577e54c6, type: 3}
+    - traitName: Midnight Witch Cape
+      useSpecificCount: 0
+      occurance: 0.03
+      count: 0
+      image: {fileID: 21300000, guid: 423d6c81dab6bf848b65dc921e57a2ab, type: 3}
+    - traitName: Purple Witch Cape
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 3027f3153a052974fa0995b1bbfebea5, type: 3}
+    - traitName: Ash Clothes
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 3d36580fc82d67b438a2bb1465716a20, type: 3}
+    - traitName: Golden Robot Shirt
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 91d5da4095800924da883bbbb5e3d956, type: 3}
+  - trait_type: Masks
+    layerChance: 0.75
+    displayType: 0
+    attributes:
+    - traitName: Brown Goblin Mask
+      useSpecificCount: 0
+      occurance: 0.03
+      count: 0
+      image: {fileID: 21300000, guid: aecd8a5f6c026ee4487867610c92080b, type: 3}
+    - traitName: Green Goblin Mask
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 0b61d90f6a43f9747978bc0507264246, type: 3}
+    - traitName: Grey Goblin Mask
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: b1ad2605970c94e4481ebd8e4490792a, type: 3}
+    - traitName: Dark Devil Mask
+      useSpecificCount: 0
+      occurance: 0.01
+      count: 0
+      image: {fileID: 21300000, guid: 75f1e1c22ed5aef499ca4a17d7961565, type: 3}
+    - traitName: Red Devil Mask
+      useSpecificCount: 0
+      occurance: 0.19
+      count: 0
+      image: {fileID: 21300000, guid: cae4ba68f3e034d46b49efa88f2a381a, type: 3}
+    - traitName: Red Plastic Mask
+      useSpecificCount: 0
+      occurance: 0.01
+      count: 0
+      image: {fileID: 21300000, guid: 75502aab6cd6a084996eca52b75d1c0d, type: 3}
+    - traitName: White Plastic Mask
+      useSpecificCount: 0
+      occurance: 0.14
+      count: 0
+      image: {fileID: 21300000, guid: 0f9f2e3e16858e74881bb0e8268cc8f5, type: 3}
+    - traitName: Green Witch
+      useSpecificCount: 0
+      occurance: 0.3
+      count: 0
+      image: {fileID: 21300000, guid: 80ade2674ad4660408f2c2d2816e584c, type: 3}
+    - traitName: Orance Witch
+      useSpecificCount: 0
+      occurance: 0.02
+      count: 0
+      image: {fileID: 21300000, guid: 648b31dc419aaac4ba2d74952dd2e11e, type: 3}
+    - traitName: Golden Robot Mask
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: d2d2d4017a086a642afb116726ae39fa, type: 3}
+  - trait_type: Hair
+    layerChance: 0.7
+    displayType: 0
+    attributes:
+    - traitName: Ash Hair
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: e386c6355ca26804fa4dbc4cf72ca004, type: 3}
+    - traitName: Ponytail
+      useSpecificCount: 0
+      occurance: 0.15
+      count: 0
+      image: {fileID: 21300000, guid: 24a294206d0161e42be2c20eeb9b9146, type: 3}
+    - traitName: Mowhawk Pink
+      useSpecificCount: 0
+      occurance: 0.11
+      count: 0
+      image: {fileID: 21300000, guid: 600c0aac74703744a88358a811bda778, type: 3}
+    - traitName: Mohawk Green
+      useSpecificCount: 0
+      occurance: 0.11
+      count: 0
+      image: {fileID: 21300000, guid: eae0a199429ed444788a1390ef5fc4c7, type: 3}
+    - traitName: Mohawk Red
+      useSpecificCount: 0
+      occurance: 0.11
+      count: 0
+      image: {fileID: 21300000, guid: a91d73411318d9645870ecfeffcbf83c, type: 3}
+    - traitName: Ol Brucey
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: bad46203f9d6c3a40b4bb9cd46ac9b98, type: 3}
+    - traitName: Purple Witch Hat
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: ad6a19f99fe617c49925a164bb9a6894, type: 3}
+    - traitName: Midnight Witch Hat
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 888cdf2f9837d7e4b8a9eee763e9cc7c, type: 3}
+    - traitName: Robot Pan
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: d48ff677137abd54393b0c5d5d870910, type: 3}
+    - traitName: Golden Robot Pan
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: d8905ad2ad2285942bd8ad06943cb324, type: 3}
+  oneOfOnes:
+  - attributesNames:
+    - Golden Robot Mask
+    - Golden Robot Skin
+    - Golden Robot Pan
+    - Golden Robot Shirt
+    - Male
+    - Haunted House
+    - Happy
+  - attributesNames:
+    - Ash Clothes
+    - Ash Hair
+    - Ash Chainsaw
+    - Light
+    - Male
+    - Graveyard
+    - Happy
+  overrideTraits:
+  - layerName: masks
+    trait_type: devil
+    overrideTraitValue:
+    - trait:
+        trait_type: tail
+        value: devil-tail-red
+        displayType: string
+      chance: 0.95
+    - trait:
+        trait_type: tail
+        value: devil-tail-dark
+        displayType: string
+      chance: 0.05
+  - layerName: masks
+    trait_type: goblin
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: goblin-totem
+        displayType: string
+      chance: 0.25
+  - layerName: masks
+    trait_type: goblin-mask-green
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: goblin-totem
+        displayType: string
+      chance: 0.25
+  - layerName: masks
+    trait_type: goblin-mask-grey
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: goblin-totem
+        displayType: string
+      chance: 0.25
+  - layerName: masks
+    trait_type: goblin-mask-brown
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: goblin-lamp
+        displayType: string
+      chance: 0.5
+  - layerName: masks
+    trait_type: goblin-mask-green
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: goblin-lamp
+        displayType: string
+      chance: 0.5
+  - layerName: masks
+    trait_type: goblin-mask-grey
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: goblin-lamp
+        displayType: string
+      chance: 0.5
+  - layerName: masks
+    trait_type: witch-green
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: broom
+        displayType: string
+      chance: 0.9
+  - layerName: masks
+    trait_type: witch-orange
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: broom
+        displayType: string
+      chance: 0.9
+  - layerName: masks
+    trait_type: goblin-mask-green
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: broom
+        displayType: string
+      chance: 0.05
+  - layerName: masks
+    trait_type: goblin-mask-brown
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: broom
+        displayType: string
+      chance: 0.05
+  - layerName: masks
+    trait_type: goblin-mask-grey
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: broom
+        displayType: string
+      chance: 0.05
+  - layerName: masks
+    trait_type: 
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: broom
+        displayType: string
+      chance: 0.15
+  - layerName: masks
+    trait_type: devil-mask-dark
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: pitch-fork-red
+        displayType: string
+      chance: 0.9
+  - layerName: masks
+    trait_type: devil-mask-red
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: pitch-fork-red
+        displayType: string
+      chance: 0.9
+  - layerName: masks
+    trait_type: devil-mask-dark
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: pitch-fork-black
+        displayType: string
+      chance: 0.1
+  - layerName: masks
+    trait_type: devil-mask-red
+    overrideTraitValue:
+    - trait:
+        trait_type: accessories
+        value: pitch-fork-black
+        displayType: string
+      chance: 0.1
+--- !u!1 &1812790343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1812790345}
+  - component: {fileID: 1812790344}
+  - component: {fileID: 1812790346}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1812790344
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812790343}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &1812790345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812790343}
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1812790346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812790343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0

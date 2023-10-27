@@ -4,16 +4,14 @@ using UnityEngine;
 using TJ.Utilities;
 using System.Xml.Serialization;
 using System.Linq;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-
 public class HeroMetadataGeneration : MonoBehaviour
 {
     [System.Serializable] public enum HeroRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic };
     [System.Serializable] public enum HeroClass { Rogue, Warrior, Mage, Druid, Paladin, Tinker, Priest}
     [System.Serializable] public enum HeroLocation { Celestial_Cliffs, Ebisus_Bay, Verdant_Forest, Felisgarde, Highlands}
     [System.Serializable] public enum HeroSkin { Fair, Medium, Tan}
-    [System.Serializable] public enum HeroHair {Blonde, Blue, Brown, Electrified, Green, Hairbun, Samurai}
-    [System.Serializable] public enum HeroEyes{Bewildered, Canadian, Devout, Green, Raised_EyeBrows, Squint};
+    [System.Serializable] public enum HeroHair {Blonde, Blue, Brown, White, Green, Black}
+    [System.Serializable] public enum HeroEyes{Blue, Brown, Gray, Green, Teal, Black};
     [System.Serializable] public enum HeroMouth{Circle_Beard, Crazed, Goatee, Green_Beard, Open, Smile, Smug};
     [System.Serializable] public enum HeroClothes{Normal, Light, Dark};
     public struct HeroRarityClass { public HeroRarity rarity; public HeroClass heroClass; public HeroLocation heroLocation;}
@@ -54,6 +52,24 @@ public class HeroMetadataGeneration : MonoBehaviour
             }
         }
     }
+    // [System.Serializable] public class RichStats{
+    //     public int STR;
+    //     public int DEX;
+    //     public int INT;
+    //     public int WIS;
+    //     public int AGI;
+    //     public int LUCK;
+    //     public int CHA;
+    //     public RichStats(HeroStats stats){
+    //         STR = stats.STR;
+    //         DEX = stats.DEX;
+    //         INT = stats.INT;
+    //         WIS = stats.WIS;
+    //         AGI = stats.AGI;
+    //         LUCK = stats.LUCK;
+    //         CHA = stats.CHA;
+    //     }
+    // }
     public Dictionary<HeroRarityClass, HeroStats> heroStatsDict = new ();
     [System.Serializable] public struct SerializedHeroes { public List<Hero> heroes; }
     [System.Serializable] public class Hero {
@@ -83,6 +99,41 @@ public class HeroMetadataGeneration : MonoBehaviour
             this.isShiny = isShiny;
         }
     }
+    [System.Serializable] public struct MetadataList {
+        public List<Metadata> Hero;
+    }
+    [System.Serializable] public struct PowerTraitList {
+        public PowerTrait Class;
+        public LocationTrait Location;
+        public RarityTrait RarityTrait;
+        public SkinTrait Skin;
+    }
+    [System.Serializable] public struct StatsMetadataList {
+        public List<StatsMetadata> Stats;
+    }
+    [System.Serializable] public struct Metadata {
+        public string image;
+        public string name;
+        public string description;
+        public string id;
+        public Trait[] attributes;
+        public Metadata(string image, string name, string description, string id, Trait[] attributes) {
+            this.image = image;
+            this.name = name;
+            this.description = description;
+            this.id = id;
+            this.attributes = attributes;
+        }
+    }
+    [System.Serializable] public struct StatsMetadata {
+        public string id;
+        // public RichStats stats;
+        public TraitNumber[] stats;
+        public StatsMetadata(int id, TraitNumber[] stats) {
+            this.id = id.ToString();
+            this.stats = stats;
+        }
+    }
     [System.Serializable] public struct Trait {
         public string trait_type;
         public string value;
@@ -91,6 +142,87 @@ public class HeroMetadataGeneration : MonoBehaviour
             this.trait_type = trait_type;
             this.value = value;
             this.display_type = displayType;
+        }
+    }
+    [System.Serializable] public struct TraitNumber {
+        public string trait_type;
+        public int value;
+        public string display_type;
+        public TraitNumber(string trait_type, int value, string displayType) {
+            this.trait_type = trait_type;
+            this.value = value;
+            this.display_type = displayType;
+        }
+    }
+    [System.Serializable] public struct CountAndOccurance{
+        public int count;
+        public float occurance;
+        public CountAndOccurance(int count){
+            this.count = count;
+            this.occurance = ((float)count/1050f);
+        }
+    }
+
+    [System.Serializable] public struct PowerTrait
+    {
+        public CountAndOccurance Rogue;
+        public CountAndOccurance Warrior;
+        public CountAndOccurance Mage;
+        public CountAndOccurance Druid;
+        public CountAndOccurance Paladin;
+        public CountAndOccurance Tinker;
+        public CountAndOccurance Priest;
+        public PowerTrait(CountAndOccurance Rogue, CountAndOccurance Warrior, CountAndOccurance Mage, CountAndOccurance Druid, CountAndOccurance Paladin, CountAndOccurance Tinker, CountAndOccurance Priest){
+            this.Rogue = Rogue;
+            this.Warrior = Warrior;
+            this.Mage = Mage;
+            this.Druid = Druid;
+            this.Paladin = Paladin;
+            this.Tinker = Tinker;
+            this.Priest = Priest;
+        }
+    }
+    [System.Serializable] public struct LocationTrait
+    {
+        public CountAndOccurance Celestial_Cliffs;
+        public CountAndOccurance Ebisus_Bay;
+        public CountAndOccurance Verdant_Forest;
+        public CountAndOccurance Felisgarde;
+        public CountAndOccurance Highlands;
+        public LocationTrait(CountAndOccurance Celestial_Cliffs, CountAndOccurance Ebisus_Bay, CountAndOccurance Verdant_Forest, CountAndOccurance Felisgarde, CountAndOccurance Highlands){
+            this.Celestial_Cliffs = Celestial_Cliffs;
+            this.Ebisus_Bay = Ebisus_Bay;
+            this.Verdant_Forest = Verdant_Forest;
+            this.Felisgarde = Felisgarde;
+            this.Highlands = Highlands;
+        }
+    }
+    [System.Serializable] public struct RarityTrait
+    {
+        public CountAndOccurance Common;
+        public CountAndOccurance Uncommon;
+        public CountAndOccurance Rare;
+        public CountAndOccurance Epic;
+        public CountAndOccurance Legendary;
+        public CountAndOccurance Mythic;
+        public RarityTrait(CountAndOccurance Common, CountAndOccurance Uncommon, CountAndOccurance Rare, CountAndOccurance Epic, CountAndOccurance Legendary, CountAndOccurance Mythic){
+            this.Common = Common;
+            this.Uncommon = Uncommon;
+            this.Rare = Rare;
+            this.Epic = Epic;
+            this.Legendary = Legendary;
+            this.Mythic = Mythic;
+        }
+    }
+    [System.Serializable] public struct SkinTrait
+    {
+        public CountAndOccurance Fair;
+        public CountAndOccurance Medium;
+        public CountAndOccurance Tan;
+        public SkinTrait(CountAndOccurance Fair, CountAndOccurance Medium, CountAndOccurance Tan){
+            this.Fair = Fair;
+            this.Medium = Medium;
+            this.Tan = Tan;
         }
     }
 
@@ -163,6 +295,19 @@ public class HeroMetadataGeneration : MonoBehaviour
 
     }
 
+    private static readonly string[] prefixes = { "Aki", "Haru", "Jun", "Rin", "Yuki", "Taka", "Fumi", "Yori", "Masa", "Katsu", "Sora", "Hana", "Kai", "Nori", "Ryo", "Saku", "Rei", "Ren", "Aya", "Kei" };
+    private static readonly string[] stems = { "moto", "yama", "hashi", "sawa", "zaki", "gawa", "naga", "bana", "saki", "kawa", "tani", "nashi", "tora", "ishi", "shira", "kaze", "hoshi", "neko", "sora", "hito" };
+    // private static readonly string[] suffixes = { "son", "smith", "forge", "field", "vale", "ridge", "shire", "caster", "weld", "worth", "brook", "stone", "wood", "ridge", "hall", "bank", "brook", "dale", "hurst", "wood" };
+
+    public static string GenerateName()
+    {
+        string prefix = prefixes[SeededRandom.Range(0, prefixes.Length)];
+        string stem = stems[SeededRandom.Range(0, stems.Length)];
+        // string suffix = suffixes[SeededRandom.Range(0, suffixes.Length)];
+
+        return prefix + stem + "";
+    }
+    
     public int GetStatsPerLevel (HeroRarity rarity)
     {
         return rarity switch
@@ -230,10 +375,6 @@ public class HeroMetadataGeneration : MonoBehaviour
             _ => 0,
         };
     }
-    public void MapOwners()
-    {
-
-    }
     public HeroRarity GetHeroRarity(int id)
     {
         return id switch
@@ -288,7 +429,7 @@ public class HeroMetadataGeneration : MonoBehaviour
     }
     public HeroHair GetHeroHair(int id)
     {
-        int chance = id % 7;
+        int chance = id % 6;
         chance -= SeededRandom.Range(0, chance+1);
 
         return chance switch
@@ -296,10 +437,9 @@ public class HeroMetadataGeneration : MonoBehaviour
             0 => HeroHair.Blonde,
             1 => HeroHair.Blue,
             2 => HeroHair.Brown,
-            3 => HeroHair.Electrified,
+            3 => HeroHair.White,
             4 => HeroHair.Green,
-            5 => HeroHair.Hairbun,
-            6 => HeroHair.Samurai,
+            5 => HeroHair.Black,
             _ => HeroHair.Blonde,
         };
     }
@@ -310,13 +450,13 @@ public class HeroMetadataGeneration : MonoBehaviour
 
         return chance switch
         {
-            0 => HeroEyes.Bewildered,
-            1 => HeroEyes.Canadian,
-            2 => HeroEyes.Devout,
+            0 => HeroEyes.Blue,
+            1 => HeroEyes.Brown,
+            2 => HeroEyes.Gray,
             3 => HeroEyes.Green,
-            4 => HeroEyes.Raised_EyeBrows,
-            5 => HeroEyes.Squint,
-            _ => HeroEyes.Bewildered,
+            4 => HeroEyes.Teal,
+            5 => HeroEyes.Black,
+            _ => HeroEyes.Blue,
         };
     }
     public HeroMouth GetHeroMouth(int id)
@@ -409,12 +549,16 @@ public class HeroMetadataGeneration : MonoBehaviour
             HeroRarity hr = GetHeroRarity(i);
             HeroClass hc = GetHeroClass(i);
             HeroLocation hl = GetHeroLocation(i);
+            
             HeroSkin hs = GetHeroSkin(i);
             HeroHair hh = GetHeroHair(i);
             HeroEyes he = GetHeroEyes(i);
             HeroMouth hm = GetHeroMouth(i);
             HeroClothes hcl = GetHeroClothes(i);
             HeroStats stats = heroStatsDict[new HeroRarityClass { rarity = hr, heroClass = hc }];
+
+            // RichStats richStats = new (stats);
+            
             bool isShiny = false;
             serializedHeroes.heroes.Add(new Hero(i, hr, hc, stats, hl, hs, hh, he, hm, hcl, isShiny));
         }
@@ -425,76 +569,184 @@ public class HeroMetadataGeneration : MonoBehaviour
         string json = JsonUtility.ToJson(serializedHeroes, true);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/heroes.json", json);
 
-        SaveAsMetadata(serializedHeroes);
-        MapDistribution(serializedHeroes);
+        // SaveAsMetadata(serializedHeroes);
+        serializedHeroes = MapDistribution(serializedHeroes);
+
+        // CreatePowerStats(serializedHeroes);
+
     }
-    private void SaveAsMetadata(SerializedHeroes serializedHeroes)
-    {
-        MetadataList finalMetadata = new(){
-            metadata = new List<Metadata>()
+    private void CreatePowerStats(SerializedHeroes serializedHeroes){
+        //create a list of all the stats
+        PowerTraitList powerTraitList = new(){
+            Class = new PowerTrait()
         };
+
+        int totalHeroClassPaladin = 0;
+        int totalHeroClassDruid = 0;
+        int totalHeroClassPriest = 0;
+        int totalHeroClassTinker = 0;
+        int totalHeroClassMage = 0;
+        int totalHeroClassWarrior = 0;
+        int totalHeroClassRogue = 0;
+        int totalHeroLocationCelestialCliffs = 0;
+        int totalHeroLocationEbisusBay = 0;
+        int totalHeroLocationVerdantForest = 0;
+        int totalHeroLocationFelisgarde = 0;
+        int totalHeroLocationHighlands = 0;
+        int totalHeroSkinFair = 0;
+        int totalHeroSkinMedium = 0;
+        int totalHeroSkinTan = 0;
+        int totalHeroRarityCommon = 0;
+        int totalHeroRarityUncommon = 0;
+        int totalHeroRarityRare = 0;
+        int totalHeroRarityEpic = 0;
+        int totalHeroRarityLegendary = 0;
+        int totalHeroRarityMythic = 0;
+
 
         Hero hero;
         for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
             hero = serializedHeroes.heroes[i];
-            List<Trait> traits = new()
-            {
-                new Trait("Class", hero.heroClass, "string"),
-                new Trait("Rarity", hero.rarity, "string"),
-                new Trait("Location", hero.location, "string"),
-                new Trait("STR", hero.stats.STR.ToString(), "string"),
-                new Trait("DEX", hero.stats.DEX.ToString(), "string"),
-                new Trait("INT", hero.stats.INT.ToString(), "string"),
-                new Trait("WIS", hero.stats.WIS.ToString(), "string"),
-                new Trait("AGI", hero.stats.AGI.ToString(), "string"),
-                new Trait("LUCK", hero.stats.LUCK.ToString(), "string"),
-                new Trait("CHA", hero.stats.CHA.ToString(), "string"),
-                new Trait("Skin", hero.skin, "string"),
-                new Trait("Hair", hero.hair, "string"),
-                new Trait("Eyes", hero.eyes, "string"),
-                new Trait("Mouth", hero.mouth, "string"),
-                new Trait("Clothes", hero.clothes, "string"),
-            };
-
-            if(hero.isShiny)
-                traits.Add(new Trait("Shiny", "true", "boolean"));
-
-            finalMetadata.metadata.Add(new Metadata(
-                $"https://app.ebisusbay.com/heros/{hero.id+1}",
-                "Ryoshi Heroes #"+(hero.id+1).ToString(),
-                "Heroes play a crucial role in defining the overall gameplay experience. Each class brings a distinct play style, appearance, and a set of statistics and profession synergies that enhance the gameplay",
-                (hero.id+1).ToString(),
-                traits.ToArray()
-            ));
-            // finalMetadata.finalMetadata[i].attributes = traits;
+            totalHeroClassRogue += hero.heroClass == "Rogue" ? 1 : 0;
+            totalHeroClassWarrior += hero.heroClass == "Warrior" ? 1 : 0;
+            totalHeroClassMage += hero.heroClass == "Mage" ? 1 : 0;
+            totalHeroClassTinker += hero.heroClass == "Tinker" ? 1 : 0;
+            totalHeroClassPriest += hero.heroClass == "Priest" ? 1 : 0;
+            totalHeroClassDruid += hero.heroClass == "Druid" ? 1 : 0;
+            totalHeroClassPaladin += hero.heroClass == "Paladin" ? 1 : 0;
+            totalHeroLocationCelestialCliffs += hero.location == "Celestial_Cliffs" ? 1 : 0;
+            totalHeroLocationEbisusBay += hero.location == "Ebisus_Bay" ? 1 : 0;
+            totalHeroLocationVerdantForest += hero.location == "Verdant_Forest" ? 1 : 0;
+            totalHeroLocationFelisgarde += hero.location == "Felisgarde" ? 1 : 0;
+            totalHeroLocationHighlands += hero.location == "Highlands" ? 1 : 0;
+            totalHeroSkinFair += hero.skin == "Fair" ? 1 : 0;
+            totalHeroSkinMedium += hero.skin == "Medium" ? 1 : 0;
+            totalHeroSkinTan += hero.skin == "Tan" ? 1 : 0;
+            totalHeroRarityCommon += hero.rarity == "Common" ? 1 : 0;
+            totalHeroRarityUncommon += hero.rarity == "Uncommon" ? 1 : 0;
+            totalHeroRarityRare += hero.rarity == "Rare" ? 1 : 0;
+            totalHeroRarityEpic += hero.rarity == "Epic" ? 1 : 0;
+            totalHeroRarityLegendary += hero.rarity == "Legendary" ? 1 : 0;
+            totalHeroRarityMythic += hero.rarity == "Mythic" ? 1 : 0;
         }
+        powerTraitList = new(){
+            Class = new PowerTrait(),
+            Location = new LocationTrait(),
+            RarityTrait = new RarityTrait(),
+            Skin = new SkinTrait(),
 
-        // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
-        //     Debug.Log($"rarity {serializedHeroes.heroes[i].rarity}");
-        // }
-        // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
-        //     Debug.Log($"skin {serializedHeroes.heroes[i].skin}");
-        // }
-        // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
-        //     Debug.Log($"hair {serializedHeroes.heroes[i].hair}");
-        // }
-        // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
-        //     Debug.Log($"eyes {serializedHeroes.heroes[i].eyes}");
-        // }
-        // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
-        //     Debug.Log($"mouth {serializedHeroes.heroes[i].mouth}");
-        // }
-        // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
-        //     Debug.Log($"clothes {serializedHeroes.heroes[i].clothes}");
-        // }
+        };
+        powerTraitList.Class = new PowerTrait{ 
+            Rogue = new CountAndOccurance(totalHeroClassRogue),
+            Warrior = new CountAndOccurance(totalHeroClassWarrior),
+            Mage = new CountAndOccurance(totalHeroClassMage),
+            Tinker = new CountAndOccurance(totalHeroClassTinker),
+            Priest = new CountAndOccurance(totalHeroClassPriest),
+            Druid = new CountAndOccurance(totalHeroClassDruid),
+            Paladin = new CountAndOccurance(totalHeroClassPaladin),
+        };
+        powerTraitList.Location = new LocationTrait{ 
+            Celestial_Cliffs = new CountAndOccurance(totalHeroLocationCelestialCliffs),
+            Ebisus_Bay = new CountAndOccurance(totalHeroLocationEbisusBay),
+            Verdant_Forest = new CountAndOccurance(totalHeroLocationVerdantForest),
+            Felisgarde = new CountAndOccurance(totalHeroLocationFelisgarde),
+            Highlands = new CountAndOccurance(totalHeroLocationHighlands),
+        };
+        powerTraitList.RarityTrait = new RarityTrait{ 
+            Common = new CountAndOccurance(518),
+            Uncommon = new CountAndOccurance(280),
+            Rare = new CountAndOccurance(126),
+            Epic = new CountAndOccurance(77),
+            Legendary = new CountAndOccurance(42),
+            Mythic = new CountAndOccurance(7),
+        };
+        powerTraitList.Skin = new SkinTrait{ 
+            Fair = new CountAndOccurance(totalHeroSkinFair),
+            Medium = new CountAndOccurance(totalHeroSkinMedium),
+            Tan = new CountAndOccurance(totalHeroSkinTan),
+        };
+            
+        // powerTraitList.metadata.Add( new PowerTrait{ "totalHeroClassPaladin", 
+        // new StatRow{thing = new CountAndOccurance(totalHeroClassPaladin, totalHeroClassPaladin)}});
+        
 
-        string metaDataJson = JsonUtility.ToJson(finalMetadata, true);
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroesMetadata.json", metaDataJson);
-        // CreateIndFiles(finalMetadata);
-        Debug.Log($"saved metadata");
-
+        JSONFileHandler.SaveToJSON<PowerTraitList>(powerTraitList, "/Data/PoissonSampling/powerStats.json", true);
+        // System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/powerStats.json", json);
     }
-    private void MapDistribution(SerializedHeroes serializedHeroes)
+    
+    // private void SaveAsMetadata(SerializedHeroes serializedHeroes)
+    // {
+    //     MetadataList finalMetadata = new(){
+    //         metadata = new List<Metadata>()
+    //     };
+
+    //     Hero hero;
+    //     for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //         hero = serializedHeroes.heroes[i];
+    //         List<Trait> traits = new()
+    //         {
+    //             new Trait("Class", hero.heroClass, "string"),
+    //             new Trait("Rarity", hero.rarity, "string"),
+    //             new Trait("Location", hero.location, "string"),
+                
+    //             new Trait("Skin", hero.skin, "string"),
+    //             new Trait("Hair", hero.hair, "string"),
+    //             new Trait("Eyes", hero.eyes, "string"),
+    //             new Trait("Mouth", hero.mouth, "string"),
+    //             new Trait("Clothes", hero.clothes, "string"),
+
+    //             // new Trait("STR", hero.stats.STR.ToString(), "string"),
+    //             // new Trait("DEX", hero.stats.DEX.ToString(), "string"),
+    //             // new Trait("INT", hero.stats.INT.ToString(), "string"),
+    //             // new Trait("WIS", hero.stats.WIS.ToString(), "string"),
+    //             // new Trait("AGI", hero.stats.AGI.ToString(), "string"),
+    //             // new Trait("LUCK", hero.stats.LUCK.ToString(), "string"),
+    //             // new Trait("CHA", hero.stats.CHA.ToString(), "string"),
+
+    //         };
+    //         // RichStats rs = new RichStats(hero.stats);
+    //         // traits.Add(new Trait("Stats", "deleteME", "number", hero.stats));
+
+
+    //         if(hero.isShiny)
+    //             traits.Add(new Trait("Shiny", "true", "boolean"));
+
+    //         finalMetadata.metadata.Add(new Metadata(
+    //             $"https://app.ebisusbay.com/heros/{hero.id+1}",
+    //             "Ryoshi Heroes #"+(hero.id+1).ToString(),
+    //             "Heroes play a crucial role in defining the overall gameplay experience. Each class brings a distinct play style, appearance, and a set of statistics and profession synergies that enhance the gameplay",
+    //             (hero.id+1).ToString(),
+    //             traits.ToArray()
+    //         ));
+    //         // finalMetadata.finalMetadata[i].attributes = traits;
+    //     }
+
+    //     // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //     //     Debug.Log($"rarity {serializedHeroes.heroes[i].rarity}");
+    //     // }
+    //     // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //     //     Debug.Log($"skin {serializedHeroes.heroes[i].skin}");
+    //     // }
+    //     // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //     //     Debug.Log($"hair {serializedHeroes.heroes[i].hair}");
+    //     // }
+    //     // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //     //     Debug.Log($"eyes {serializedHeroes.heroes[i].eyes}");
+    //     // }
+    //     // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //     //     Debug.Log($"mouth {serializedHeroes.heroes[i].mouth}");
+    //     // }
+    //     // for (int i = 0; i < serializedHeroes.heroes.Count; i++) {
+    //     //     Debug.Log($"clothes {serializedHeroes.heroes[i].clothes}");
+    //     // }
+
+    //     string metaDataJson = JsonUtility.ToJson(finalMetadata, true);
+    //     // System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroesMetadata.json", metaDataJson);
+    //     // CreateIndFiles(finalMetadata);
+    //     Debug.Log($"saved metadata");
+
+    // }
+    private SerializedHeroes MapDistribution(SerializedHeroes serializedHeroes)
     {
         // 706 total free ones
         // 14 - team
@@ -526,26 +778,12 @@ public class HeroMetadataGeneration : MonoBehaviour
         // 2 - bladestorm
         // 5 mint
 
-        // List<string> idsForNaptimeNinja;
-        // List<string> idsForHakuri;
-        // List<string> idsForTakeishi;
-        // List<string> idsForBladestorm;
-        // List<string> idsForMint;
-        // List<string> idsLeftOver;
         List<Hero> idsForNaptimeNinja;
-        List<Hero> idsForHakuri;
-        List<Hero> idsForTakeishi;
+        List<Hero> idsForHakuri = new List<Hero>();
+        List<Hero> idsForTakeishi = new List<Hero>();
         List<Hero> idsForBladestorm;
         List<Hero> idsForMint;
         List<Hero> idsForTeam;
-
-        //get all common ids
-        // List<string> CommonIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Common.ToString()).Select(hero => hero.id.ToString()).ToList();
-        // List<string> UncommonIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Uncommon.ToString()).Select(hero => hero.id.ToString()).ToList();
-        // List<string> RareIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Rare.ToString()).Select(hero => hero.id.ToString()).ToList();
-        // List<string> EpicIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Epic.ToString()).Select(hero => hero.id.ToString()).ToList();
-        // List<string> LegendaryIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Legendary.ToString()).Select(hero => hero.id.ToString()).ToList();
-        // List<string> MythicIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Mythic.ToString()).Select(hero => hero.id.ToString()).ToList();
 
         List<Hero> CommonIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Common.ToString());
         List<Hero> UncommonIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Uncommon.ToString());
@@ -553,99 +791,71 @@ public class HeroMetadataGeneration : MonoBehaviour
         List<Hero> EpicIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Epic.ToString());
         List<Hero> LegendaryIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Legendary.ToString());
         List<Hero> MythicIds = serializedHeroes.heroes.FindAll(hero => hero.rarity == HeroRarity.Mythic.ToString());
-        
-        //shuffle all
-        // CommonIds.Shuffle();
-        // UncommonIds.Shuffle();
-        // RareIds.Shuffle();
-        // EpicIds.Shuffle();
-        // LegendaryIds.Shuffle();
-        // MythicIds.Shuffle();
+
+        UncommonIds.Shuffle();
 
         //add 
         idsForNaptimeNinja = CommonIds.Take(374).ToList();
         CommonIds.RemoveRange(0, 374);
-        idsForHakuri = CommonIds.Take(84).ToList();
+        
+        for(int i = 0; i < 84; i++){
+            idsForHakuri.Add(CommonIds[i]);
+            idsForHakuri.Add(UncommonIds[i]);
+            idsForHakuri.Add(RareIds[i]);
+        }
         CommonIds.RemoveRange(0, 84);
-        idsForTakeishi = CommonIds.Take(35).ToList();
+        UncommonIds.RemoveRange(0, 84);
+        RareIds.RemoveRange(0, 84);
+
+        for(int i = 0; i < 35; i++){
+            idsForTakeishi.Add(CommonIds[i]);
+            idsForTakeishi.Add(UncommonIds[i]);
+            idsForTakeishi.Add(EpicIds[i]);
+        }
         CommonIds.RemoveRange(0, 35);
+        UncommonIds.RemoveRange(0, 35);
+        EpicIds.RemoveRange(0, 35);
+
         idsForTeam = CommonIds.Take(4).ToList();
         CommonIds.RemoveRange(0, 4);
-        idsForMint = CommonIds.Take(CommonIds.Count).ToList();
-        CommonIds.RemoveRange(0, CommonIds.Count);
-
-        idsForHakuri.AddRange(UncommonIds.Take(84).ToList());
-        UncommonIds.RemoveRange(0, 84);
-        idsForTakeishi.AddRange(UncommonIds.Take(35).ToList());
-        UncommonIds.RemoveRange(0, 35);
-        idsForMint.AddRange(UncommonIds.Take(UncommonIds.Count).ToList());
-        UncommonIds.RemoveRange(0, UncommonIds.Count);
-
-        idsForHakuri.AddRange(RareIds.Take(84).ToList());
-        RareIds.RemoveRange(0, 84);
-        idsForMint.AddRange(RareIds.Take(RareIds.Count).ToList());
-        RareIds.RemoveRange(0, RareIds.Count);
-
-        idsForTakeishi.AddRange(EpicIds.Take(35).ToList());
-        EpicIds.RemoveRange(0, 35);
-        idsForMint.AddRange(EpicIds.Take(EpicIds.Count).ToList());
-        EpicIds.RemoveRange(0, EpicIds.Count);
-
         idsForTeam.AddRange(LegendaryIds.Take(10).ToList());
         LegendaryIds.RemoveRange(0, 10);
-        idsForMint.AddRange(LegendaryIds.Take(LegendaryIds.Count).ToList());
-        LegendaryIds.RemoveRange(0, LegendaryIds.Count);
-
+        
         idsForBladestorm = MythicIds.Take(2).ToList();
         MythicIds.RemoveRange(0, 2);
+
+        idsForMint = CommonIds.Take(CommonIds.Count).ToList();
+        CommonIds.RemoveRange(0, CommonIds.Count);
+        idsForMint.AddRange(UncommonIds.Take(UncommonIds.Count).ToList());
+        UncommonIds.RemoveRange(0, UncommonIds.Count);
+        idsForMint.AddRange(RareIds.Take(RareIds.Count).ToList());
+        RareIds.RemoveRange(0, RareIds.Count);
+        idsForMint.AddRange(EpicIds.Take(EpicIds.Count).ToList());
+        EpicIds.RemoveRange(0, EpicIds.Count);
+        idsForMint.AddRange(LegendaryIds.Take(LegendaryIds.Count).ToList());
+        LegendaryIds.RemoveRange(0, LegendaryIds.Count);
         idsForMint.AddRange(MythicIds.Take(5).ToList());
         MythicIds.RemoveRange(0, 5);
 
-        // idsForTeam = CommonIds;
-        // idsForTeam.AddRange(UncommonIds);
-        // idsForTeam.AddRange(RareIds);
-        // idsForTeam.AddRange(EpicIds);
-        // idsForTeam.AddRange(LegendaryIds);
-        // idsForTeam.AddRange(MythicIds);
-
-        Debug.Log($"Total: {serializedHeroes.heroes.Count}");
-        Debug.Log($"Naptime Ninja: {idsForNaptimeNinja.Count}");
-        Debug.Log($"Hakuri: {idsForHakuri.Count}");
-        Debug.Log($"Takeishi: {idsForTakeishi.Count}");
-        Debug.Log($"Bladestorm: {idsForBladestorm.Count}");
-        Debug.Log($"Mint: {idsForMint.Count}");
-        Debug.Log($"Ids for team: {idsForTeam.Count}");
+        idsForMint.Shuffle();
 
         SerializedHeroes serializedHeroes2 = new(){
             heroes = new List<Hero>()
         };
-        serializedHeroes2.heroes.AddRange(idsForNaptimeNinja);
-        Debug.Log($"length of naptime ninja: {serializedHeroes2.heroes.Count}");
-        serializedHeroes2.heroes.AddRange(idsForHakuri);
-        Debug.Log($"length of naptime ninja: {serializedHeroes2.heroes.Count}");
-        serializedHeroes2.heroes.AddRange(idsForTakeishi);
-        Debug.Log($"length of naptime ninja: {serializedHeroes2.heroes.Count}");
-        serializedHeroes2.heroes.AddRange(idsForBladestorm);
-        Debug.Log($"length of naptime ninja: {serializedHeroes2.heroes.Count}");
-        serializedHeroes2.heroes.AddRange(idsForTeam);
-        Debug.Log($"length of naptime ninja: {serializedHeroes2.heroes.Count}");
-        serializedHeroes2.heroes.AddRange(idsForMint);
-        Debug.Log($"length of naptime ninja: {serializedHeroes2.heroes.Count}");
-        
-
-        MetadataList finalMetadata = new(){
-            metadata = new List<Metadata>()
+        MetadataList heroJson = new(){
+            Hero = new List<Metadata>()
+        };
+        StatsMetadataList statsJson = new(){
+            Stats = new List<StatsMetadata>()
         };
 
-        // serialize all lists and save to a json
-        // SerializedHeroIds ids = new(){
-        //     naptimeNinja = idsForNaptimeNinja,
-        //     hakuri = idsForHakuri,
-        //     takeishi = idsForTakeishi,
-        //     bladestorm = idsForBladestorm,
-        //     mint = idsForMint,
-        //     leftover = idsLeftOver
-        // };
+        serializedHeroes2.heroes.AddRange(idsForNaptimeNinja);
+        serializedHeroes2.heroes.AddRange(idsForHakuri);
+        serializedHeroes2.heroes.AddRange(idsForTakeishi);
+        serializedHeroes2.heroes.AddRange(idsForBladestorm);
+        serializedHeroes2.heroes.AddRange(idsForTeam);
+        serializedHeroes2.heroes.AddRange(idsForMint);
+
         Hero hero;
 
         for (int i = 0; i < serializedHeroes2.heroes.Count; i++) {
@@ -655,17 +865,6 @@ public class HeroMetadataGeneration : MonoBehaviour
                 new Trait("Class", hero.heroClass, "string"),
                 new Trait("Rarity", hero.rarity, "string"),
                 new Trait("Location", hero.location, "string"),
-
-                // new Trait("STR", hero.stats.STR.ToString(), "string"),
-                // new Trait("DEX", hero.stats.DEX.ToString(), "string"),
-                // new Trait("INT", hero.stats.INT.ToString(), "string"),
-                // new Trait("WIS", hero.stats.WIS.ToString(), "string"),
-                // new Trait("AGI", hero.stats.AGI.ToString(), "string"),
-                // new Trait("LUCK", hero.stats.LUCK.ToString(), "string"),
-                // new Trait("CHA", hero.stats.CHA.ToString(), "string"),
-                new Trait("Stats", hero.stats.ToString(), "string"),
-                // new Trait("Genetics")
-
                 new Trait("Skin", hero.skin, "string"),
                 new Trait("Hair", hero.hair, "string"),
                 new Trait("Eyes", hero.eyes, "string"),
@@ -676,42 +875,43 @@ public class HeroMetadataGeneration : MonoBehaviour
             if(hero.isShiny)
                 traits.Add(new Trait("Shiny", "true", "boolean"));
 
-            finalMetadata.metadata.Add(new Metadata(
-                $"https://app.ebisusbay.com/heros/{i+1}",
-                "Ryoshi Heroes #"+(i+1).ToString(),
+            heroJson.Hero.Add(new Metadata(
+                $"https://cdn-prod.ebisusbay.com/files/ryoshi/images/heroes/unrevealed.png",
+                GenerateName(),
                 "Heroes play a crucial role in defining the overall gameplay experience. Each class brings a distinct play style, appearance, and a set of statistics and profession synergies that enhance the gameplay",
                 (i+1).ToString(),
                 traits.ToArray()
             ));
-            // finalMetadata.finalMetadata[i].attributes = traits;
+
+            List<TraitNumber> traitNumbers = new()
+            {
+                new TraitNumber("STR", hero.stats.STR, "number"),
+                new TraitNumber("DEX", hero.stats.DEX, "number"),
+                new TraitNumber("INT", hero.stats.INT, "number"),
+                new TraitNumber("WIS", hero.stats.WIS, "number"),
+                new TraitNumber("AGI", hero.stats.AGI, "number"),
+                new TraitNumber("LUCK", hero.stats.LUCK, "number"),
+                new TraitNumber("CHA", hero.stats.CHA, "number"),
+            };
+
+            statsJson.Stats.Add(new StatsMetadata(
+                i+1,
+                traitNumbers.ToArray()
+            ));
         }
 
-        string json = JsonUtility.ToJson(finalMetadata, true);
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/ditribution_heroes.json", json);
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/Heroes.json", JsonUtility.ToJson(heroJson, true));
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroStats.json", JsonUtility.ToJson(statsJson, true));
+
+        return serializedHeroes2;
     }
-    [System.Serializable] public struct SerializedHeroIds {
-        public List<string> naptimeNinja;
-        public List<string> hakuri;
-        public List<string> takeishi;
-        public List<string> bladestorm;
-        public List<string> mint;
-        public List<string> leftover;
-    }
-    [System.Serializable] public struct MetadataList {
-        public List<Metadata> metadata;
-    }
-    [System.Serializable] public struct Metadata {
-        public string image;
-        public string name;
-        public string description;
-        public string id;
-        public Trait[] attributes;
-        public Metadata(string image, string name, string description, string id, Trait[] attributes) {
-            this.image = image;
-            this.name = name;
-            this.description = description;
-            this.id = id;
-            this.attributes = attributes;
-        }
-    }
+    // [System.Serializable] public struct SerializedHeroIds {
+    //     public List<string> naptimeNinja;
+    //     public List<string> hakuri;
+    //     public List<string> takeishi;
+    //     public List<string> bladestorm;
+    //     public List<string> mint;
+    //     public List<string> leftover;
+    // }
+
 }
