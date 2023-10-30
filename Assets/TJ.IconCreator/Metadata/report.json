@@ -1,0 +1,118 @@
+{
+  "report": [
+    {
+      "trait_type": "Background",
+      "traits": [
+        { "Haunted House": { "count": 49, "occurrence": "0.0980" } },
+        { "Graveyard": { "count": 20, "occurrence": "0.0400" } },
+        { "Orange": { "count": 85, "occurrence": "0.1700" } },
+        { "Green": { "count": 144, "occurrence": "0.2880" } },
+        { "Magenta": { "count": 89, "occurrence": "0.1780" } },
+        { "Dark Violet": { "count": 104, "occurrence": "0.2080" } },
+        { "Spider Web": { "count": 60, "occurrence": "0.1200" } }
+      ]
+    },
+    {
+      "trait_type": "Body",
+      "traits": [
+        { "Golden Robot Skin": { "count": 1, "occurrence": "0.0020" } },
+        { "Light": { "count": 217, "occurrence": "0.4340" } },
+        { "Green Paint": { "count": 177, "occurrence": "0.3540" } },
+        { "Dark": { "count": 105, "occurrence": "0.2100" } }
+      ]
+    },
+    {
+      "trait_type": "Eyes",
+      "traits": [
+        { "Male": { "count": 61, "occurrence": "0.1220" } },
+        { "White": { "count": 57, "occurrence": "0.1140" } },
+        { "Dead": { "count": 55, "occurrence": "0.1100" } },
+        { "Red": { "count": 54, "occurrence": "0.1080" } },
+        { "Wink": { "count": 56, "occurrence": "0.1120" } },
+        { "Yellow": { "count": 42, "occurrence": "0.0840" } },
+        { "Blue": { "count": 58, "occurrence": "0.1160" } },
+        { "Female": { "count": 66, "occurrence": "0.1320" } }
+      ]
+    },
+    {
+      "trait_type": "Mouth",
+      "traits": [
+        { "Happy": { "count": 100, "occurrence": "0.2000" } },
+        { "Wicked Grin": { "count": 89, "occurrence": "0.1780" } },
+        { "Grimace": { "count": 86, "occurrence": "0.1720" } },
+        { "Angry": { "count": 78, "occurrence": "0.1560" } },
+        { "Laughing": { "count": 57, "occurrence": "0.1140" } },
+        { "Sewn": { "count": 90, "occurrence": "0.1800" } }
+      ]
+    },
+    {
+      "trait_type": "Clothing",
+      "traits": [
+        { "Golden Robot Shirt": { "count": 1, "occurrence": "0.0020" } },
+        { "Ash Clothes": { "count": 1, "occurrence": "0.0020" } },
+        { "Cardboard Robot": { "count": 118, "occurrence": "0.2360" } },
+        { "Meow Shirt": { "count": 40, "occurrence": "0.0800" } },
+        { "Orange FRTN": { "count": 27, "occurrence": "0.0540" } },
+        { "Midnight Witch Cape": { "count": 16, "occurrence": "0.0320" } },
+        { "Black FRTN": { "count": 38, "occurrence": "0.0760" } },
+        { "Dark FRTN": { "count": 31, "occurrence": "0.0620" } },
+        { "Sanguine Devil Cape": { "count": 19, "occurrence": "0.0380" } },
+        { "Red Devil Cape": { "count": 89, "occurrence": "0.1780" } },
+        { "Purple Witch Cape": { "count": 93, "occurrence": "0.1860" } },
+        { "Jack-o-Lantern": { "count": 27, "occurrence": "0.0540" } }
+      ]
+    },
+    {
+      "trait_type": "Masks",
+      "traits": [
+        { "Golden Robot Mask": { "count": 1, "occurrence": "0.0020" } },
+        { "Green Witch": { "count": 102, "occurrence": "0.2040" } },
+        { "White Plastic Mask": { "count": 64, "occurrence": "0.1280" } },
+        { "Red Devil Mask": { "count": 78, "occurrence": "0.1560" } },
+        { "Green Goblin Mask": { "count": 75, "occurrence": "0.1500" } },
+        { "Grey Goblin Mask": { "count": 31, "occurrence": "0.0620" } },
+        { "Orance Witch": { "count": 7, "occurrence": "0.0140" } },
+        { "Red Plastic Mask": { "count": 9, "occurrence": "0.0180" } },
+        { "Brown Goblin Mask": { "count": 14, "occurrence": "0.0280" } },
+        { "Dark Devil Mask": { "count": 2, "occurrence": "0.0040" } }
+      ]
+    },
+    {
+      "trait_type": "Hair",
+      "traits": [
+        { "Golden Robot Pan": { "count": 1, "occurrence": "0.0020" } },
+        { "Ash Hair": { "count": 1, "occurrence": "0.0020" } },
+        { "Robot Pan": { "count": 44, "occurrence": "0.0880" } },
+        { "Mohawk Red": { "count": 69, "occurrence": "0.1380" } },
+        { "Ol Brucey": { "count": 85, "occurrence": "0.1700" } },
+        { "Mowhawk Pink": { "count": 66, "occurrence": "0.1320" } },
+        { "Midnight Witch Hat": { "count": 7, "occurrence": "0.0140" } },
+        { "Mohawk Green": { "count": 50, "occurrence": "0.1000" } },
+        { "Ponytail": { "count": 78, "occurrence": "0.1560" } },
+        { "Purple Witch Hat": { "count": 2, "occurrence": "0.0040" } }
+      ]
+    },
+    {
+      "trait_type": "Event",
+      "traits": [{ "Goblin Gala": { "count": 500, "occurrence": "1.0000" } }]
+    },
+    {
+      "trait_type": "Accessories",
+      "traits": [
+        { "Ash Chainsaw": { "count": 1, "occurrence": "0.0020" } },
+        { "Broom": { "count": 121, "occurrence": "0.2420" } },
+        { "Red Pitchfork": { "count": 87, "occurrence": "0.1740" } },
+        { "Black Pitchfork": { "count": 13, "occurrence": "0.0260" } },
+        { "Goblin Lamp": { "count": 5, "occurrence": "0.0100" } },
+        { "Goblin Totem": { "count": 1, "occurrence": "0.0020" } }
+      ]
+    },
+    {
+      "trait_type": "Tails",
+      "traits": [
+        { "Red Devil Tail": { "count": 86, "occurrence": "0.1720" } },
+        { "Black Devil Tail": { "count": 6, "occurrence": "0.0120" } }
+      ]
+    }
+  ]
+}

@@ -598,7 +598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myCamera: {fileID: 663458862}
   transparentBackground: 0
-  filepath: Assets/TJ.IconCreator/Results/
+  filepath: Assets/TJ.IconCreator/Results2/
 --- !u!114 &1461356887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   takeScreenShots: 1
   images: []
-  filePath: TJ.IconCreator/Metadata/metadata.json
+  filePath: TJ.IconCreator/Metadata/metadata2.json
   screenshotHandler: {fileID: 1461356886}
   canvasParent: {fileID: 1191430265}
   width: 2048
@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filePath: TJ.IconCreator/Metadata/
+  filePathIndv: TJ.IconCreator/Metadata/Indv/
   fileName: metadata
   totalCount: 500
   layers:

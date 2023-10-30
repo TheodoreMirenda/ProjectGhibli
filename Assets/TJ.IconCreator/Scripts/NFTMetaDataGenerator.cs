@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TJ.Utilities;
+using System.IO;
+using System.Linq;
+
 
 namespace TJ.IconCreator
 {
@@ -40,16 +43,16 @@ public class NFTMetaDataGenerator : MonoBehaviour
                 float chance = SeededRandom.Range(0f, 1f);
                 // Debug.Log($"Chance: {chance}");
                 //get the total occurance of all attributes
-                float totalOccurance = 0;
+                float totalOccurrence = 0;
 
                 for(int k = 0; k < layers[j].attributes.Count; k++) {
-                    totalOccurance += layers[j].attributes[k].occurance;
+                    totalOccurrence += layers[j].attributes[k].occurance;
                 }
-                // Debug.Log($"Total Occurance: {layers[j].trait_type} - {totalOccurance}");
+                // Debug.Log($"Total Occurrence: {layers[j].trait_type} - {totalOccurrence}");
                 //get the chance of each attribute
                 float[] attributeChances = new float[layers[j].attributes.Count];
                 for(int k = 0; k < layers[j].attributes.Count; k++) {
-                    attributeChances[k] = layers[j].attributes[k].occurance / totalOccurance;
+                    attributeChances[k] = layers[j].attributes[k].occurance / totalOccurrence;
                 }
                 // Debug.Log($"Attribute Chances: {string.Join(", ", attributeChances)}");
                 //get the attribute index
@@ -293,26 +296,9 @@ public class NFTMetaDataGenerator : MonoBehaviour
             metaData.data[i] = m;
         }
 
-
-        //get each trait and count how many times it appears
-        // Dictionary<string, int> traitCount = new();
-        // foreach(Metadata m in metaData.data) {
-        //     foreach(Trait trt in m.attributes) {
-        //         if(traitCount.ContainsKey(trt.value)) {
-        //             traitCount[trt.value]++;
-        //         } else {
-        //             traitCount.Add(trt.value, 1);
-        //         }
-        //     }
-        // }
-        // //log out the traits and their count
-        // foreach(KeyValuePair<string, int> kvp in traitCount) {
-        //     // Debug.Log($"{kvp.Key}: {kvp.Value}");
-        // }
-
-
-        JSONFileHandler.SaveToJSON<MetadataList>(metaData, filePath + fileName +".json", true);
+        // JSONFileHandler.SaveToJSON<MetadataList>(metaData, filePath + fileName +".json", true);
     }
+    
     [ContextMenu("Indv Metadata")]
     public void GenerateIndvMetaData()
     {
@@ -324,6 +310,110 @@ public class NFTMetaDataGenerator : MonoBehaviour
         for(int i = 0; i < metaData.data.Count; i++) {
             JSONFileHandler.SaveToJSON<Metadata>(metaData.data[i], filePathIndv + metaData.data[i].id +".json", true);
         }
+    }
+    
+    [ContextMenu("Print Report")]
+    public void PrintReport()
+    {
+        MetadataList metaData = new(){
+            data = JSONFileHandler.ReadListFromJSON<MetadataList>(filePath+fileName+".json").data
+        };
+
+        //get each trait_type and count how many times it appears
+        Dictionary<string, int> traitCount = new();
+        foreach(Metadata m in metaData.data) {
+            foreach(Trait trt in m.attributes) {
+                if(traitCount.ContainsKey(trt.trait_type)) {
+                    traitCount[trt.trait_type]++;
+                } else {
+                    traitCount.Add(trt.trait_type, 1);
+                }
+            }
+        }
+
+        //create a powertrait for each trait_type
+        List<PowerTrait> powerTraits = new();
+        foreach(KeyValuePair<string, int> kvp in traitCount) {
+            List<CountAndOccurrence> category = new();
+            for(int i = 0; i <= kvp.Value; i++) {
+                string s = ((float)i/(float)totalCount).ToString("0.0000");
+                // Debug.Log($"{kvp.Key}: {i} - {s}");
+                category.Add(new CountAndOccurrence(i, s));
+            }
+            powerTraits.Add(new PowerTrait(kvp.Key, new List<CountAndOccurrenceLabel>()));
+        }
+
+        //get the value of each trait for each metadata
+        Dictionary<string, int> traitValueCount = new();
+        Dictionary<string, string> traitTypeToValueMap = new();
+        foreach(Metadata m in metaData.data) {
+            foreach(Trait trt in m.attributes) {
+                if(traitValueCount.ContainsKey(trt.value)) {
+                    traitValueCount[trt.value]++;
+                } else {
+                    traitValueCount.Add(trt.value, 1);
+                    traitTypeToValueMap.Add(trt.value, trt.trait_type);
+                }
+            }
+        }
+
+        //add the value of each trait to the powertrait
+        foreach(KeyValuePair<string, int> kvp in traitValueCount) {
+            for(int i = 0; i < powerTraits.Count; i++) {
+                traitTypeToValueMap.TryGetValue(kvp.Key, out string value);
+                // Debug.Log($"{kvp.Key}: {value}, {powerTraits[i].trait_type}");
+                if(powerTraits[i].trait_type == value) {
+                    string s = ((float)kvp.Value/(float)totalCount).ToString("0.0000");
+                    // Debug.Log($"{kvp.Key}: {i} - {s}");
+                    powerTraits[i].traits.Add(new CountAndOccurrenceLabel(kvp.Key, new CountAndOccurrence(kvp.Value, s)));
+                    break;
+                }
+            }
+        }
+        
+        //save
+        PowerTraitList powerTraitList = new(){
+            report = powerTraits
+        };
+
+        JSONFileHandler.SaveToJSONFormatted<PowerTraitList>(powerTraitList, filePath +"report.json", true, new List<string>(){ "\"name\":", ",\"countAndOccurrence\""});
+    }
+    [ContextMenu("fix devilmask")]
+    public void Fix()
+    {
+        MetadataList metaData = new(){
+            data = JSONFileHandler.ReadListFromJSON<MetadataList>(filePath+fileName+".json").data
+        };
+
+        Dictionary<string, int> traitCount = new();
+        foreach(Metadata m in metaData.data) {
+            string isDevilMask = "";
+            string isponytail = "";
+            foreach(Trait trt in m.attributes) {
+                if(trt.trait_type == "Masks" && trt.value.Contains("Devil")) {
+                    isDevilMask = trt.value;
+                }
+                if(trt.trait_type == "Hair" && !trt.value.Contains("Pan")) {
+                    isponytail = trt.value;
+                }
+            }
+            if(isDevilMask != "" && isponytail != "") {
+                Debug.Log(m.name);
+                //swap the devil mask and ponytail
+                for(int i = 0; i < m.attributes.Length; i++) {
+                    if(m.attributes[i].trait_type == "Hair") {
+                        m.attributes[i] = new Trait("Masks", isDevilMask, "string");
+                    }
+                    else if(m.attributes[i].trait_type == "Masks") {
+                        m.attributes[i] = new Trait("Hair", isponytail, "string");
+                    }
+                }
+            }
+        }
+
+
+        JSONFileHandler.SaveToJSON<MetadataList>(metaData, filePath + fileName +"2.json", true);
+
     }
     
     public Sprite GetTraitSprite(string trait, string layerName)
@@ -410,4 +500,40 @@ public class NFTMetaDataGenerator : MonoBehaviour
 
 }
     public enum DisplayType {string_DT, number_DT};
+}
+[System.Serializable] public struct PowerTraitList
+{
+    public List<PowerTrait> report;
+}
+[System.Serializable] public struct PowerTrait
+{
+    public string trait_type;
+    public List<CountAndOccurrenceLabel> traits;
+    public PowerTrait(string trait_type, List<CountAndOccurrenceLabel> traits){
+        this.trait_type = trait_type;
+        this.traits = traits;
+    }
+}
+[System.Serializable] public struct CountAndOccurrenceList
+{
+    public List<CountAndOccurrenceLabel> category;
+    public CountAndOccurrenceList(List<CountAndOccurrenceLabel> category){
+        this.category = category;
+    }
+}
+[System.Serializable] public struct CountAndOccurrenceLabel{
+    public string name;
+    public CountAndOccurrence countAndOccurrence;
+    public CountAndOccurrenceLabel(string name, CountAndOccurrence countAndOccurrence){
+        this.name = name;
+        this.countAndOccurrence = countAndOccurrence;
+    }
+}
+[System.Serializable] public struct CountAndOccurrence{
+    public int count;
+    public string occurrence;
+    public CountAndOccurrence(int count, string occurrence){
+        this.count = count;
+        this.occurrence = occurrence;
+    }
 }

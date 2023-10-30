@@ -14,7 +14,7 @@ public class ScreenshotHandler : MonoBehaviour
     public Camera myCamera;
     private bool takeScreenshotOnNextFrame;
     public bool transparentBackground;
-    public string filepath = "Assets/TJ.IconCreator/Results/";
+    public string filepath = "Assets/TJ.IconCreator/Results2/";
     RenderTexture renderTexture;
     private void Awake()
     {
