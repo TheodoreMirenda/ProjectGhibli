@@ -549,6 +549,328 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1352276359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1352276364}
+  - component: {fileID: 1352276363}
+  - component: {fileID: 1352276362}
+  - component: {fileID: 1352276361}
+  - component: {fileID: 1352276360}
+  m_Layer: 0
+  m_Name: Hero Metadata
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1352276360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352276359}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2522c242d0dc9e44eb156d2f2d6f0a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takeScreenShots: 0
+  itemsToScreenShot: []
+--- !u!114 &1352276361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352276359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab55ded7f2106649901806567deebc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  takeScreenShots: 1
+  images: []
+  filePath: TJ.IconCreator/Metadata/heroes-metadata.json
+  screenshotHandler: {fileID: 1352276362}
+  canvasParent: {fileID: 1191430265}
+  width: 2048
+  height: 2048
+  metaDataGenerator: {fileID: 1352276363}
+--- !u!114 &1352276362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352276359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5887e938f01c8ab4d8b553f97f28c3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCamera: {fileID: 663458862}
+  transparentBackground: 0
+  filepath: Assets/TJ.IconCreator/Heros/icons
+--- !u!114 &1352276363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352276359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b5484aecdcdad4585cbdfe717782c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filePath: TJ.IconCreator/Metadata/
+  filePathIndv: TJ.IconCreator/Metadata/Indv/
+  fileName: metadata
+  totalCount: 10
+  layers:
+  - trait_type: Eyes
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Blue
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 84adc953644a0c74bbaab3c72a4d6808, type: 3}
+    - traitName: Green
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: dee5bbdda7c9fa747a1ecaa293980524, type: 3}
+    - traitName: Black
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: 8d9ca2afc865544498dec77b6b115f8a, type: 3}
+    - traitName: Brown
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: eb2587dbadc80b04e99efada38f06c8a, type: 3}
+    - traitName: Gray
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: acef07b79cc5dd446b9773726d9ea556, type: 3}
+    - traitName: Teal
+      useSpecificCount: 0
+      occurance: 0.1
+      count: 0
+      image: {fileID: 21300000, guid: f12ec1b5b0c8a0b4faa2719e58a4a8f9, type: 3}
+  - trait_type: Rarity
+    layerChance: 0
+    displayType: 0
+    attributes:
+    - traitName: Common
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: fca1bfc70bf97d747aa33c7ee18790a6, type: 3}
+    - traitName: CommonShiny
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: ccc7b8e32928cac4bb77b9d1f33990f4, type: 3}
+    - traitName: Epic
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 7205ce0e98c14ac4d92b2013d435e2ad, type: 3}
+    - traitName: EpicShiny
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 4ca0edb7822f7ee418498d2212fa95a6, type: 3}
+    - traitName: Legendary
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: fd23d25439d5bc443b3d8da8f5427cb4, type: 3}
+    - traitName: LegendaryShiny
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 1cd299232af7b95449a5da0b33582866, type: 3}
+    - traitName: Mythic
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: aba16b69ce6e4bc4fb475024cc03f3ef, type: 3}
+    - traitName: MythicShiny
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: ea7fb5a9ee3cd6b42927c965d485cb2a, type: 3}
+    - traitName: Rare
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 9d370200ef960ea4495ab2dc83a94f4c, type: 3}
+    - traitName: RareShiny
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 6925d39be5f5ffa4a906608b6a2033bd, type: 3}
+    - traitName: Uncommon
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 0a6f2fd3ee7707441b4bf7443334ae23, type: 3}
+    - traitName: UncommonShiny
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: fb78f8955755aaa4d94df32ed2c9d2e2, type: 3}
+  - trait_type: Location
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Celestial_Cliffs
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 03909837150e594418ead739983c29d9, type: 3}
+    - traitName: Ebisus_Bay
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: ec58dd3b329c84c4e8fb75c2685bf24a, type: 3}
+    - traitName: Felisgarde
+      useSpecificCount: 0
+      occurance: 0.18
+      count: 0
+      image: {fileID: 21300000, guid: 98711b3a2fc5401498f4738a135aa535, type: 3}
+    - traitName: Highlands
+      useSpecificCount: 0
+      occurance: 0.13
+      count: 0
+      image: {fileID: 21300000, guid: 55de227ecaff88c4fb71adbf461ef579, type: 3}
+    - traitName: Verdant_Forest
+      useSpecificCount: 0
+      occurance: 0.06
+      count: 0
+      image: {fileID: 21300000, guid: 55006ee837ec2054e921837e97ced126, type: 3}
+  - trait_type: Skin
+    layerChance: 0
+    displayType: 0
+    attributes:
+    - traitName: Fair
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: ad1c704a92e72494b93e9ffa823601b3, type: 3}
+    - traitName: Medium
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: af6d198099a8fc04699b152901fc134f, type: 3}
+    - traitName: Tan
+      useSpecificCount: 0
+      occurance: 0
+      count: 0
+      image: {fileID: 21300000, guid: 545dee2bdef448949865a6102277d29d, type: 3}
+  - trait_type: Hair
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Black
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: f0217406099bec74189586c3ffb5647d, type: 3}
+    - traitName: Blonde
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: d5bfbfeef6f2fb944bae98cce777ead4, type: 3}
+    - traitName: Blue
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: ee1fd16692e6b654e808ec16c994b29c, type: 3}
+    - traitName: Brown
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: dcfa56578f9f99c43b21de525df4fa1c, type: 3}
+    - traitName: Green
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: dd1456673a60bb94cbb0d0144b47be8e, type: 3}
+    - traitName: White
+      useSpecificCount: 0
+      occurance: 0.45
+      count: 0
+      image: {fileID: 21300000, guid: 91d5ba35ad54e94498dc77cdd2fd0974, type: 3}
+  - trait_type: Mouth
+    layerChance: 1
+    displayType: 0
+    attributes:
+    - traitName: Circle_Beard
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 520e49cccec036947b01143920e4a13e, type: 3}
+    - traitName: Crazed
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: cb83c00c0da98c44e8b83d6d92cc642b, type: 3}
+    - traitName: Goatee
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 8845f71a8c010ef46910ae4b2c963a9b, type: 3}
+    - traitName: Green_Beard
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 9ad53e2764d9fb947b7b54e3ab6124cd, type: 3}
+    - traitName: Open
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 387647711109c9740887bc7c128c7e9d, type: 3}
+    - traitName: Smile
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 6141f9d0559473a4b893246ab8edf74b, type: 3}
+    - traitName: Smug
+      useSpecificCount: 0
+      occurance: 0.2
+      count: 0
+      image: {fileID: 21300000, guid: 23d045901c987524895e18cc2d2741c9, type: 3}
+  oneOfOnes: []
+  overrideTraits: []
+--- !u!4 &1352276364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352276359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1461356883
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,12 +885,12 @@ GameObject:
   - component: {fileID: 1461356887}
   - component: {fileID: 1461356888}
   m_Layer: 0
-  m_Name: NFTMetadataGenerator
+  m_Name: Halloween
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1461356884
 Transform:
   m_ObjectHideFlags: 0

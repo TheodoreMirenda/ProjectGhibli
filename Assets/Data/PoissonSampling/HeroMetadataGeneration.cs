@@ -4,6 +4,7 @@ using UnityEngine;
 using TJ.Utilities;
 using System.Xml.Serialization;
 using System.Linq;
+using Unity.VisualScripting;
 public class HeroMetadataGeneration : MonoBehaviour
 {
     [System.Serializable] public enum HeroRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic };
@@ -102,6 +103,9 @@ public class HeroMetadataGeneration : MonoBehaviour
     [System.Serializable] public struct MetadataList {
         public List<Metadata> Hero;
     }
+    [System.Serializable] public struct TotalMetadataList {
+        public List<TotalMetadata> Hero;
+    }
     [System.Serializable] public struct PowerTraitList {
         public PowerTrait Class;
         public LocationTrait Location;
@@ -123,6 +127,22 @@ public class HeroMetadataGeneration : MonoBehaviour
             this.description = description;
             this.id = id;
             this.attributes = attributes;
+        }
+    }
+    [System.Serializable] public struct TotalMetadata {
+        public string image;
+        public string name;
+        public string description;
+        public string id;
+        public Trait[] attributes;
+        public TraitNumber[] stats;
+        public TotalMetadata(string image, string name, string description, string id, Trait[] attributes, TraitNumber[] stats) {
+            this.image = image;
+            this.name = name;
+            this.description = description;
+            this.id = id;
+            this.attributes = attributes;
+            this.stats = stats;
         }
     }
     [System.Serializable] public struct StatsMetadata {
@@ -490,6 +510,23 @@ public class HeroMetadataGeneration : MonoBehaviour
             _ => HeroClothes.Normal,
         };
     }
+    [System.Serializable] public enum HeroProfession {Fisherman, Farmer, Miner, Lumberjack, Alchemist, Goldsmith, Blacksmith, Tailor}
+    public string GetRandomProfession(int id)
+    {
+        int chance = id % 8;
+        return chance switch
+        {
+            0 => HeroProfession.Fisherman.ToString(),
+            1 => HeroProfession.Farmer.ToString(),
+            2 => HeroProfession.Miner.ToString(),
+            3 => HeroProfession.Lumberjack.ToString(),
+            4 => HeroProfession.Alchemist.ToString(),
+            5 => HeroProfession.Goldsmith.ToString(),
+            6 => HeroProfession.Blacksmith.ToString(),
+            7 => HeroProfession.Tailor.ToString(),
+            _ => HeroProfession.Fisherman.ToString(),
+        };
+    }
     public List<Hero> DistributeShinies(List<Hero> heroes)
     {
         int shinies = 0;
@@ -779,8 +816,8 @@ public class HeroMetadataGeneration : MonoBehaviour
         // 5 mint
 
         List<Hero> idsForNaptimeNinja;
-        List<Hero> idsForHakuri = new List<Hero>();
-        List<Hero> idsForTakeishi = new List<Hero>();
+        List<Hero> idsForHakuri = new ();
+        List<Hero> idsForTakeishi = new();
         List<Hero> idsForBladestorm;
         List<Hero> idsForMint;
         List<Hero> idsForTeam;
@@ -795,8 +832,8 @@ public class HeroMetadataGeneration : MonoBehaviour
         UncommonIds.Shuffle();
 
         //add 
-        idsForNaptimeNinja = CommonIds.Take(374).ToList();
-        CommonIds.RemoveRange(0, 374);
+        idsForNaptimeNinja = CommonIds.Take(347).ToList();
+        CommonIds.RemoveRange(0, 347);
         
         for(int i = 0; i < 84; i++){
             idsForHakuri.Add(CommonIds[i]);
@@ -812,6 +849,7 @@ public class HeroMetadataGeneration : MonoBehaviour
             idsForTakeishi.Add(UncommonIds[i]);
             idsForTakeishi.Add(EpicIds[i]);
         }
+
         CommonIds.RemoveRange(0, 35);
         UncommonIds.RemoveRange(0, 35);
         EpicIds.RemoveRange(0, 35);
@@ -851,6 +889,7 @@ public class HeroMetadataGeneration : MonoBehaviour
 
         serializedHeroes2.heroes.AddRange(idsForNaptimeNinja);
         serializedHeroes2.heroes.AddRange(idsForHakuri);
+        Debug.Log($"idsForTakeishi.couint {idsForTakeishi.Count}");
         serializedHeroes2.heroes.AddRange(idsForTakeishi);
         serializedHeroes2.heroes.AddRange(idsForBladestorm);
         serializedHeroes2.heroes.AddRange(idsForTeam);
@@ -900,11 +939,58 @@ public class HeroMetadataGeneration : MonoBehaviour
             ));
         }
 
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/Heroes.json", JsonUtility.ToJson(heroJson, true));
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroStats.json", JsonUtility.ToJson(statsJson, true));
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroGen/Heroes.json", JsonUtility.ToJson(heroJson, true));
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/PoissonSampling/HeroGen/HeroStats.json", JsonUtility.ToJson(statsJson, true));
 
         return serializedHeroes2;
     }
+    [ContextMenu("Indv Metadata")]
+    public void GenerateIndvMetaData()
+    {
+        MetadataList metaData = new(){
+            Hero = JSONFileHandler.ReadListFromJSON<MetadataList>("/Data/PoissonSampling/HeroGen/Heroes.json").Hero
+        };
+        StatsMetadataList stats = new(){
+            Stats = JSONFileHandler.ReadListFromJSON<StatsMetadataList>("/Data/PoissonSampling/HeroGen/HeroStats.json").Stats
+        };
+
+        TotalMetadataList totalMetadataList = new(){
+            Hero = new List<TotalMetadata>()
+        };
+
+        for(int i = 0; i < metaData.Hero.Count; i++)
+        {
+            //add random profession
+            List<Trait> traits = metaData.Hero[i].attributes.ToList();
+            traits.Add(new Trait("Profession", GetRandomProfession(i), "string"));
+            metaData.Hero[i] = new Metadata(
+                metaData.Hero[i].image,
+                metaData.Hero[i].name,
+                metaData.Hero[i].description,
+                metaData.Hero[i].id,
+                traits.ToArray()
+            );
+
+            totalMetadataList.Hero.Add(
+                new TotalMetadata(
+                    metaData.Hero[i].image,
+                    metaData.Hero[i].name,
+                    metaData.Hero[i].description,
+                    metaData.Hero[i].id,
+                    metaData.Hero[i].attributes,
+                    stats.Stats[i].stats
+                )
+            );
+
+        }
+        JSONFileHandler.SaveToJSON<TotalMetadataList>(totalMetadataList, "/Data/PoissonSampling/HeroGen/heroesMetadata.json", true);
+        // save each metadata as a seperate file
+        for(int i = 0; i < metaData.Hero.Count; i++) {
+            JSONFileHandler.SaveToJSON<TotalMetadata>(totalMetadataList.Hero[i], "/Data/PoissonSampling/HeroGen/indv/" + metaData.Hero[i].id +".json", true);
+        }
+        // JSONFileHandler.SaveToJSON<MetadataList>(metaData, "/Data/PoissonSampling/HeroGen/Heroes.json", true);
+    }
+    
     // [System.Serializable] public struct SerializedHeroIds {
     //     public List<string> naptimeNinja;
     //     public List<string> hakuri;

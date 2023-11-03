@@ -5,6 +5,7 @@ using UnityEditor;
 using TJ.Utilities;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
 
 namespace TJ.IconCreator
 {
@@ -78,6 +79,34 @@ public class NFTIconGenerator : MonoBehaviour
             yield return wait;
         }
     }
+    private void DisplayClothes(int j)
+    {
+        // Debug.Log($"Displaying Clothes");
+        //disable all images
+        for(int i = j; i < j+6; i++){
+            //get trait class
+
+            // sprite = metaDataGenerator.GetClothesSprite(i);/
+            // images[i].sprite = sprite;
+            images[i].enabled = true;
+        }
+    }
+    private bool IsDruid (Trait[] traits) {
+    for(int i = 0; i < traits.Length; i++){
+      if(traits[i].trait_type == "Class"){
+        return traits[i].value == "Druid";
+      }
+    }
+        return false;
+    }
+   private bool IsTinkerer (Trait[] traits) {
+    for(int i = 0; i < traits.Length; i++){
+        if(traits[i].trait_type == "Class"){
+            return traits[i].value == "Tinkerer";
+        }
+    }
+        return false;
+    }
     public void DisplayTraits(Trait[] traits)
     {
         //disable all images
@@ -87,13 +116,31 @@ public class NFTIconGenerator : MonoBehaviour
         Sprite sprite;
         for(int i = 0; i < traits.Length; i++){
             // Debug.Log($"Displaying {traits[i].value} for {traits[i].trait_type}");
-            if(traits[i].trait_type == "Event")
-                continue;
-                
+            // if(traits[i].trait_type == "Event")
+            //     continue;
+            
+            if(traits[i].trait_type == "Rarity")
+            {
+                //check if traits contain isShiny
+                if(traits.Any(x => x.value == "Shiny"))
+                {
+                    sprite = metaDataGenerator.GetTraitSprite(traits[i].value+"Shiny", traits[i].trait_type);
+                    images[i].sprite = sprite;
+                    images[i].enabled = true;
+                    continue;
+                } else {
+                    sprite = metaDataGenerator.GetTraitSprite(traits[i].value, traits[i].trait_type);
+                    images[i].sprite = sprite;
+                    images[i].enabled = true;
+                    continue;
+                }
+            }
+
             sprite = metaDataGenerator.GetTraitSprite(traits[i].value, traits[i].trait_type);
             images[i].sprite = sprite;
             images[i].enabled = true;
         }
+        DisplayClothes(traits.Length);
         //refresh canvas
         canvasParent.gameObject.SetActive(false);
         canvasParent.gameObject.SetActive(true);
